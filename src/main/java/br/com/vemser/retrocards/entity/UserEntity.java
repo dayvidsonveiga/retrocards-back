@@ -35,6 +35,14 @@ public class UserEntity implements UserDetails {
     @JoinColumn(name = "id_roles", referencedColumnName = "id_roles")
     private RolesEntity role;
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "usuario_sprint",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_sprint")
+    )
+    private Set<SprintEntity> sprints;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<RolesEntity> roles = Set.of(role);
