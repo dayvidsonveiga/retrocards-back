@@ -2,6 +2,8 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.user.UserCreateDTO;
 import br.com.vemser.retrocards.dto.user.UserDTO;
+import br.com.vemser.retrocards.dto.user.UserLoginDTO;
+import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.UserRepository;
@@ -40,6 +42,15 @@ public class UserService {
                 .getAuthentication()
                 .getPrincipal();
         return (Integer) principal;
+    }
+
+    public UserLoginReturnDTO returnUserDTOWithToken(UserLoginDTO userLoginDTO, String token) {
+        Optional<UserEntity> userEntity = findByEmail(userLoginDTO.getEmail());
+        UserLoginReturnDTO userLoginReturnDTO = new UserLoginReturnDTO();
+        userLoginReturnDTO.setName(userEntity.get().getName());
+        userLoginReturnDTO.setRole(userEntity.get().getRole().getRoleName());
+        userLoginReturnDTO.setToken(token);
+        return userLoginReturnDTO;
     }
 
     public Optional<UserEntity> findByEmail(String email) {

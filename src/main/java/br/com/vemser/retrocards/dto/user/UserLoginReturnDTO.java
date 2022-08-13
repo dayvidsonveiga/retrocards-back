@@ -1,0 +1,17 @@
+package br.com.vemser.retrocards.dto.user;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+@Data
+public class UserLoginReturnDTO {
+
+    @Schema(description = "Nome do Usuario")
+    private String name;
+
+    @Schema(description = "Cargo do Usuario")
+    private String role;
+
+    @Schema(description = "Token do Usuario")
+    private String token;
+}

@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class UserLogginDTO {
+public class UserLoginDTO {
 
     @Schema(example = "danyllo@gmail.com")
     @NotBlank
