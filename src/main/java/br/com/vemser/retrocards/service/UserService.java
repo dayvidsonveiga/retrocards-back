@@ -17,8 +17,6 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
-
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -29,11 +27,12 @@ public class UserService {
         return entityToDto(userRepository.save(userEntity));
     }
 
-
     public UserDTO getLoggedUser() throws NegociationRulesException {
         Integer idLoggedUser = getIdLoggedUser();
+        UserDTO userDTO = entityToDto(findById(idLoggedUser));
         UserEntity byId = findById(idLoggedUser);
-        return entityToDto(byId);
+        userDTO.setRoles(byId.getRoles());
+        return userDTO;
     }
 
     public Integer getIdLoggedUser() {
@@ -55,7 +54,6 @@ public class UserService {
     public UserEntity createToEntity(UserCreateDTO userCreateDTO) {
         UserEntity usuarioEntity = objectMapper.convertValue(userCreateDTO, UserEntity.class);
         usuarioEntity.setPass(passwordEncoder.encode(userCreateDTO.getPassword()));
-//        encodePassword(usuarioEntity);
         return usuarioEntity;
     }
 
@@ -63,7 +61,4 @@ public class UserService {
         return objectMapper.convertValue(usuarioEntity, UserDTO.class);
     }
 
-    public void encodePassword(UserEntity userEntity) {
-        userEntity.setPass(passwordEncoder.encode(userEntity.getPassword()));
-    }
 }

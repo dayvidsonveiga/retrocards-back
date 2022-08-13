@@ -4,6 +4,8 @@ import br.com.vemser.retrocards.entity.RolesEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 public class UserDTO {
 
@@ -17,5 +19,5 @@ public class UserDTO {
     private String email;
 
     @Schema(description = "Cargo do Usuario")
-    private RolesEntity role;
+    private Set<RolesEntity> roles;
 }
