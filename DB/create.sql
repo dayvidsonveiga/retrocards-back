@@ -8,7 +8,7 @@ create table usuarios (
                           id_user		numeric not null,
                           id_roles	numeric not null,
                           user_name	text not null,
-                          email		text not null,
+                          email		text unique not null,
                           user_password	text not null,
                           primary key(id_user),
                           constraint fk_cargos_usuarios foreign key (id_roles) references cargos (id_roles)
@@ -30,6 +30,47 @@ create table usuario_sprint(
                                constraint fk_sprints_usuario_sprint foreign key (id_sprint) references sprints (id_sprint)
 );
 
+create table kudo_boxs (
+                           id_kudo_box		numeric not null,
+                           title			text not null,
+                           end_date		date not null,
+                           status			numeric not null,
+                           primary key (id_kudo_box)
+);
+
+create table kudo_cards (
+                            id_kudo_card	numeric not null,
+                            title			numeric not null,
+                            create_date		date not null,
+                            sender			text not null,
+                            receiver		text not null,
+                            primary key(id_kudo_card)
+);
+
+create table retrospectivas (
+                                id_retrospective	numeric not null,
+                                title				text not null,
+                                occurred_date		date not null,
+                                status				numeric not null,
+                                primary key(id_retrospective)
+);
+
+create table item_retrospectivas (
+                                     id_item_retrospective	numeric not null,
+                                     item_type				numeric not null,
+                                     title					text not null,
+                                     description				text not null,
+                                     primary key(id_item_retrospective)
+);
+
+create sequence seq_retrospectiva
+    increment 1
+start 1;
+
+create sequence seq_item_retrospectiva
+    increment 1
+start 1;
+
 create sequence seq_usuario
     increment 1
 start 1;
@@ -38,11 +79,19 @@ create sequence seq_cargo
     increment 1
 start 1;
 
-create sequence seq_sprints
+create sequence seq_sprint
     increment 1
 start 1;
 
 create sequence seq_usuario_sprint
+    increment 1
+start 1;
+
+create sequence seq_kudobox
+    increment 1
+start 1;
+
+create sequence seq_kudocard
     increment 1
 start 1;
 
@@ -51,3 +100,4 @@ insert into cargos (id_roles, role_name) values (nextval('seq_cargo'), 'ROLE_MEM
 
 insert into usuarios (id_user, id_roles, user_name, email, user_password) values (nextval('seq_usuario'), 1, 'DANYLLO', 'danyllo@gmail.com', '$2a$10$5rMcXmTxuoQibO.RvqX6B.gEV0mxHjoZO8Sqx0JoFuFAddV2fYAX2');
 
+-------------------------------------------------------------------------------
