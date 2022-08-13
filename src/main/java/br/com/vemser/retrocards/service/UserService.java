@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class UserService {
         Integer idLoggedUser = getIdLoggedUser();
         UserDTO userDTO = entityToDto(findById(idLoggedUser));
         UserEntity byId = findById(idLoggedUser);
-        userDTO.setRoles(byId.getRoles());
+        userDTO.setRole(byId.getRole().getRoleName());
         return userDTO;
     }
 

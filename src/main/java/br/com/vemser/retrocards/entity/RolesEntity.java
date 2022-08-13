@@ -1,9 +1,7 @@
 package br.com.vemser.retrocards.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -25,12 +23,7 @@ public class RolesEntity implements GrantedAuthority {
     private String roleName;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "usuario_cargo",
-            joinColumns = @JoinColumn(name = "id_roles"),
-            inverseJoinColumns = @JoinColumn(name = "id_user")
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role", cascade = CascadeType.MERGE)
     private Set<UserEntity> users;
 
     public String getAuthority() {

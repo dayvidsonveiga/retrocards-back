@@ -28,9 +28,7 @@ public class TokenService {
         Date now = new Date();
         Date exp = new Date(now.getTime() + Long.valueOf(expiration));
 
-        List<String> listRoles = userEntity.getRoles().stream()
-                .map(roles -> roles.getRoleName())
-                .toList();
+        List<String> listRoles = List.of(userEntity.getRole().getRoleName());
 
         String token = Jwts.builder()
                 .setIssuer("retrocards")

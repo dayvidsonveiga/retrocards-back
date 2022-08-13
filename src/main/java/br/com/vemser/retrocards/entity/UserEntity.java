@@ -31,16 +31,13 @@ public class UserEntity implements UserDetails {
     private String pass;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "usuario_cargo",
-            joinColumns = @JoinColumn(name = "id_user"),
-            inverseJoinColumns = @JoinColumn(name = "id_roles")
-    )
-    private Set<RolesEntity> roles;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_roles", referencedColumnName = "id_roles")
+    private RolesEntity role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<RolesEntity> roles = Set.of(role);
         return roles;
     }
 
