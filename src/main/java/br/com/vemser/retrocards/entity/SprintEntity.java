@@ -44,4 +44,8 @@ public class SprintEntity {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sprint", cascade = CascadeType.MERGE)
     private Set<KudoBoxEntity> kudoboxs;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sprint", cascade = CascadeType.MERGE)
+    private Set<RetrospectiveEntity> retrospectives;
 }

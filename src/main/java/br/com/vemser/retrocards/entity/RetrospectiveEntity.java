@@ -35,6 +35,11 @@ public class RetrospectiveEntity {
     private RetrospectiveStatus status;
 
     @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_sprint", referencedColumnName = "id_sprint")
+    private SprintEntity sprint;
+
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "retrospective", cascade = CascadeType.MERGE)
     private Set<ItemRetrospectiveEntity> items;
 }
