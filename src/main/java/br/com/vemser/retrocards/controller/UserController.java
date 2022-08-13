@@ -2,13 +2,13 @@ package br.com.vemser.retrocards.controller;
 
 import br.com.vemser.retrocards.dto.user.UserCreateDTO;
 import br.com.vemser.retrocards.dto.user.UserDTO;
-import br.com.vemser.retrocards.dto.user.UserLogginDTO;
+import br.com.vemser.retrocards.dto.user.UserLoginDTO;
+import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.security.TokenService;
 import br.com.vemser.retrocards.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,15 +36,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody @Valid UserLogginDTO userLogginDTO) {
+    public ResponseEntity<UserLoginReturnDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
-                        userLogginDTO.getEmail(),
-                        userLogginDTO.getPassword()
+                        userLoginDTO.getEmail(),
+                        userLoginDTO.getPassword()
                 );
-
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        return tokenService.getToken((UserEntity) authentication.getPrincipal());
+        String token = tokenService.getToken((UserEntity) authentication.getPrincipal());
+        return new ResponseEntity<>(userService.returnUserDTOWithToken(userLoginDTO, token), HttpStatus.OK);
     }
 
     @PostMapping("/register")
