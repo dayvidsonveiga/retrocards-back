@@ -40,4 +40,8 @@ public class SprintEntity {
             inverseJoinColumns = @JoinColumn(name = "id_sprint")
     )
     private Set<UserEntity> users;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sprint", cascade = CascadeType.MERGE)
+    private Set<KudoBoxEntity> kudoboxs;
 }
