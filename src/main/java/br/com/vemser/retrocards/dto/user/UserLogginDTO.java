@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class UserLogginDTO {
 
-    @Schema(example = "nome@gmail.com")
+    @Schema(example = "danyllo@gmail.com")
     @NotBlank
     private String email;
 
