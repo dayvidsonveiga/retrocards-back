@@ -14,6 +14,22 @@ create table usuarios (
                           constraint fk_cargos_usuarios foreign key (id_roles) references cargos (id_roles)
 );
 
+create table sprints (
+                         id_sprint	numeric not null,
+                         title		text not null,
+                         start_date	date not null,
+                         end_date	date not null,
+                         primary key(id_sprint)
+)
+
+create table usuario_sprint(
+                               id_user		numeric not null,
+                               id_sprint	numeric not null,
+                               primary key(id_user, id_sprint),
+                               constraint fk_usuarios_usuario_sprint foreign key (id_user) references usuarios (id_user),
+                               constraint fk_sprints_usuario_sprint foreign key (id_sprint) references sprints (id_sprint)
+);
+
 create sequence seq_usuario
     increment 1
 start 1;
@@ -22,7 +38,16 @@ create sequence seq_cargo
     increment 1
 start 1;
 
+create sequence seq_sprints
+    increment 1
+start 1;
+
+create sequence seq_usuario_sprint
+    increment 1
+start 1;
+
 insert into cargos (id_roles, role_name) values (nextval('seq_cargo'), 'ROLE_FACILITATOR');
 insert into cargos (id_roles, role_name) values (nextval('seq_cargo'), 'ROLE_MEMBER');
 
 insert into usuarios (id_user, id_roles, user_name, email, user_password) values (nextval('seq_usuario'), 1, 'DANYLLO', 'danyllo@gmail.com', '$2a$10$5rMcXmTxuoQibO.RvqX6B.gEV0mxHjoZO8Sqx0JoFuFAddV2fYAX2');
+
