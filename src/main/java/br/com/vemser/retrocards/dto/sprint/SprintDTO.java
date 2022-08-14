@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.dto.sprint;
 
+import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

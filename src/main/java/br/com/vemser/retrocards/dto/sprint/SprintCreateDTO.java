@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
@@ -13,6 +14,7 @@ public class SprintCreateDTO {
 
     @Schema(description = "Título da sprint.")
     @NotBlank
+    @Size(min = 3, max = 60)
     private String title;
 
     @Schema(description = "Data de início da sprint.")
