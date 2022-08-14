@@ -5,11 +5,16 @@ import lombok.Data;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
 public class KudoCardCreateDTO {
+
+    @Schema(description = "Id do Kudo box")
+    @NotNull
+    private Integer idKudoBox;
 
     @Schema(description = "Título da Kudo card.")
     @NotBlank

@@ -31,7 +31,7 @@ public class KudoBoxDTO {
     @Hidden
     private String status;
 
-    @Schema(description = "Nome da sprint que o Kudo box foi criado")
+    @Schema(description = "Nome da sprint que o Kudo box foi criado.")
     private String sprint;
 
 }

@@ -32,6 +32,11 @@ public class KudoBoxService {
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
     }
 
+    public KudoBoxEntity findById(Integer idKudoBox) throws NegociationRulesException {
+        return kudoBoxRepository.findById(idKudoBox)
+                .orElseThrow(() -> new NegociationRulesException("Kudobox not found"));
+    }
+
     public KudoBoxEntity createToEntity(KudoBoxCreateDTO kudoBoxCreateDTO) {
         return objectMapper.convertValue(kudoBoxCreateDTO, KudoBoxEntity.class);
     }

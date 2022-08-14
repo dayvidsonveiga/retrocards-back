@@ -44,7 +44,7 @@ create table kudo_boxs (
 create table kudo_cards (
                             id_kudo_card	numeric not null,
                             id_kudo_box		numeric not null,
-                            title			numeric not null,
+                            title			text not null,
                             create_date		date not null,
                             sender			text not null,
                             receiver		text not null,
