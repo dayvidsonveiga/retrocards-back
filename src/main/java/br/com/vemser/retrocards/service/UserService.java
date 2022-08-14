@@ -61,6 +61,14 @@ public class UserService {
         return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("Usuário não encontrado"));
     }
 
+    public Boolean checkPasswordIsCorrect(String passwordInput, String passwordDB) {
+        if (passwordEncoder.matches(passwordInput, passwordDB)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public UserEntity createToEntity(UserCreateDTO userCreateDTO) {
         UserEntity usuarioEntity = objectMapper.convertValue(userCreateDTO, UserEntity.class);
         usuarioEntity.setPass(passwordEncoder.encode(userCreateDTO.getPassword()));
