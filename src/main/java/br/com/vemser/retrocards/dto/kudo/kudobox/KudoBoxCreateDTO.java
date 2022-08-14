@@ -10,9 +10,18 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
-public class KudoBoxDTO extends KudoBoxCreateDTO {
+public class KudoBoxCreateDTO {
 
-    @Schema(description = "Id Kudo box.")
+    @Schema(description = "Título da Kudo box.")
+    @NotBlank
+    private String title;
+
+    @Schema(description = "Data de término da Kudo box.")
+    @FutureOrPresent
     @NotNull
-    private Integer idKudoBox;
+    private LocalDate endDate;
+
+    @Schema(description = "Status da Kudo box.")
+    @NotNull
+    private KudoStatus status;
 }
