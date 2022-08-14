@@ -20,47 +20,56 @@ create table sprints (
                          start_date	date not null,
                          end_date	date not null,
                          primary key(id_sprint)
-)
+);
 
-create table usuario_sprint(
-                               id_user		numeric not null,
-                               id_sprint	numeric not null,
-                               primary key(id_user, id_sprint),
-                               constraint fk_usuarios_usuario_sprint foreign key (id_user) references usuarios (id_user),
-                               constraint fk_sprints_usuario_sprint foreign key (id_sprint) references sprints (id_sprint)
+create table usuario_sprint (
+                                id_usuario_sprint	numeric not null,
+                                id_user numeric not null,
+                                id_sprint numeric not null,
+                                primary key(id_usuario_sprint),
+                                constraint fk_usuarios_usuario_sprint foreign key (id_user) references usuarios (id_user),
+                                constraint fk_sprints_usuario_sprint foreign key (id_sprint) references sprints (id_sprint)
 );
 
 create table kudo_boxs (
                            id_kudo_box		numeric not null,
+                           id_sprint		numeric not null,
                            title			text not null,
                            end_date		date not null,
                            status			numeric not null,
-                           primary key (id_kudo_box)
+                           primary key (id_kudo_box),
+                           constraint fk_sprints_kudo_boxs foreign key (id_sprint) references sprints (id_sprint)
 );
 
 create table kudo_cards (
                             id_kudo_card	numeric not null,
+                            id_kudo_box		numeric not null,
                             title			numeric not null,
                             create_date		date not null,
                             sender			text not null,
                             receiver		text not null,
-                            primary key(id_kudo_card)
+                            primary key(id_kudo_card),
+                            constraint fk_kudo_boxs_kudo_cards foreign key (id_kudo_box) references kudo_boxs (id_kudo_box)
 );
 
 create table retrospectivas (
                                 id_retrospective	numeric not null,
+                                id_sprint			numeric not null,
                                 title				text not null,
                                 occurred_date		date not null,
                                 status				numeric not null,
-                                primary key(id_retrospective)
+                                primary key(id_retrospective),
+                                constraint fk_sprints_retrospectivas foreign key (id_sprint) references sprints (id_sprint)
 );
 
 create table item_retrospectivas (
                                      id_item_retrospective	numeric not null,
+                                     id_retrospective		numeric not null,
                                      item_type				numeric not null,
                                      title					text not null,
                                      description				text not null,
-                                     primary key(id_item_retrospective)
+                                     primary key(id_item_retrospective),
+                                     constraint fk_retrospectivas_item_retrospectivas foreign key (id_retrospective) references retrospectivas (id_retrospective)
 );
 
 create sequence seq_retrospectiva
