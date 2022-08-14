@@ -48,6 +48,11 @@ public class SprintService {
         return sprintEntityToDTO(sprintRepository.save(sprintEntity));
     }
 
+    public SprintEntity findById(Integer idSprint) throws NegociationRulesException {
+        return sprintRepository.findById(idSprint)
+                .orElseThrow(() -> new NegociationRulesException("Sprint not found"));
+    }
+
     public SprintEntity sprintDTOToEntity(SprintDTO sprintDTO) {
         return objectMapper.convertValue(sprintDTO, SprintEntity.class);
     }

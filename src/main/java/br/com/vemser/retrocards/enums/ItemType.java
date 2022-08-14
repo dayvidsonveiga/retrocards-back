@@ -1,4 +1,4 @@
-package br.com.vemser.retrocards.controller.enums;
+package br.com.vemser.retrocards.enums;
 
 public enum ItemType {
 

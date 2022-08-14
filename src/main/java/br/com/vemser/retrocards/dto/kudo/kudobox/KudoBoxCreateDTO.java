@@ -1,6 +1,7 @@
 package br.com.vemser.retrocards.dto.kudo.kudobox;
 
-import br.com.vemser.retrocards.controller.enums.KudoStatus;
+import br.com.vemser.retrocards.enums.KudoStatus;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -13,6 +14,9 @@ import java.time.LocalDate;
 @Data
 public class KudoBoxCreateDTO {
 
+    @Schema(description = "Identificador único da sprint")
+    private Integer idSprint;
+
     @Schema(description = "Título da Kudo box.")
     @NotBlank
     @Size(min = 3, max = 60)
@@ -24,6 +28,6 @@ public class KudoBoxCreateDTO {
     private LocalDate endDate;
 
     @Schema(description = "Status da Kudo box.")
-    @NotNull
-    private KudoStatus status;
+    @Hidden
+    private String status;
 }
