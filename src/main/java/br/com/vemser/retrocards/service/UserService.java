@@ -22,11 +22,36 @@ public class UserService {
     private final ObjectMapper objectMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final RolesService rolesService;
 
 
-    public UserDTO saveUser(UserCreateDTO userCreateDTO, UserType userType) {
+    public UserDTO createUser(UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
+        checkEmailExist(userCreateDTO.getEmail());
         UserEntity userEntity = createToEntity(userCreateDTO);
+        userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
         return entityToDto(userRepository.save(userEntity));
+    }
+
+    public UserLoginReturnDTO login(UserLoginDTO userLoginDTO, String token) throws NegociationRulesException {
+        UserEntity userEntity = findByEmail(userLoginDTO.getEmail());
+        UserLoginReturnDTO userLoginReturnDTO = new UserLoginReturnDTO();
+        userLoginReturnDTO.setName(userEntity.getName());
+        userLoginReturnDTO.setRole(userEntity.getRole().getRoleName());
+        userLoginReturnDTO.setToken(token);
+        return userLoginReturnDTO;
+    }
+
+    public Optional<UserEntity> findByEmailOptional(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public UserEntity findByEmail(String email) throws NegociationRulesException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NegociationRulesException("Email is not register"));
+    }
+
+    public UserEntity findById(Integer idUser) throws NegociationRulesException {
+        return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("Usuário não encontrado"));
     }
 
     public UserDTO getLoggedUser() throws NegociationRulesException {
@@ -45,29 +70,10 @@ public class UserService {
         return (Integer) principal;
     }
 
-    public UserLoginReturnDTO returnUserDTOWithToken(UserLoginDTO userLoginDTO, String token) {
-        Optional<UserEntity> userEntity = findByEmail(userLoginDTO.getEmail());
-        UserLoginReturnDTO userLoginReturnDTO = new UserLoginReturnDTO();
-        userLoginReturnDTO.setName(userEntity.get().getName());
-        userLoginReturnDTO.setRole(userEntity.get().getRole().getRoleName());
-        userLoginReturnDTO.setToken(token);
-        return userLoginReturnDTO;
-    }
-
-    public Optional<UserEntity> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    public UserEntity findById(Integer idUser) throws NegociationRulesException {
-        return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("Usuário não encontrado"));
-    }
-
-    public Boolean checkPasswordIsCorrect(String passwordInput, String passwordDB) {
-        if (passwordEncoder.matches(passwordInput, passwordDB)) {
-            return true;
-        } else {
-            return false;
-        }
+    public UserDTO entityToDto(UserEntity usuarioEntity) {
+        UserDTO userDTO = objectMapper.convertValue(usuarioEntity, UserDTO.class);
+        userDTO.setRole(usuarioEntity.getRole().getRoleName());
+        return userDTO;
     }
 
     public UserEntity createToEntity(UserCreateDTO userCreateDTO) {
@@ -76,8 +82,18 @@ public class UserService {
         return usuarioEntity;
     }
 
-    public UserDTO entityToDto(UserEntity usuarioEntity) {
-        return objectMapper.convertValue(usuarioEntity, UserDTO.class);
+    public void checkEmailExist(String email) throws NegociationRulesException {
+        if (findByEmailOptional(email).isPresent()) {
+            throw new NegociationRulesException("Email já possui cadastro");
+        }
+    }
+
+    public Boolean checkPasswordIsCorrect(String passwordInput, String passwordDB) {
+        if (passwordEncoder.matches(passwordInput, passwordDB)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

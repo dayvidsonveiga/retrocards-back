@@ -31,14 +31,14 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
 
-    @GetMapping("/logged")
+    @GetMapping("/get-logged")
     public ResponseEntity<UserDTO> getUsuarioLogado() throws NegociationRulesException {
         return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginReturnDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO) throws NegociationRulesException {
-        UserEntity userEntity = userService.findByEmail(userLoginDTO.getEmail()).get();
+        UserEntity userEntity = userService.findByEmail(userLoginDTO.getEmail());
         if (userService.checkPasswordIsCorrect(userLoginDTO.getPassword(), userEntity.getPassword())) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(
@@ -47,15 +47,15 @@ public class UserController {
                     );
             Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
             String token = tokenService.getToken((UserEntity) authentication.getPrincipal());
-            return new ResponseEntity<>(userService.returnUserDTOWithToken(userLoginDTO, token), HttpStatus.OK);
+            return new ResponseEntity<>(userService.login(userLoginDTO, token), HttpStatus.OK);
         } else {
             throw new NegociationRulesException("Email or password incorrect");
         }
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) {
-        return new ResponseEntity<>(userService.saveUser(userCreateDTO, userType), HttpStatus.OK);
+    public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.createUser(userCreateDTO, userType), HttpStatus.OK);
     }
 
 }
