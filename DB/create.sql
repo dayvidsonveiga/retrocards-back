@@ -110,3 +110,15 @@ insert into cargos (id_roles, role_name) values (nextval('seq_cargo'), 'ROLE_MEM
 insert into usuarios (id_user, id_roles, user_name, email, user_password) values (nextval('seq_usuario'), 1, 'DANYLLO', 'danyllo@gmail.com', '$2a$10$5rMcXmTxuoQibO.RvqX6B.gEV0mxHjoZO8Sqx0JoFuFAddV2fYAX2');
 
 -------------------------------------------------------------------------------
+
+-- INSERTS SPRINT'S
+
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Definição de projetos com o cliente da C&A', to_date('13-08-2022', 'DD-MM-YYYY'), to_date('13-08-2022', 'DD-MM-YYYY'));
+
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Definição das regras do Projeto A do cliente Sicredi', to_date('14-08-2022', 'DD-MM-YYYY'), to_date('14-08-2022', 'DD-MM-YYYY'));
+
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Levantamento e correções do projeto C do cliente Subway', to_date('15-08-2022', 'DD-MM-YYYY'), to_date('15-08-2022', 'DD-MM-YYYY'));
+
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Refatoração de códigos do Projeto B', to_date('16-08-2022', 'DD-MM-YYYY'), to_date('16-08-2022', 'DD-MM-YYYY'));
+
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Reunião com novo cliente ChinaInBox', to_date('17-08-2022', 'DD-MM-YYYY'), to_date('17-08-2022', 'DD-MM-YYYY'));
