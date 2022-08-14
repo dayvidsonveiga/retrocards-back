@@ -1,6 +1,6 @@
 package br.com.vemser.retrocards.entity;
 
-import br.com.vemser.retrocards.enums.KudoStatus;
+import br.com.vemser.retrocards.controller.enums.KudoStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +31,7 @@ public class KudoBoxEntity {
     private LocalDate endDate;
 
     @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private KudoStatus status;
 
     @JsonIgnore

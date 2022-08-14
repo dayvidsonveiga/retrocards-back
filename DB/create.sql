@@ -36,7 +36,7 @@ create table kudo_boxs (
                            id_sprint		numeric not null,
                            title			text not null,
                            end_date		date not null,
-                           status			numeric not null,
+                           status			text not null,
                            primary key (id_kudo_box),
                            constraint fk_sprints_kudo_boxs foreign key (id_sprint) references sprints (id_sprint)
 );
@@ -57,7 +57,7 @@ create table retrospectivas (
                                 id_sprint			numeric not null,
                                 title				text not null,
                                 occurred_date		date not null,
-                                status				numeric not null,
+                                status				text not null,
                                 primary key(id_retrospective),
                                 constraint fk_sprints_retrospectivas foreign key (id_sprint) references sprints (id_sprint)
 );
@@ -65,7 +65,7 @@ create table retrospectivas (
 create table item_retrospectivas (
                                      id_item_retrospective	numeric not null,
                                      id_retrospective		numeric not null,
-                                     item_type				numeric not null,
+                                     item_type				text not null,
                                      title					text not null,
                                      description				text not null,
                                      primary key(id_item_retrospective),

@@ -1,4 +1,4 @@
-package br.com.vemser.retrocards.enums;
+package br.com.vemser.retrocards.controller.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

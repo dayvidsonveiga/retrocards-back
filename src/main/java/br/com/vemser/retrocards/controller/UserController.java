@@ -5,7 +5,7 @@ import br.com.vemser.retrocards.dto.user.UserDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
 import br.com.vemser.retrocards.entity.UserEntity;
-import br.com.vemser.retrocards.enums.UserType;
+import br.com.vemser.retrocards.controller.enums.UserType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.security.TokenService;
 import br.com.vemser.retrocards.service.UserService;

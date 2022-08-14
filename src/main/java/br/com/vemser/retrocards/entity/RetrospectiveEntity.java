@@ -1,6 +1,6 @@
 package br.com.vemser.retrocards.entity;
 
-import br.com.vemser.retrocards.enums.RetrospectiveStatus;
+import br.com.vemser.retrocards.controller.enums.RetrospectiveStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +31,7 @@ public class RetrospectiveEntity {
     private LocalDate occurredDate;
 
     @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private RetrospectiveStatus status;
 
     @JsonIgnore

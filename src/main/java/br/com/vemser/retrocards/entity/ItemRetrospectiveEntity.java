@@ -1,6 +1,6 @@
 package br.com.vemser.retrocards.entity;
 
-import br.com.vemser.retrocards.enums.ItemType;
+import br.com.vemser.retrocards.controller.enums.ItemType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +23,7 @@ public class ItemRetrospectiveEntity {
     private Integer idItemRetrospective;
 
     @Column(name = "item_type")
+    @Enumerated(EnumType.STRING)
     private ItemType type;
 
     @Column(name = "title")
