@@ -5,6 +5,7 @@ import br.com.vemser.retrocards.dto.user.UserDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
 import br.com.vemser.retrocards.entity.UserEntity;
+import br.com.vemser.retrocards.enums.UserType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public UserDTO saveUser(UserCreateDTO userCreateDTO) {
+    public UserDTO saveUser(UserCreateDTO userCreateDTO, UserType userType) {
         UserEntity userEntity = createToEntity(userCreateDTO);
         return entityToDto(userRepository.save(userEntity));
     }

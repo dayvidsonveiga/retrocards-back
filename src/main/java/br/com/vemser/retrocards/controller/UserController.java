@@ -5,6 +5,7 @@ import br.com.vemser.retrocards.dto.user.UserDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
 import br.com.vemser.retrocards.entity.UserEntity;
+import br.com.vemser.retrocards.enums.UserType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.security.TokenService;
 import br.com.vemser.retrocards.service.UserService;
@@ -52,9 +53,9 @@ public class UserController {
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO) {
-        return new ResponseEntity<>(userService.saveUser(userCreateDTO), HttpStatus.OK);
+    @PostMapping("/create")
+    public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) {
+        return new ResponseEntity<>(userService.saveUser(userCreateDTO, userType), HttpStatus.OK);
     }
 
 }
