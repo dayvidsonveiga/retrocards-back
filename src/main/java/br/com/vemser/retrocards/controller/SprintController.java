@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
+import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintDTO;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
@@ -11,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/sprint")
@@ -22,8 +22,8 @@ public class SprintController {
     private final SprintService sprintService;
 
     @GetMapping("/list-sprint-conclusion")
-    public ResponseEntity<List<SprintDTO>> listSprintOrderedConclusion() throws NegociationRulesException {
-        return new ResponseEntity<>(sprintService.listSprintOrdered(), HttpStatus.OK);
+    public ResponseEntity<PageDTO<SprintDTO>> listSprintOrderedConclusion(Integer page, Integer register) throws NegociationRulesException {
+        return new ResponseEntity<>(sprintService.listSprintOrdered(page, register), HttpStatus.OK);
     }
 
     @PostMapping("/create")
