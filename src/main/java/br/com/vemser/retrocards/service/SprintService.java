@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.service;
 
+import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintDTO;
 import br.com.vemser.retrocards.entity.SprintEntity;
@@ -8,6 +9,9 @@ import br.com.vemser.retrocards.repository.SprintRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +26,15 @@ public class SprintService {
 
     private final ObjectMapper objectMapper;
 
-    public List<SprintDTO> listSprintOrdered() throws NegociationRulesException {
+    // TODO VERIFICAR SE HÁ COMO PAGINAR A LIST PELA DATA DE CONCLUSÃO DA SPRINT;
+    public PageDTO<SprintDTO> listSprintOrdered(Integer pagina, Integer registro) throws NegociationRulesException {
         log.info("Listando sprints pela data de conclusão...");
         if(!sprintRepository.listByEndDateOrderedDesc().isEmpty()) {
-            return sprintRepository.listByEndDateOrderedDesc().stream()
-                    .map(this::sprintEntityToDTO)
-                    .collect(Collectors.toList());
+            PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("endDate").descending());
+            Page<SprintEntity> page = sprintRepository.findAll(pageRequest);
+            List<SprintDTO> sprintsDTO = page.getContent().stream()
+                    .map(this::sprintEntityToDTO).collect(Collectors.toList());
+            return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, sprintsDTO);
         } else {
             throw new NegociationRulesException("Não foi possível realizar a lista de sprints.");
         }
