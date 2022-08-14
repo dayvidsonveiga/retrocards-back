@@ -26,7 +26,6 @@ public class SprintService {
 
     private final ObjectMapper objectMapper;
 
-    // TODO VERIFICAR SE HÁ COMO PAGINAR A LIST PELA DATA DE CONCLUSÃO DA SPRINT;
     public PageDTO<SprintDTO> listSprintOrdered(Integer pagina, Integer registro) throws NegociationRulesException {
         log.info("Listando sprints pela data de conclusão...");
         if(!sprintRepository.listByEndDateOrderedDesc().isEmpty()) {
