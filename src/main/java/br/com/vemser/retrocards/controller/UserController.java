@@ -36,15 +36,20 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginReturnDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(
-                        userLoginDTO.getEmail(),
-                        userLoginDTO.getPassword()
-                );
-        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        String token = tokenService.getToken((UserEntity) authentication.getPrincipal());
-        return new ResponseEntity<>(userService.returnUserDTOWithToken(userLoginDTO, token), HttpStatus.OK);
+    public ResponseEntity<UserLoginReturnDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO) throws NegociationRulesException {
+        UserEntity userEntity = userService.findByEmail(userLoginDTO.getEmail()).get();
+        if (userService.checkPasswordIsCorrect(userLoginDTO.getPassword(), userEntity.getPassword())) {
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                    new UsernamePasswordAuthenticationToken(
+                            userLoginDTO.getEmail(),
+                            userLoginDTO.getPassword()
+                    );
+            Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            String token = tokenService.getToken((UserEntity) authentication.getPrincipal());
+            return new ResponseEntity<>(userService.returnUserDTOWithToken(userLoginDTO, token), HttpStatus.OK);
+        } else {
+            throw new NegociationRulesException("Email or password incorrect");
+        }
     }
 
     @PostMapping("/register")
