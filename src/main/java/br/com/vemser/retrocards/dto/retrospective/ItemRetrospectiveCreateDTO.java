@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 public class ItemRetrospectiveCreateDTO {
@@ -16,6 +17,7 @@ public class ItemRetrospectiveCreateDTO {
 
     @Schema(description = "Título do item.")
     @NotBlank
+    @Size(min = 3, max = 60)
     private String title;
 
     @Schema(description = "Descrição da avaliação.")
