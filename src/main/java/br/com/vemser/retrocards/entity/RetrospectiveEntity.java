@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -28,7 +29,7 @@ public class RetrospectiveEntity {
     private String title;
 
     @Column(name = "occurred_date")
-    private LocalDate occurredDate;
+    private LocalDateTime occurredDate;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

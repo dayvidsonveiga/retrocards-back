@@ -17,6 +17,7 @@ public class ItemRetrospectiveCreateDTO {
 
     @Schema(description = "Tipo do item de avaliação.")
     @Hidden
+    @NotNull
     private String type;
 
     @Schema(description = "Título do item.")

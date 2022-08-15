@@ -7,7 +7,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class SprintCreateDTO {
@@ -19,11 +19,11 @@ public class SprintCreateDTO {
 
     @Schema(description = "Data de início da sprint.")
     @NotNull
-    @FutureOrPresent // Verificar esta validação depois.
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     @Schema(description = "Data de término da sprint.")
     @NotNull
-    @FutureOrPresent // Verificar esta validação depois.
-    private LocalDate endDate;
+    private LocalDateTime endDate;
+
+    //LOCAL DATE
 }

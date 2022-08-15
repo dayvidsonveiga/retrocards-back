@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 public class UserCreateDTO {
 
     @Schema(description = "Nome do Usuario")
+    @NotBlank
     private String name;
 
     @Schema(example = "nome@gmail.com")

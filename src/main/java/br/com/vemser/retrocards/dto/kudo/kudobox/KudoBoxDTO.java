@@ -1,30 +1,25 @@
 package br.com.vemser.retrocards.dto.kudo.kudobox;
 
+import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class KudoBoxDTO {
     @Schema(description = "Id Kudo box.")
-    @NotNull
     private Integer idKudoBox;
 
     @Schema(description = "Título da Kudo box.")
-    @NotBlank
     @Size(min = 3, max = 60)
     private String title;
 
     @Schema(description = "Data de término da Kudo box.")
-    @FutureOrPresent
-    @NotNull
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 
     @Schema(description = "Status da Kudo box.")
     @Hidden
@@ -32,5 +27,4 @@ public class KudoBoxDTO {
 
     @Schema(description = "Nome da sprint que o Kudo box foi criado.")
     private String sprint;
-
 }

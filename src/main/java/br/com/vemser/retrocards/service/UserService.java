@@ -69,12 +69,12 @@ public class UserService {
     }
 
     public UserEntity findById(Integer idUser) throws NegociationRulesException {
-        return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("Usuário não encontrado"));
+        return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("User not found!"));
     }
 
     public void checkEmailExist(String email) throws NegociationRulesException {
         if (findByEmailOptional(email).isPresent()) {
-            throw new NegociationRulesException("Email já possui cadastro");
+            throw new NegociationRulesException("Email has already been registered!");
         }
     }
 

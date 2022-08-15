@@ -8,31 +8,26 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class KudoCardDTO {
 
     @Schema(description = "Id Kudo card.")
-    @NotNull
     private Integer idKudoCard;
 
+    @Schema(description = "Id usuário que criou o card.")
+    private Integer idCreator;
+
     @Schema(description = "Título da Kudo card.")
-    @NotBlank
-    @Size(min = 3, max = 60)
     private String title;
 
     @Schema(description = "Data em que foi criada a Kudo card.")
-    @FutureOrPresent
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     @Schema(description = "Nome do usuário que submeteu a Kudo card.")
-    @NotBlank
     private String sender;
 
     @Schema(description = "Nome do usuário que recebeu a Kudo card.")
-    @NotBlank
     private String receiver;
-
-    @Schema(description = "Nome do Kudo box que o Kudo card foi criado.")
-    private String kudoBox;
 }

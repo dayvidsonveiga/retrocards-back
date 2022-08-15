@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,11 +23,14 @@ public class KudoCardEntity {
     @Column(name = "id_kudo_card")
     private Integer idKudoCard;
 
+    @Column(name = "id_creator")
+    private Integer idCreator;
+
     @Column(name = "title")
     private String title;
 
     @Column(name = "create_date")
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     @Column(name = "sender")
     private String sender;

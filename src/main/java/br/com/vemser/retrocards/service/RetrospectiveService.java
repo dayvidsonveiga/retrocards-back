@@ -1,8 +1,10 @@
 package br.com.vemser.retrocards.service;
 
+import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.sprint.SprintDTO;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
@@ -11,6 +13,9 @@ import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,7 +70,7 @@ public class RetrospectiveService {
 
     }
 
-    public List<RetrospectiveDTO> list() {
+    public List<RetrospectiveDTO> listAll() {
         return retrospectiveRepository.findAll().stream()
                 .map(this::entityToDTO)
                 .toList();
@@ -75,6 +80,18 @@ public class RetrospectiveService {
         return entityToDTO(findById(id));
     }
 
+    public PageDTO<RetrospectiveDTO> listRetrospectiveByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
+        PageRequest pageRequest = PageRequest.of(pagina, registro);
+        Page<RetrospectiveEntity> page = retrospectiveRepository.findAllBySprint_IdSprint(idSprint, pageRequest);
+        if (!page.isEmpty()) {
+            List<RetrospectiveDTO> retrospectiveDTO = page.getContent().stream()
+                    .map(this::entityToDTO)
+                    .toList();
+            return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, retrospectiveDTO);
+        } else {
+            throw new NegociationRulesException("Não foi encontrada nenhuma retrospectiva associada a sprint.");
+        }
+    }
 
     // Util
 

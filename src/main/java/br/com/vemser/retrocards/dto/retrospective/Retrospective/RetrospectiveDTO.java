@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class RetrospectiveDTO {
@@ -24,7 +25,8 @@ public class RetrospectiveDTO {
 
     @Schema(description = "Data que ocorreu a retrospectiva.")
     @PastOrPresent
-    private LocalDate occurredDate;
+    @NotNull
+    private LocalDateTime occurredDate;
 
     @Schema(description = "Status da retrospectiva.")
     @NotNull

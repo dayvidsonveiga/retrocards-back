@@ -3,8 +3,9 @@ package br.com.vemser.retrocards.dto.kudo.kudocard;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.*;
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 public class KudoCardCreateDTO {
@@ -18,17 +19,11 @@ public class KudoCardCreateDTO {
     @Size(min = 3, max = 60)
     private String title;
 
-    @Schema(description = "Data em que foi criada a Kudo card.")
-    @FutureOrPresent
-    private LocalDate createDate;
-
     @Schema(description = "Nome do usuário que submeteu a Kudo card.")
     @NotBlank
-    @Email
     private String sender;
 
     @Schema(description = "Nome do usuário que recebeu a Kudo card.")
     @NotBlank
-    @Email
     private String receiver;
 }
