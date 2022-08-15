@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
+import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.UserCreateDTO;
 import br.com.vemser.retrocards.dto.user.UserDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginDTO;
@@ -31,9 +32,9 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
 
-    @GetMapping("/get-logged")
-    public ResponseEntity<UserDTO> getUsuarioLogado() throws NegociationRulesException {
-        return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
+    @PostMapping("/create")
+    public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.create(userCreateDTO, userType), HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -53,9 +54,13 @@ public class UserController {
         }
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
-        return new ResponseEntity<>(userService.create(userCreateDTO, userType), HttpStatus.OK);
+    @GetMapping("/get-logged")
+    public ResponseEntity<UserDTO> getUsuarioLogado() throws NegociationRulesException {
+        return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<PageDTO<UserDTO>> listAll(Integer pagina, Integer registros) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.listAll(pagina, registros), HttpStatus.OK);
+    }
 }
