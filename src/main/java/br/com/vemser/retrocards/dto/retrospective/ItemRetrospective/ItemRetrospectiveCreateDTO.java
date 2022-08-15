@@ -1,6 +1,7 @@
-package br.com.vemser.retrocards.dto.retrospective;
+package br.com.vemser.retrocards.dto.retrospective.ItemRetrospective;
 
 import br.com.vemser.retrocards.enums.ItemType;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -11,9 +12,13 @@ import javax.validation.constraints.Size;
 @Data
 public class ItemRetrospectiveCreateDTO {
 
-    @Schema(description = "Tipo do item de avaliação.")
+    @Schema(description = "Id da retrospectiva")
     @NotNull
-    private ItemType type;
+    private Integer idRetrospective;
+
+    @Schema(description = "Tipo do item de avaliação.")
+    @Hidden
+    private String type;
 
     @Schema(description = "Título do item.")
     @NotBlank

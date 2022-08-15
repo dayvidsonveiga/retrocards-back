@@ -6,14 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
+@Entity(name = "item_retrospectivas")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "item_retrospectivas")
+@DynamicUpdate
 public class ItemRetrospectiveEntity {
 
     @Id
@@ -23,8 +25,7 @@ public class ItemRetrospectiveEntity {
     private Integer idItemRetrospective;
 
     @Column(name = "item_type")
-    @Enumerated(EnumType.STRING)
-    private ItemType type;
+    private String type;
 
     @Column(name = "title")
     private String title;
