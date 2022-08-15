@@ -17,8 +17,8 @@ create table usuarios (
 create table sprints (
                          id_sprint	numeric not null,
                          title		text not null,
-                         start_date	date not null,
-                         end_date	date not null,
+                         start_date	timestamp not null,
+                         end_date	timestamp not null,
                          primary key(id_sprint)
 );
 
@@ -35,7 +35,7 @@ create table kudo_boxs (
                            id_kudo_box		numeric not null,
                            id_sprint		numeric not null,
                            title			text not null,
-                           end_date		date not null,
+                           end_date		timestamp not null,
                            status			text not null,
                            primary key (id_kudo_box),
                            constraint fk_sprints_kudo_boxs foreign key (id_sprint) references sprints (id_sprint)
@@ -43,9 +43,10 @@ create table kudo_boxs (
 
 create table kudo_cards (
                             id_kudo_card	numeric not null,
+                            id_creator		numeric not null,
                             id_kudo_box		numeric not null,
                             title			text not null,
-                            create_date		date not null,
+                            create_date		timestamp not null,
                             sender			text not null,
                             receiver		text not null,
                             primary key(id_kudo_card),
@@ -56,7 +57,7 @@ create table retrospectivas (
                                 id_retrospective	numeric not null,
                                 id_sprint			numeric not null,
                                 title				text not null,
-                                occurred_date		date not null,
+                                occurred_date		timestamp not null,
                                 status				text not null,
                                 primary key(id_retrospective),
                                 constraint fk_sprints_retrospectivas foreign key (id_sprint) references sprints (id_sprint)
@@ -113,12 +114,27 @@ insert into usuarios (id_user, id_roles, user_name, email, user_password) values
 
 -- INSERTS SPRINT'S
 
-insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Definição de projetos com o cliente da C&A', to_date('13-08-2022', 'DD-MM-YYYY'), to_date('13-08-2022', 'DD-MM-YYYY'));
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Definição de projetos com o cliente da C&A', '2022-08-12 17:52:00', '2022-08-12 18:00:00');
 
-insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Definição das regras do Projeto A do cliente Sicredi', to_date('14-08-2022', 'DD-MM-YYYY'), to_date('14-08-2022', 'DD-MM-YYYY'));
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Definição das regras do Projeto A do cliente Sicredi', '2022-08-13 11:45:00', '2022-08-13 12:00:00');
 
-insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Levantamento e correções do projeto C do cliente Subway', to_date('15-08-2022', 'DD-MM-YYYY'), to_date('15-08-2022', 'DD-MM-YYYY'));
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Levantamento e correções do projeto C do cliente Subway', '2022-08-14 13:25:00', '2022-08-14 13:50:00');
 
-insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Refatoração de códigos do Projeto B', to_date('16-08-2022', 'DD-MM-YYYY'), to_date('16-08-2022', 'DD-MM-YYYY'));
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Refatoração de códigos do Projeto B', '2022-08-15 10:00:00', '2022-08-15 10:32:00');
 
-insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Reunião com novo cliente ChinaInBox', to_date('17-08-2022', 'DD-MM-YYYY'), to_date('17-08-2022', 'DD-MM-YYYY'));
+insert into sprints (id_sprint, title, start_date, end_date) values (nextval('seq_sprint'), 'Reunião com novo cliente ChinaInBox','2022-08-16 14:45:00', '2022-08-16 14:50:00');
+
+-- INSERTS RETROSPECTIVES
+
+insert into retrospectivas (id_retrospective, id_sprint, title, occurred_date, status) values (nextval('seq_retrospectiva'), 1, 'Divisão das equipes em trios', '2022-08-12 17:53:12', 'CREATE');
+insert into retrospectivas (id_retrospective, id_sprint, title, occurred_date, status) values (nextval('seq_retrospectiva'), 2, 'Divisão dos trabalhos semanais', '2022-08-13 11:53:12', 'CREATE');
+insert into retrospectivas (id_retrospective, id_sprint, title, occurred_date, status) values (nextval('seq_retrospectiva'), 3, 'Separação dos códigos', '2022-08-14 13:30:12', 'CREATE');
+insert into retrospectivas (id_retrospective, id_sprint, title, occurred_date, status) values (nextval('seq_retrospectiva'), 4, 'Relação de entidades do projeto', '2022-08-15 10:05:12', 'CREATE');
+insert into retrospectivas (id_retrospective, id_sprint, title, occurred_date, status) values (nextval('seq_retrospectiva'), 1, 'Repasse de tarefas', '2022-08-16 14:47:12', 'CREATE');
+
+-- INSERTS KUDO BOXES
+
+insert into kudo_boxs (id_kudo_box, id_sprint, title, end_date, status) values (nextval('seq_kudobox'), 1, 'Melhorias', '2022-08-12 17:54:12', 'CREATE');
+insert into kudo_boxs (id_kudo_box, id_sprint, title, end_date, status) values (nextval('seq_kudobox'), 2, 'Observações', '2022-08-12 11:55:12', 'IN_PROGRESS');
+insert into kudo_boxs (id_kudo_box, id_sprint, title, end_date, status) values (nextval('seq_kudobox'), 3, 'Melhorias', '2022-08-12 13:31:15', 'CREATE');
+insert into kudo_boxs (id_kudo_box, id_sprint, title, end_date, status) values (nextval('seq_kudobox'), 4, 'Melhorias', '2022-08-12 10:07:12', 'CREATE');
