@@ -29,34 +29,34 @@ public class RetrospectiveController {
         return new ResponseEntity<>(retrospectiveService.create(retrospectiveCreateDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idRetrospective}")
+    @PutMapping("/update/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> update(@PathVariable("idRetrospective") Integer idRetrospective,
                                          RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.update(idRetrospective, retrospectiveCreateDTO), HttpStatus.OK);
     }
 
-    @PutMapping("/{idRetrospective}/status")
+    @PutMapping("/update/{idRetrospective}/status")
     public ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
                                          RetrospectiveStatus status) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.updateStatus(idRetrospective, status), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{idRetrospective}")
+    @DeleteMapping("/delete/{idRetrospective}")
     public void delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
         retrospectiveService.delete(idRetrospective);
     }
 
-    @GetMapping("/{idRetrospective}")
-    public ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
-        return new ResponseEntity<>(retrospectiveService.listById(idRetrospective), HttpStatus.OK);
-    }
-
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<RetrospectiveDTO>> listAll() {
         return new ResponseEntity<>(retrospectiveService.listAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/sprint/{idSprint}")
+    @GetMapping("/list/{idRetrospective}")
+    public ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
+        return new ResponseEntity<>(retrospectiveService.listById(idRetrospective), HttpStatus.OK);
+    }
+
+    @GetMapping("/list/sprint/{idSprint}")
     public ResponseEntity<PageDTO<RetrospectiveDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.listRetrospectiveByIdSprint(idSprint, pagina, registro), HttpStatus.OK);
     }

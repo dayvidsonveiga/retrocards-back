@@ -22,15 +22,16 @@ public class SprintController {
 
     private final SprintService sprintService;
 
-    @GetMapping("/list-sprint-conclusion")
-    @Response
-    public ResponseEntity<PageDTO<SprintDTO>> listSprintOrderedConclusion(Integer page, Integer register) throws NegociationRulesException {
-        return new ResponseEntity<>(sprintService.listSprintOrdered(page, register), HttpStatus.OK);
-    }
 
     @PostMapping("/create")
     @Response
     public ResponseEntity<SprintDTO> create(@RequestBody @Valid SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.create(sprintCreateDTO), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/list")
+    @Response
+    public ResponseEntity<PageDTO<SprintDTO>> listSprintOrderedConclusion(Integer page, Integer register) throws NegociationRulesException {
+        return new ResponseEntity<>(sprintService.listSprintOrdered(page, register), HttpStatus.OK);
     }
 }

@@ -28,12 +28,12 @@ public class KudoBoxController {
         return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping("/list-kudobox")
-    public ResponseEntity<List<KudoBoxDTO>> listKudoBox() throws NegociationRulesException {
+    @GetMapping("/list")
+    public ResponseEntity<List<KudoBoxDTO>> listKudoBox() {
         return new ResponseEntity<>(kudoBoxService.list(), HttpStatus.OK);
     }
 
-    @GetMapping("/list/{idSprint}")
+    @GetMapping("/list/sprint/{idSprint}")
     public ResponseEntity<PageDTO<KudoBoxDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registros) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.listKudoBoxByIdSprint(idSprint, pagina, registros), HttpStatus.OK);
     }

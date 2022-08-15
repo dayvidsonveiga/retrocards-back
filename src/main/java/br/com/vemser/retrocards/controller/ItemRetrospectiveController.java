@@ -28,28 +28,28 @@ public class ItemRetrospectiveController {
         return new ResponseEntity<>(itemRetrospectiveService.create(itemRetrospectiveCreateDTO, itemType), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idItem}")
+    @PutMapping("/update/{idItem}")
     public ResponseEntity<ItemRetrospectiveDTO> update(@PathVariable("idItem") Integer idItem, ItemType itemType,
                                                        @RequestBody @Valid ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws Exception {
         return new ResponseEntity<>(itemRetrospectiveService.update(idItem, itemType, itemRetrospectiveUpdateDTO), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{idItem}")
+    @DeleteMapping("/delete/{idItem}")
     public void delete(@PathVariable("idItem") Integer idItem) throws NegociationRulesException {
         itemRetrospectiveService.delete(idItem);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<ItemRetrospectiveDTO>> list() {
         return new ResponseEntity<>(itemRetrospectiveService.list(), HttpStatus.OK);
     }
 
-    @GetMapping("/{idItem}")
+    @GetMapping("/list/{idItem}")
     public ResponseEntity<ItemRetrospectiveDTO> listByIdItem(@PathVariable("idItem") Integer idItem) throws NegociationRulesException {
         return new ResponseEntity<>(itemRetrospectiveService.listByIdItem(idItem), HttpStatus.OK);
     }
 
-    @GetMapping("/retrospective/{idRetrospective}")
+    @GetMapping("/list/retrospective/{idRetrospective}")
     public ResponseEntity<List<ItemRetrospectiveDTO>> listByIdRetrospective(@PathVariable("idRetrospective") Integer idRetrospective) {
         return new ResponseEntity<>(itemRetrospectiveService.listByIdRetrospective(idRetrospective), HttpStatus.OK);
     }
