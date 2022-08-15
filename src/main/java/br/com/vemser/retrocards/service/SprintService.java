@@ -26,38 +26,41 @@ public class SprintService {
 
     private final ObjectMapper objectMapper;
 
+
+    public SprintDTO create(SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
+        log.info("Criando nova sprint...");
+
+        SprintEntity sprintEntity = createToEntity(sprintCreateDTO);
+
+        log.info("Sprint criada com sucesso!");
+        return entityToDTO(sprintRepository.save(sprintEntity));
+    }
+
     public PageDTO<SprintDTO> listSprintOrdered(Integer pagina, Integer registro) throws NegociationRulesException {
         log.info("Listando sprints pela data de conclusão...");
-        if(!sprintRepository.listByEndDateOrderedDesc().isEmpty()) {
+        if (!sprintRepository.listByEndDateOrderedDesc().isEmpty()) {
             PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("endDate").descending());
             Page<SprintEntity> page = sprintRepository.findAll(pageRequest);
             List<SprintDTO> sprintsDTO = page.getContent().stream()
-                    .map(this::sprintEntityToDTO).collect(Collectors.toList());
+                    .map(this::entityToDTO).collect(Collectors.toList());
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, sprintsDTO);
         } else {
             throw new NegociationRulesException("Não foi possível realizar a lista de sprints.");
         }
     }
 
-    public SprintDTO create(SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
-        log.info("Criando nova sprint...");
-
-        SprintEntity sprintEntity = objectMapper.convertValue(sprintCreateDTO, SprintEntity.class);
-
-        log.info("Sprint criada com sucesso!");
-        return sprintEntityToDTO(sprintRepository.save(sprintEntity));
-    }
+    // util
 
     public SprintEntity findById(Integer idSprint) throws NegociationRulesException {
         return sprintRepository.findById(idSprint)
                 .orElseThrow(() -> new NegociationRulesException("Sprint not found"));
     }
 
-    public SprintEntity sprintDTOToEntity(SprintDTO sprintDTO) {
-        return objectMapper.convertValue(sprintDTO, SprintEntity.class);
+    public SprintEntity createToEntity(SprintCreateDTO sprintCreateDTO) {
+        return objectMapper.convertValue(sprintCreateDTO, SprintEntity.class);
     }
 
-    public SprintDTO sprintEntityToDTO(SprintEntity sprintEntity) {
+    public SprintDTO entityToDTO(SprintEntity sprintEntity) {
         return objectMapper.convertValue(sprintEntity, SprintDTO.class);
     }
 }

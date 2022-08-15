@@ -25,7 +25,7 @@ public class UserService {
     private final RolesService rolesService;
 
 
-    public UserDTO createUser(UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
+    public UserDTO create(UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
         checkEmailExist(userCreateDTO.getEmail());
         UserEntity userEntity = createToEntity(userCreateDTO);
         userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
@@ -41,6 +41,24 @@ public class UserService {
         return userLoginReturnDTO;
     }
 
+    public UserDTO getLoggedUser() throws NegociationRulesException {
+        Integer idLoggedUser = getIdLoggedUser();
+        UserDTO userDTO = entityToDto(findById(idLoggedUser));
+        UserEntity byId = findById(idLoggedUser);
+        userDTO.setRole(byId.getRole().getRoleName());
+        return userDTO;
+    }
+
+    // Util
+
+    public Integer getIdLoggedUser() {
+        Object principal = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return (Integer) principal;
+    }
+
     public Optional<UserEntity> findByEmailOptional(String email) {
         return userRepository.findByEmail(email);
     }
@@ -52,34 +70,6 @@ public class UserService {
 
     public UserEntity findById(Integer idUser) throws NegociationRulesException {
         return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("Usuário não encontrado"));
-    }
-
-    public UserDTO getLoggedUser() throws NegociationRulesException {
-        Integer idLoggedUser = getIdLoggedUser();
-        UserDTO userDTO = entityToDto(findById(idLoggedUser));
-        UserEntity byId = findById(idLoggedUser);
-        userDTO.setRole(byId.getRole().getRoleName());
-        return userDTO;
-    }
-
-    public Integer getIdLoggedUser() {
-        Object principal = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        return (Integer) principal;
-    }
-
-    public UserDTO entityToDto(UserEntity usuarioEntity) {
-        UserDTO userDTO = objectMapper.convertValue(usuarioEntity, UserDTO.class);
-        userDTO.setRole(usuarioEntity.getRole().getRoleName());
-        return userDTO;
-    }
-
-    public UserEntity createToEntity(UserCreateDTO userCreateDTO) {
-        UserEntity usuarioEntity = objectMapper.convertValue(userCreateDTO, UserEntity.class);
-        usuarioEntity.setPass(passwordEncoder.encode(userCreateDTO.getPassword()));
-        return usuarioEntity;
     }
 
     public void checkEmailExist(String email) throws NegociationRulesException {
@@ -96,4 +86,15 @@ public class UserService {
         }
     }
 
+    public UserDTO entityToDto(UserEntity usuarioEntity) {
+        UserDTO userDTO = objectMapper.convertValue(usuarioEntity, UserDTO.class);
+        userDTO.setRole(usuarioEntity.getRole().getRoleName());
+        return userDTO;
+    }
+
+    public UserEntity createToEntity(UserCreateDTO userCreateDTO) {
+        UserEntity usuarioEntity = objectMapper.convertValue(userCreateDTO, UserEntity.class);
+        usuarioEntity.setPass(passwordEncoder.encode(userCreateDTO.getPassword()));
+        return usuarioEntity;
+    }
 }

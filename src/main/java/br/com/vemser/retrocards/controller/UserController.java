@@ -55,7 +55,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
-        return new ResponseEntity<>(userService.createUser(userCreateDTO, userType), HttpStatus.OK);
+        return new ResponseEntity<>(userService.create(userCreateDTO, userType), HttpStatus.OK);
     }
 
 }

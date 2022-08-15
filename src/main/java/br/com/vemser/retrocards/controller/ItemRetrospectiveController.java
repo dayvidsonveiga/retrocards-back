@@ -3,8 +3,6 @@ package br.com.vemser.retrocards.controller;
 import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveUpdateDTO;
-import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveCreateDTO;
-import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.ItemRetrospectiveService;
@@ -32,28 +30,28 @@ public class ItemRetrospectiveController {
 
     @PutMapping("/{idItem}")
     public ResponseEntity<ItemRetrospectiveDTO> update(@PathVariable("idItem") Integer idItem, ItemType itemType,
-                                         @RequestBody @Valid ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws Exception {
+                                                       @RequestBody @Valid ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws Exception {
         return new ResponseEntity<>(itemRetrospectiveService.update(idItem, itemType, itemRetrospectiveUpdateDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{idItem}")
     public void delete(@PathVariable("idItem") Integer idItem) throws NegociationRulesException {
-       itemRetrospectiveService.delete(idItem);
+        itemRetrospectiveService.delete(idItem);
     }
 
     @GetMapping
     public ResponseEntity<List<ItemRetrospectiveDTO>> list() {
-        return new ResponseEntity<>(itemRetrospectiveService.list(),HttpStatus.OK);
+        return new ResponseEntity<>(itemRetrospectiveService.list(), HttpStatus.OK);
     }
 
     @GetMapping("/{idItem}")
     public ResponseEntity<ItemRetrospectiveDTO> listByIdItem(@PathVariable("idItem") Integer idItem) throws NegociationRulesException {
-        return new ResponseEntity<>(itemRetrospectiveService.listByIdItem(idItem),HttpStatus.OK);
+        return new ResponseEntity<>(itemRetrospectiveService.listByIdItem(idItem), HttpStatus.OK);
     }
 
     @GetMapping("/retrospective/{idRetrospective}")
     public ResponseEntity<List<ItemRetrospectiveDTO>> listByIdRetrospective(@PathVariable("idRetrospective") Integer idRetrospective) {
-        return new ResponseEntity<>(itemRetrospectiveService.listByIdRetrospective(idRetrospective),HttpStatus.OK);
+        return new ResponseEntity<>(itemRetrospectiveService.listByIdRetrospective(idRetrospective), HttpStatus.OK);
     }
 
 }

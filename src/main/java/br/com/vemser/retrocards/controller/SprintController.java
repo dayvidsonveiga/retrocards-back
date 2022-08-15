@@ -27,7 +27,7 @@ public class SprintController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<SprintDTO> createSprint(@RequestBody @Valid SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
+    public ResponseEntity<SprintDTO> create(@RequestBody @Valid SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.create(sprintCreateDTO), HttpStatus.CREATED);
     }
 }

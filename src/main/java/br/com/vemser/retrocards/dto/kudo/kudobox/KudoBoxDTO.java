@@ -1,6 +1,5 @@
 package br.com.vemser.retrocards.dto.kudo.kudobox;
 
-import br.com.vemser.retrocards.enums.KudoStatus;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

@@ -54,7 +54,7 @@ public class TokenService {
 
         Integer idUsuario = body.get(Claims.ID, Integer.class);
 
-        if (idUsuario != null){
+        if (idUsuario != null) {
             List<String> roles = body.get(ROLES, List.class);
 
             List<SimpleGrantedAuthority> rolesGrantedAuthority = roles.stream()

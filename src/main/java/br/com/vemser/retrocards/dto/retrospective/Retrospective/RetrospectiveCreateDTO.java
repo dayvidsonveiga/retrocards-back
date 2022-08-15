@@ -1,6 +1,6 @@
-package br.com.vemser.retrocards.dto.retrospective;
+package br.com.vemser.retrocards.dto.retrospective.Retrospective;
 
-import br.com.vemser.retrocards.enums.RetrospectiveStatus;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -13,6 +13,10 @@ import java.time.LocalDate;
 @Data
 public class RetrospectiveCreateDTO {
 
+    @Schema(description = "Id da sprint")
+    @NotNull
+    private Integer idSprint;
+
     @Schema(description = "Título da retrospectiva.")
     @NotBlank
     @Size(min = 3, max = 60)
@@ -23,6 +27,6 @@ public class RetrospectiveCreateDTO {
     private LocalDate occurredDate;
 
     @Schema(description = "Status da retrospectiva.")
-    @NotNull
-    private RetrospectiveStatus status;
+    @Hidden
+    private String status;
 }

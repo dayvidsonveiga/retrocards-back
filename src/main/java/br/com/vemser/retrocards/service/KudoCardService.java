@@ -1,7 +1,5 @@
 package br.com.vemser.retrocards.service;
 
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
@@ -28,6 +26,8 @@ public class KudoCardService {
 
         return entityToDTO(kudoCardRepository.save(kudoCardEntity));
     }
+
+    // Util
 
     public KudoCardEntity createToEntity(KudoCardCreateDTO kudoCardCreateDTO) {
         return objectMapper.convertValue(kudoCardCreateDTO, KudoCardEntity.class);

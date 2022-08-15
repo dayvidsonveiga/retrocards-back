@@ -1,7 +1,5 @@
 package br.com.vemser.retrocards.controller;
 
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
@@ -26,7 +24,7 @@ public class KudoCardController {
     private final KudoCardService kudoCardService;
 
     @PostMapping("/create")
-    public ResponseEntity<KudoCardDTO> createKudoCard(@RequestBody @Valid KudoCardCreateDTO kudoCardCreateDTO) throws NegociationRulesException {
+    public ResponseEntity<KudoCardDTO> create(@RequestBody @Valid KudoCardCreateDTO kudoCardCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.create(kudoCardCreateDTO), HttpStatus.CREATED);
     }
 }

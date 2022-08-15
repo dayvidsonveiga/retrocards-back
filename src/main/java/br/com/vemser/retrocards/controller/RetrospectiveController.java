@@ -1,9 +1,9 @@
 package br.com.vemser.retrocards.controller;
 
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveCreateDTO;
+import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
-import br.com.vemser.retrocards.service.KudoBoxService;
+import br.com.vemser.retrocards.service.RetrospectiveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/kudobox")
+@RequestMapping("/retrospective")
 @Validated
 @RequiredArgsConstructor
-public class KudoBoxController {
+public class RetrospectiveController {
 
-    private final KudoBoxService kudoBoxService;
-
+    private final RetrospectiveService retrospectiveService;
 
     @PostMapping("/create")
-    public ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
-        return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
+    public ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
+        return new ResponseEntity<>(retrospectiveService.create(retrospectiveCreateDTO), HttpStatus.CREATED);
     }
 }
-
-
