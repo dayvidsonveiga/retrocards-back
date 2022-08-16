@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
-                        authz.antMatchers("/", "/user/list", "/user/get-logged", "/user/login", "user/create").permitAll()
+                        authz.antMatchers("/", "/user/list", "/user/get-logged", "/user/login", "/user/create").permitAll()
                                 .antMatchers("/user/change-role/{idUser}").hasRole("ADMIN")
                                 .antMatchers("/user/create-admin").hasRole("ADMIN")
                                 .antMatchers("/user/**").hasRole("ADMIN")
