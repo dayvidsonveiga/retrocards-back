@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -26,11 +27,13 @@ public class SprintService {
 
     public SprintDTO create(SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
         log.info("Creating a new sprint ...");
-        SprintEntity sprintEntity = createToEntity(sprintCreateDTO);
 
         if (sprintCreateDTO.getStartDate().isAfter(sprintCreateDTO.getEndDate())) {
             throw new NegociationRulesException("Data is wrong!");
         }
+
+        SprintDTO sprintDTO = createToDTO(sprintCreateDTO);
+        SprintEntity sprintEntity = dtoToEntity(sprintDTO);
 
         log.info("Sprint create successfully!");
         return entityToDTO(sprintRepository.save(sprintEntity));
@@ -60,8 +63,20 @@ public class SprintService {
         return objectMapper.convertValue(sprintCreateDTO, SprintEntity.class);
     }
 
+    public SprintEntity dtoToEntity(SprintDTO sprintDTO) {
+        return objectMapper.convertValue(sprintDTO, SprintEntity.class);
+    }
+
     public SprintDTO entityToDTO(SprintEntity sprintEntity) {
         SprintDTO sprintDTO = objectMapper.convertValue(sprintEntity, SprintDTO.class);
         return sprintDTO;
+    }
+
+    public SprintDTO createToDTO(SprintCreateDTO createDTO) {
+        SprintDTO dto = new SprintDTO();
+        dto.setTitle(createDTO.getTitle());
+        dto.setStartDate(createDTO.getStartDate().atTime(LocalTime.now()));
+        dto.setEndDate(createDTO.getEndDate().atTime(LocalTime.now()));
+        return dto;
     }
 }

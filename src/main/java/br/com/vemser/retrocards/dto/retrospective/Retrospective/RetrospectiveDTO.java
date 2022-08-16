@@ -15,24 +15,15 @@ import java.time.LocalDateTime;
 public class RetrospectiveDTO {
 
     @Schema(description = "Id da retrospectiva.")
-    @NotNull
     private Integer idRetrospective;
 
     @Schema(description = "Título da retrospectiva.")
-    @NotBlank
-    @Size(min = 3, max = 60)
     private String title;
 
     @Schema(description = "Data que ocorreu a retrospectiva.")
-    @PastOrPresent
-    @NotNull
     private LocalDateTime occurredDate;
 
     @Schema(description = "Status da retrospectiva.")
-    @NotNull
     private RetrospectiveStatus status;
 
-    @Schema(description = "Sprint da retrospectiva")
-    @NotNull
-    private String sprint;
 }

@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -33,9 +34,13 @@ public class RetrospectiveService {
     public RetrospectiveDTO create(RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
         SprintEntity sprintEntity = sprintService.findById(retrospectiveCreateDTO.getIdSprint());
 
-        retrospectiveCreateDTO.setStatus(RetrospectiveStatus.CREATE.name());
-        RetrospectiveEntity retrospectiveEntity = createToEntity(retrospectiveCreateDTO);
+        RetrospectiveDTO retrospectiveDTO = createToDTO(retrospectiveCreateDTO);
+
+        RetrospectiveEntity retrospectiveEntity = dtoToEntity(retrospectiveDTO);
+
         retrospectiveEntity.setSprint(sprintEntity);
+
+        retrospectiveEntity.setStatus(RetrospectiveStatus.CREATE);
 
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
@@ -55,7 +60,7 @@ public class RetrospectiveService {
 
         if (retrospectiveStatus.name() == RetrospectiveStatus.IN_PROGRESS.name()) {
             if (sprintEntity.getRetrospectives().stream().anyMatch(retrospective -> retrospective.getStatus().name() == RetrospectiveStatus.IN_PROGRESS.name())){
-                throw new NegociationRulesException("Can't start when status is in progress");
+                throw new NegociationRulesException("Não é possivel atualizar status em uma sprint em progresso!");
             }
         }
 
@@ -97,16 +102,26 @@ public class RetrospectiveService {
 
     public RetrospectiveEntity findById(Integer idRespective) throws NegociationRulesException {
         return retrospectiveRepository.findById(idRespective)
-                .orElseThrow(() -> new NegociationRulesException("Retrospective not found"));
+                .orElseThrow(() -> new NegociationRulesException("Retrospectiva não encontrada"));
     }
 
     public RetrospectiveDTO entityToDTO(RetrospectiveEntity retrospectiveEntity) {
         RetrospectiveDTO retrospectiveDTO = objectMapper.convertValue(retrospectiveEntity, RetrospectiveDTO.class);
-        retrospectiveDTO.setSprint(retrospectiveEntity.getSprint().getTitle());
         return retrospectiveDTO;
     }
 
     public RetrospectiveEntity createToEntity(RetrospectiveCreateDTO retrospectiveCreateDTO) {
         return objectMapper.convertValue(retrospectiveCreateDTO, RetrospectiveEntity.class);
+    }
+
+    public RetrospectiveEntity dtoToEntity(RetrospectiveDTO retrospectiveDTO) {
+        return objectMapper.convertValue(retrospectiveDTO, RetrospectiveEntity.class);
+    }
+
+    public RetrospectiveDTO createToDTO(RetrospectiveCreateDTO createDTO) {
+        RetrospectiveDTO dto = new RetrospectiveDTO();
+        dto.setTitle(createDTO.getTitle());
+        dto.setOccurredDate(createDTO.getOccurredDate().atTime(LocalTime.now()));
+        return dto;
     }
 }
