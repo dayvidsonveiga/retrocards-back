@@ -33,6 +33,7 @@ public class ItemRetrospectiveService {
         return entityToDTO(itemRetrospectiveRepository.save(itemEntity));
     }
 
+    //TODO VERIFICAR ATUALIZAÇÃO
     public ItemRetrospectiveDTO update(Integer id, ItemType itemType, ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws NegociationRulesException {
         itemRetrospectiveUpdateDTO.setType(itemType.name());
 
@@ -54,12 +55,12 @@ public class ItemRetrospectiveService {
         return entityToDTO(itemRetrospectiveRepository.save(itemEntityUpdate));
     }
 
-    public void delete(Integer id) throws NegociationRulesException {
-        ItemRetrospectiveEntity itemEntity = findById(id);
-        if (itemEntity.getRetrospective().getStatus().name() == RetrospectiveStatus.IN_PROGRESS.name()) {
+    public void delete(Integer idItemRetrospective) throws NegociationRulesException {
+        ItemRetrospectiveEntity itemEntity = findById(idItemRetrospective);
+        if (itemEntity.getRetrospective().getStatus().name().equals(RetrospectiveStatus.IN_PROGRESS.name())) {
             itemRetrospectiveRepository.delete(itemEntity);
         } else {
-            throw new NegociationRulesException("You can't delete on Retrospective status in progress");
+            throw new NegociationRulesException("Você só pode remover um item de retrospectiva se a mesma estiver em progresso.");
         }
     }
 

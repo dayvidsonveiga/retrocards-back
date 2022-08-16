@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.dto.retrospective.ItemRetrospective;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -10,18 +11,15 @@ import javax.validation.constraints.NotNull;
 public class ItemRetrospectiveUpdateDTO {
 
     @Schema(description = "Id da retrospectiva")
-    @NotNull
     private Integer idRetrospective;
 
-    @Schema(description = "Tipo do item de avaliação.")
-    @NotBlank
+    @Schema(description = "Tipo da avaliação.")
+    @Hidden
     private String type;
 
     @Schema(description = "Título do item.")
-    @NotBlank
     private String title;
 
     @Schema(description = "Descrição da avaliação.")
-    @NotBlank
     private String description;
 }
