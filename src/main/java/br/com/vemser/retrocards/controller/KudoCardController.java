@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
+import br.com.vemser.retrocards.documentation.KudoCardDocumentation;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/kudocard")
 @Validated
 @RequiredArgsConstructor
-public class KudoCardController {
+public class KudoCardController implements KudoCardDocumentation {
 
     private final KudoCardService kudoCardService;
 

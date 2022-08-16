@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
+import br.com.vemser.retrocards.documentation.KudoBoxDocumentation;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequestMapping("/kudobox")
 @Validated
 @RequiredArgsConstructor
-public class KudoBoxController {
+public class KudoBoxController implements KudoBoxDocumentation {
 
     private final KudoBoxService kudoBoxService;
 
@@ -32,7 +33,7 @@ public class KudoBoxController {
 
     @Operation(summary = "List all kudobox")
     @GetMapping("/list")
-    public ResponseEntity<List<KudoBoxDTO>> listKudoBox() {
+    public ResponseEntity<List<KudoBoxDTO>> listAll() {
         return new ResponseEntity<>(kudoBoxService.listAll(), HttpStatus.OK);
     }
 

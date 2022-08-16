@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
+import br.com.vemser.retrocards.documentation.ItemRetrospectiveDocumentation;
 import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveUpdateDTO;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping("/itemretrospective")
 @Validated
 @RequiredArgsConstructor
-public class ItemRetrospectiveController {
+public class ItemRetrospectiveController implements ItemRetrospectiveDocumentation {
 
     private final ItemRetrospectiveService itemRetrospectiveService;
 
@@ -33,7 +34,7 @@ public class ItemRetrospectiveController {
     @Operation(summary = "Update retrospective item")
     @PutMapping("/update/{idItem}")
     public ResponseEntity<ItemRetrospectiveDTO> update(@PathVariable("idItem") Integer idItem, ItemType itemType,
-                                                       @RequestBody @Valid ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws Exception {
+                                                       @RequestBody @Valid ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(itemRetrospectiveService.update(idItem, itemType, itemRetrospectiveUpdateDTO), HttpStatus.OK);
     }
 

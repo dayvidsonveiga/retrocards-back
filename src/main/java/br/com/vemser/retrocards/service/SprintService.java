@@ -36,7 +36,7 @@ public class SprintService {
         return entityToDTO(sprintRepository.save(sprintEntity));
     }
 
-    public PageDTO<SprintDTO> listSprintOrdered(Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<SprintDTO> listByDateDesc(Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("endDate").descending());
         Page<SprintEntity> page = sprintRepository.findAll(pageRequest);
         if (!page.isEmpty()) {

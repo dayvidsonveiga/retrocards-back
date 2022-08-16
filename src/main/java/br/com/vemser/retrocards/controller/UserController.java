@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
+import br.com.vemser.retrocards.documentation.UserDocumentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.UserCreateDTO;
 import br.com.vemser.retrocards.dto.user.UserDTO;
@@ -26,7 +27,7 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Validated
-public class UserController {
+public class UserController implements UserDocumentation {
 
     private final UserService userService;
     private final TokenService tokenService;
@@ -35,7 +36,7 @@ public class UserController {
 
     @Operation(summary = "Register new user")
     @PostMapping("/create")
-    public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
+    public ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
         return new ResponseEntity<>(userService.create(userCreateDTO, userType), HttpStatus.OK);
     }
 
@@ -59,7 +60,7 @@ public class UserController {
 
     @Operation(summary = "Get data from the logged on user")
     @GetMapping("/get-logged")
-    public ResponseEntity<UserDTO> getUsuarioLogado() throws NegociationRulesException {
+    public ResponseEntity<UserDTO> getLoggedUser() throws NegociationRulesException {
         return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
     }
 

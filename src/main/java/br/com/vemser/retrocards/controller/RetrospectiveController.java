@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
+import br.com.vemser.retrocards.documentation.RetrospectiveDocumentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveDTO;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping("/retrospective")
 @Validated
 @RequiredArgsConstructor
-public class RetrospectiveController {
+public class RetrospectiveController implements RetrospectiveDocumentation {
 
     private final RetrospectiveService retrospectiveService;
 
