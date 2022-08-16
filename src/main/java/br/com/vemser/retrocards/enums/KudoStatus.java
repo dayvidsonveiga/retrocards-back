@@ -1,5 +1,10 @@
 package br.com.vemser.retrocards.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum KudoStatus {
 
     CREATE("CREATE"),

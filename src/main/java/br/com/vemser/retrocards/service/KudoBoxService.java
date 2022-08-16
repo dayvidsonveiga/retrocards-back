@@ -11,13 +11,11 @@ import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.type.ZonedDateTimeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -43,6 +41,11 @@ public class KudoBoxService {
         kudoBoxEntity.setStatus(KudoStatus.CREATE);
 
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
+    }
+
+    public void delete(Integer idKudoBox) throws NegociationRulesException {
+        KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
+        kudoBoxRepository.delete(kudoBoxEntity);
     }
 
     public PageDTO<KudoBoxDTO> listKudoBoxByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {

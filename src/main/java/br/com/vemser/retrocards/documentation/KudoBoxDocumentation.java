@@ -8,19 +8,35 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 public interface KudoBoxDocumentation {
 
     @Operation(summary = "Register new kudobox")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucess! Returns all kudoboxes referring to ID sprint."),
+                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
+                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
+                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+            }
+    )
     @PostMapping("/create")
     ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException;
+
+    @Operation(summary = "Delete kudobox")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucess! Returns all kudoboxes referring to ID sprint."),
+                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
+                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
+                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+            }
+    )
+    @DeleteMapping("/delete/{idKudoBox}")
+    ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException;
 
     @Operation(summary = "List all the kudo boxes associated with a sprint")
     @ApiResponses(

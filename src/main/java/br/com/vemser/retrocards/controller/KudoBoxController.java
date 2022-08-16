@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/kudobox")
@@ -28,6 +27,13 @@ public class KudoBoxController implements KudoBoxDocumentation {
     @PostMapping("/create")
     public ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Delete kudobox")
+    @DeleteMapping("/delete/{idKudoBox}")
+    public ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException {
+        kudoBoxService.delete(idKudoBox);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Operation(summary = "List all the kudo boxes associated with a sprint")
