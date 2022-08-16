@@ -11,6 +11,7 @@ import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserService {
     private final ObjectMapper objectMapper;
@@ -68,12 +70,16 @@ public class UserService {
 
     // Util
 
-    public Integer getIdLoggedUser() {
+    public Integer getIdLoggedUser() throws NegociationRulesException{
         Object principal = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
-        return (Integer) principal;
+        if (principal.toString().equals("anonymousUser")) {
+            throw new NegociationRulesException("Nenhum usuário logado!");
+        } else {
+            return (Integer) principal;
+        }
     }
 
     public Optional<UserEntity> findByEmailOptional(String email) {
