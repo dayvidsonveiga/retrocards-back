@@ -4,8 +4,10 @@ import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
+import br.com.vemser.retrocards.dto.sprint.SprintDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
 import br.com.vemser.retrocards.entity.KudoCardEntity;
+import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.KudoCardRepository;
@@ -13,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -73,7 +76,6 @@ public class KudoCardService {
         }
     }
 
-
     public PageDTO<KudoCardDTO> listKudoCardByIdKudoBox(Integer idKudoBox, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<KudoCardEntity> page = kudoCardRepository.findAllByKudobox_IdKudoBox(idKudoBox, pageRequest);
@@ -87,15 +89,16 @@ public class KudoCardService {
         }
     }
 
-    public PageDTO<KudoCardDTO> listAll(Integer pagina, Integer registro) throws NegociationRulesException {
-        PageRequest pageRequest = PageRequest.of(pagina, registro);
-        Page<KudoCardEntity> page = kudoCardRepository.findAll(pageRequest);
+    public PageDTO<KudoCardDTO> listByKudoCardByStartDate(Integer pagina, Integer registro) throws NegociationRulesException {
+        PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("createDate").ascending());
+        Page<KudoCardEntity> page = kudoCardRepository.findAllByCreateDateOrderByCreateDate(pageRequest);
         if (!page.isEmpty()) {
             List<KudoCardDTO> kudoCardDTO = page.getContent().stream()
-                    .map(this::entityToDTO).toList();
+                    .map(this::entityToDTO)
+                    .toList();
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, kudoCardDTO);
         } else {
-            throw new NegociationRulesException("Não há registros de Kudo Cards para serem listados!");
+            throw new NegociationRulesException("Não foi possível realizar a listagem dos kudo cards.");
         }
     }
 

@@ -38,12 +38,6 @@ public class KudoBoxService {
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
     }
 
-    public List<KudoBoxDTO> listAll() {
-        return kudoBoxRepository.findAll().stream()
-                .map(this::entityToDTO)
-                .toList();
-    }
-
     public PageDTO<KudoBoxDTO> listKudoBoxByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<KudoBoxEntity> page = kudoBoxRepository.findAllBySprint_IdSprint(idSprint, pageRequest);
@@ -58,7 +52,6 @@ public class KudoBoxService {
     }
 
     // Util
-
 
     public KudoBoxEntity findById(Integer idKudoBox) throws NegociationRulesException {
         return kudoBoxRepository.findById(idKudoBox)
