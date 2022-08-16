@@ -31,10 +31,10 @@ public class UserService {
     private final RolesService rolesService;
 
 
-    public UserDTO create(UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
+    public UserDTO create(UserCreateDTO userCreateDTO) throws NegociationRulesException {
         checkEmailExist(userCreateDTO.getEmail());
         UserEntity userEntity = createToEntity(userCreateDTO);
-        userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
+        userEntity.setRole(rolesService.findByRoleName("ROLE_MEMBER"));
         return entityToDTO(userRepository.save(userEntity));
     }
 

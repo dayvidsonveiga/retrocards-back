@@ -27,7 +27,7 @@ public interface UserDocumentation {
             }
     )
     @PostMapping("/create")
-    ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException;
+    ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegociationRulesException;
 
     @Operation(summary = "Register new admin")
     @ApiResponses(

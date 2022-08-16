@@ -36,8 +36,8 @@ public class UserController implements UserDocumentation {
 
     @Operation(summary = "Register new user")
     @PostMapping("/create")
-    public ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
-        return new ResponseEntity<>(userService.create(userCreateDTO, userType), HttpStatus.OK);
+    public ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.create(userCreateDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Log in")
