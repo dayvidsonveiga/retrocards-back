@@ -33,15 +33,16 @@ public class ItemRetrospectiveService {
         return entityToDTO(itemRetrospectiveRepository.save(itemEntity));
     }
 
-    //TODO VERIFICAR ATUALIZAÇÃO
-    public ItemRetrospectiveDTO update(Integer id, ItemType itemType, ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws NegociationRulesException {
+    public ItemRetrospectiveDTO update(Integer idItemRetrospective, ItemType itemType, ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws NegociationRulesException {
         itemRetrospectiveUpdateDTO.setType(itemType.name());
 
-        ItemRetrospectiveEntity itemEntityRecovered = findById(id);
+        ItemRetrospectiveEntity itemEntityRecovered = findById(idItemRetrospective);
         ItemRetrospectiveEntity itemEntityUpdate = updateToEntity(itemRetrospectiveUpdateDTO);
 
         if (itemRetrospectiveUpdateDTO.getIdRetrospective() == 0 || itemRetrospectiveUpdateDTO.getIdRetrospective() == null) {
             itemEntityUpdate.setRetrospective(itemEntityRecovered.getRetrospective());
+        } else {
+            itemEntityUpdate.setRetrospective(retrospectiveService.findById(itemRetrospectiveUpdateDTO.getIdRetrospective()));
         }
         if (itemRetrospectiveUpdateDTO.getTitle() == null) {
             itemEntityUpdate.setTitle(itemEntityRecovered.getTitle());
@@ -50,7 +51,7 @@ public class ItemRetrospectiveService {
             itemEntityUpdate.setDescription(itemEntityRecovered.getDescription());
         }
 
-        itemEntityUpdate.setIdItemRetrospective(id);
+        itemEntityUpdate.setIdItemRetrospective(idItemRetrospective);
 
         return entityToDTO(itemRetrospectiveRepository.save(itemEntityUpdate));
     }
@@ -102,7 +103,6 @@ public class ItemRetrospectiveService {
 
     public ItemRetrospectiveDTO entityToDTO(ItemRetrospectiveEntity itemRetrospectiveEntity) {
         ItemRetrospectiveDTO itemRetrospectiveDTO = objectMapper.convertValue(itemRetrospectiveEntity, ItemRetrospectiveDTO.class);
-        itemRetrospectiveDTO.setRetrospective(itemRetrospectiveEntity.getRetrospective().getTitle());
         return itemRetrospectiveDTO;
     }
 }

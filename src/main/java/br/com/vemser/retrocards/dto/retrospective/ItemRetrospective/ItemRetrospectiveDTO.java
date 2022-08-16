@@ -24,8 +24,4 @@ public class ItemRetrospectiveDTO {
     @Schema(description = "Descrição da avaliação.")
     @NotBlank
     private String description;
-
-    @Schema(description = "Retrospectiva do item")
-    @NotBlank
-    private String retrospective;
 }
