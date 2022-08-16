@@ -6,6 +6,7 @@ import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintDTO;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.SprintService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,14 @@ public class SprintController {
 
     private final SprintService sprintService;
 
-
+    @Operation(summary = "Register new sprint")
     @PostMapping("/create")
     @Response
     public ResponseEntity<SprintDTO> create(@RequestBody @Valid SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.create(sprintCreateDTO), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "List sprint in order of completion")
     @GetMapping("/list")
     @Response
     public ResponseEntity<PageDTO<SprintDTO>> listSprintOrderedConclusion(Integer page, Integer register) throws NegociationRulesException {

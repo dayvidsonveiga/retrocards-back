@@ -10,6 +10,7 @@ import br.com.vemser.retrocards.enums.UserType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.security.TokenService;
 import br.com.vemser.retrocards.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +33,13 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
 
+    @Operation(summary = "Register new user")
     @PostMapping("/create")
     public ResponseEntity<UserDTO> createUserAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException {
         return new ResponseEntity<>(userService.create(userCreateDTO, userType), HttpStatus.OK);
     }
 
+    @Operation(summary = "Log in")
     @PostMapping("/login")
     public ResponseEntity<UserLoginReturnDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO) throws NegociationRulesException {
         UserEntity userEntity = userService.findByEmail(userLoginDTO.getEmail());
@@ -54,11 +57,13 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Get data from the logged on user")
     @GetMapping("/get-logged")
     public ResponseEntity<UserDTO> getUsuarioLogado() throws NegociationRulesException {
         return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
     }
 
+    @Operation(summary = "List all the registered users")
     @GetMapping("/list")
     public ResponseEntity<PageDTO<UserDTO>> listAll(Integer pagina, Integer registros) throws NegociationRulesException {
         return new ResponseEntity<>(userService.listAll(pagina, registros), HttpStatus.OK);
