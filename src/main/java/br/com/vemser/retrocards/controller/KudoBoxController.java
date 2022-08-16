@@ -24,17 +24,10 @@ public class KudoBoxController implements KudoBoxDocumentation {
 
     private final KudoBoxService kudoBoxService;
 
-
     @Operation(summary = "Register new kudobox")
     @PostMapping("/create")
     public ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
-    }
-
-    @Operation(summary = "List all kudobox")
-    @GetMapping("/list")
-    public ResponseEntity<List<KudoBoxDTO>> listAll() {
-        return new ResponseEntity<>(kudoBoxService.listAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "List all the kudo boxes associated with a sprint")

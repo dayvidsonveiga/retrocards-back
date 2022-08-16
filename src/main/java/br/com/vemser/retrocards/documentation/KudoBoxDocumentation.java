@@ -22,18 +22,6 @@ public interface KudoBoxDocumentation {
     @PostMapping("/create")
     ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "List all kudobox")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the list of all kudoboxes."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
-            }
-    )
-    @GetMapping("/list")
-    ResponseEntity<List<KudoBoxDTO>> listAll();
-
     @Operation(summary = "List all the kudo boxes associated with a sprint")
     @ApiResponses(
             value = {
