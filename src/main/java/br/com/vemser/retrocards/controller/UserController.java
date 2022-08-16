@@ -58,6 +58,19 @@ public class UserController implements UserDocumentation {
         }
     }
 
+    @Operation(summary = "Register new admin")
+    @PostMapping("/create-admin")
+    public ResponseEntity<UserDTO> createAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.registerAdmin(userCreateDTO), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Change role")
+    @PutMapping("/change-role/{idUser}")
+    public ResponseEntity<Void> changeRole(@PathVariable("idUser") Integer idUser, UserType userType) throws NegociationRulesException {
+        userService.changeRole(idUser, userType);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @Operation(summary = "Get data from the logged on user")
     @GetMapping("/get-logged")
     public ResponseEntity<UserDTO> getLoggedUser() throws NegociationRulesException {

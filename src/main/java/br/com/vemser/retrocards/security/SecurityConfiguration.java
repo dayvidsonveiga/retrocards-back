@@ -28,8 +28,10 @@ public class SecurityConfiguration {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
-                        authz.antMatchers("/", "/user/**").permitAll()
-                                .antMatchers("/user/**").hasRole("FACILITATOR")
+                        authz.antMatchers("/", "/user/list", "/user/get-logged", "/user/login", "user/create").permitAll()
+                                .antMatchers("/user/change-role/{idUser}").hasRole("ADMIN")
+                                .antMatchers("/user/create-admin").hasRole("ADMIN")
+                                .antMatchers("/user/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);

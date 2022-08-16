@@ -14,6 +14,6 @@ public class RolesService {
 
     public RolesEntity findByRoleName(String role) throws NegociationRulesException {
         return rolesRepository.findByRoleName(role)
-                .orElseThrow(() -> new NegociationRulesException("Role not found"));
+                .orElseThrow(() -> new NegociationRulesException("Cargo não encontrado!"));
     }
 }

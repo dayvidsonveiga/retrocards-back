@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum UserType {
 
     FACILITATOR("ROLE_FACILITATOR"),
-    MEMBER("ROLE_MEMBER");
+    MEMBER("ROLE_MEMBER"),
+    ADMIN("ROLE_ADMIN");
 
     String roleName;
 

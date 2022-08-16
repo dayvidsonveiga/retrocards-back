@@ -11,9 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -30,6 +28,30 @@ public interface UserDocumentation {
     )
     @PostMapping("/create")
     ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO, UserType userType) throws NegociationRulesException;
+
+    @Operation(summary = "Register new admin")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the successfully created user."),
+                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
+                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
+                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+            }
+    )
+    @PostMapping("/create-admin")
+    ResponseEntity<UserDTO> createAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegociationRulesException;
+
+    @Operation(summary = "Change role")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the successfully created user."),
+                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
+                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
+                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+            }
+    )
+    @PutMapping("/change-role/{idUser}")
+    ResponseEntity<Void> changeRole(@PathVariable("idUser") Integer idUser, UserType userType) throws NegociationRulesException;
 
     @Operation(summary = "Log in")
     @ApiResponses(

@@ -38,6 +38,27 @@ public class UserService {
         return entityToDTO(userRepository.save(userEntity));
     }
 
+    public UserDTO registerAdmin(UserCreateDTO userCreateDTO) throws NegociationRulesException {
+        checkEmailExist(userCreateDTO.getEmail());
+        UserEntity userEntity = createToEntity(userCreateDTO);
+        userEntity.setRole(rolesService.findByRoleName("ROLE_ADMIN"));
+        return entityToDTO(userRepository.save(userEntity));
+    }
+
+    public void changeRole(Integer idUser, UserType userType) throws NegociationRulesException {
+        UserEntity userEntity = findById(idUser);
+        if (userEntity.getRole().equals(UserType.FACILITATOR)) {
+            userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
+            userRepository.save(userEntity);
+        } else if (userEntity.getRole().equals(UserType.MEMBER)) {
+            userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
+            userRepository.save(userEntity);
+        } else {
+            userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
+            userRepository.save(userEntity);
+        }
+    }
+
     public UserLoginReturnDTO login(UserLoginDTO userLoginDTO, String token) throws NegociationRulesException {
         UserEntity userEntity = findByEmail(userLoginDTO.getEmail());
         UserLoginReturnDTO userLoginReturnDTO = new UserLoginReturnDTO();
@@ -69,7 +90,6 @@ public class UserService {
     }
 
     // Util
-
     public Integer getIdLoggedUser() throws NegociationRulesException{
         Object principal = SecurityContextHolder
                 .getContext()
@@ -81,23 +101,22 @@ public class UserService {
             return (Integer) principal;
         }
     }
-
     public Optional<UserEntity> findByEmailOptional(String email) {
         return userRepository.findByEmail(email);
     }
 
     public UserEntity findByEmail(String email) throws NegociationRulesException {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NegociationRulesException("Email is not register"));
+                .orElseThrow(() -> new NegociationRulesException("Email não registrado!"));
     }
 
     public UserEntity findById(Integer idUser) throws NegociationRulesException {
-        return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("User not found!"));
+        return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("Usuário não encontrado!"));
     }
 
     public void checkEmailExist(String email) throws NegociationRulesException {
         if (findByEmailOptional(email).isPresent()) {
-            throw new NegociationRulesException("Email has already been registered!");
+            throw new NegociationRulesException("Email já está sendo utilizado!");
         }
     }
 
