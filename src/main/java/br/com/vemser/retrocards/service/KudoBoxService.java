@@ -43,6 +43,18 @@ public class KudoBoxService {
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
     }
 
+    public KudoBoxDTO updateStatus(Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
+        KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
+
+        if (kudoBoxEntity.getStatus().equals(KudoStatus.CREATE)) {
+            kudoBoxEntity.setTitle(kudoBoxEntity.getTitle());
+            kudoBoxEntity.setStatus(KudoStatus.valueOf(kudoStatus.getStatus()));
+        } else {
+            kudoBoxEntity.setTitle(kudoBoxEntity.getTitle());
+            kudoBoxEntity.setStatus(KudoStatus.valueOf(kudoStatus.getStatus()));
+        }
+        return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
+    }
     public void delete(Integer idKudoBox) throws NegociationRulesException {
         KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
         kudoBoxRepository.delete(kudoBoxEntity);
