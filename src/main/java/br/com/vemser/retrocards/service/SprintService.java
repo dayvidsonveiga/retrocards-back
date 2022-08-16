@@ -1,28 +1,20 @@
 package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintDTO;
-import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
-import br.com.vemser.retrocards.repository.KudoBoxRepository;
-import br.com.vemser.retrocards.repository.KudoCardRepository;
-import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
