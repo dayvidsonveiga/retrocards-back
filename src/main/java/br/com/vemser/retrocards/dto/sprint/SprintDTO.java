@@ -19,6 +19,4 @@ public class SprintDTO {
 
     @Schema(description = "Data de término da sprint.")
     private LocalDateTime endDate;
-
-    //LOCAL DATE TIME
 }

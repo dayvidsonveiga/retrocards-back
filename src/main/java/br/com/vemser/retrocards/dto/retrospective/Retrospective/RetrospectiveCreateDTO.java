@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,7 +23,7 @@ public class RetrospectiveCreateDTO {
     @Schema(description = "Data que ocorreu a retrospectiva.")
     @FutureOrPresent
     @NotNull
-    private LocalDateTime occurredDate;
+    private LocalDate occurredDate;
 
     @Schema(description = "Status da retrospectiva.")
     @Hidden

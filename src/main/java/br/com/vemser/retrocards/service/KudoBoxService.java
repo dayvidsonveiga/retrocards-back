@@ -11,10 +11,13 @@ import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.type.ZonedDateTimeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.*;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,9 +34,13 @@ public class KudoBoxService {
     public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         SprintEntity sprintEntity = sprintService.findById(kudoBoxCreateDTO.getIdSprint());
 
-        kudoBoxCreateDTO.setStatus(KudoStatus.CREATE.name());
-        KudoBoxEntity kudoBoxEntity = createToEntity(kudoBoxCreateDTO);
+        KudoBoxDTO kudoBoxDTO = createToDTO(kudoBoxCreateDTO);
+
+        KudoBoxEntity kudoBoxEntity = dtoToEntity(kudoBoxDTO);
+
         kudoBoxEntity.setSprint(sprintEntity);
+
+        kudoBoxEntity.setStatus(KudoStatus.CREATE);
 
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
     }
@@ -69,9 +76,20 @@ public class KudoBoxService {
         return objectMapper.convertValue(kudoBoxCreateDTO, KudoBoxEntity.class);
     }
 
+    public KudoBoxEntity dtoToEntity(KudoBoxDTO kudoBoxDTO) {
+        return objectMapper.convertValue(kudoBoxDTO, KudoBoxEntity.class);
+    }
+
     public KudoBoxDTO entityToDTO(KudoBoxEntity kudoBoxEntity) {
         KudoBoxDTO kudoBoxDTO = objectMapper.convertValue(kudoBoxEntity, KudoBoxDTO.class);
-        kudoBoxDTO.setSprint(kudoBoxEntity.getSprint().getTitle());
+        return kudoBoxDTO;
+    }
+
+    public KudoBoxDTO createToDTO(KudoBoxCreateDTO kudoBoxCreateDTO) {
+        KudoBoxDTO kudoBoxDTO = new KudoBoxDTO();
+        kudoBoxDTO.setTitle(kudoBoxCreateDTO.getTitle());
+        kudoBoxDTO.setStatus(kudoBoxCreateDTO.getStatus());
+        kudoBoxDTO.setEndDate(kudoBoxCreateDTO.getEndDate().atTime(LocalTime.now()));
         return kudoBoxDTO;
     }
 }
