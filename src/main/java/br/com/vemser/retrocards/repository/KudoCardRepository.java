@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface KudoCardRepository extends JpaRepository<KudoCardEntity, Integer> {
 
     Page<KudoCardEntity> findAllByKudobox_IdKudoBox(Integer idIdKudoBox, Pageable pageable);
+    Page<KudoCardEntity> findAll(Pageable pageable);
 }

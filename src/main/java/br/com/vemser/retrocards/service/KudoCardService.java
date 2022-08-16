@@ -50,6 +50,18 @@ public class KudoCardService {
         }
     }
 
+    public PageDTO<KudoCardDTO> listAll(Integer pagina, Integer registro) throws NegociationRulesException {
+        PageRequest pageRequest = PageRequest.of(pagina, registro);
+        Page<KudoCardEntity> page = kudoCardRepository.findAll(pageRequest);
+        if (!page.isEmpty()) {
+            List<KudoCardDTO> kudoCardDTO = page.getContent().stream()
+                    .map(this::entityToDTO).toList();
+            return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, kudoCardDTO);
+        } else {
+            throw new NegociationRulesException("Não há registros de Kudo Cards para serem listados!");
+        }
+    }
+
     // Util
 
     public KudoCardEntity createToEntity(KudoCardCreateDTO kudoCardCreateDTO) {

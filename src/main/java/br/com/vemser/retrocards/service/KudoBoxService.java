@@ -2,17 +2,12 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
-import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
-import br.com.vemser.retrocards.entity.KudoCardEntity;
-import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
-import br.com.vemser.retrocards.repository.KudoCardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -29,11 +23,10 @@ import java.util.List;
 public class KudoBoxService {
 
     private final KudoBoxRepository kudoBoxRepository;
-    private final SprintService sprintService;
-    private final KudoCardRepository kudoCardRepository;
-    private final ObjectMapper objectMapper;
 
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private final SprintService sprintService;
+
+    private final ObjectMapper objectMapper;
 
     public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         SprintEntity sprintEntity = sprintService.findById(kudoBoxCreateDTO.getIdSprint());
@@ -45,7 +38,7 @@ public class KudoBoxService {
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
     }
 
-    public List<KudoBoxDTO> list() {
+    public List<KudoBoxDTO> listAll() {
         return kudoBoxRepository.findAll().stream()
                 .map(this::entityToDTO)
                 .toList();
@@ -69,7 +62,7 @@ public class KudoBoxService {
 
     public KudoBoxEntity findById(Integer idKudoBox) throws NegociationRulesException {
         return kudoBoxRepository.findById(idKudoBox)
-                .orElseThrow(() -> new NegociationRulesException("Kudobox not found"));
+                .orElseThrow(() -> new NegociationRulesException("Kudobox não encontrada."));
     }
 
     public KudoBoxEntity createToEntity(KudoBoxCreateDTO kudoBoxCreateDTO) {
