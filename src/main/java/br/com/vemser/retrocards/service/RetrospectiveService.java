@@ -29,7 +29,7 @@ public class RetrospectiveService {
     private final SprintService sprintService;
     private final ObjectMapper objectMapper;
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
-    private final EmailService emailService;
+//    private final EmailService emailService;
 
 
     public RetrospectiveDTO create(RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
