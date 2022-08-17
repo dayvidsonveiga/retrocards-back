@@ -1,7 +1,5 @@
 package br.com.vemser.retrocards.controller;
 
-import br.com.vemser.retrocards.documentation.UserDocumentation;
-import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.*;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.enums.UserType;
