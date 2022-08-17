@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Validated
-public class UserController implements UserDocumentation {
+public class UserController {
 
     private final UserService userService;
     private final TokenService tokenService;

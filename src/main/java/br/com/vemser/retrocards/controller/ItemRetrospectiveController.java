@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/itemretrospective")
 @Validated
 @RequiredArgsConstructor
-public class ItemRetrospectiveController implements ItemRetrospectiveDocumentation {
+public class ItemRetrospectiveController {
 
     private final ItemRetrospectiveService itemRetrospectiveService;
 
