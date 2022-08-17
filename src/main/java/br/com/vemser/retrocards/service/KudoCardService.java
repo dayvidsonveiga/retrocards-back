@@ -53,12 +53,8 @@ public class KudoCardService {
         }
     }
 
-    public KudoCardDTO listKudoCardById(Integer idKudoCard) throws NegociationRulesException {
-        return entityToDTO(findById(idKudoCard));
-    }
-
     public PageDTO<KudoCardDTO> listKudoCardByIdKudoBox(Integer idKudoBox, Integer pagina, Integer registro) throws NegociationRulesException {
-        PageRequest pageRequest = PageRequest.of(pagina, registro);
+        PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("createDate").ascending());
         Page<KudoCardEntity> page = kudoCardRepository.findAllByKudobox_IdKudoBox(idKudoBox, pageRequest);
         if (!page.isEmpty()) {
             List<KudoCardDTO> kudoCardDTO = page.getContent().stream()
@@ -68,6 +64,10 @@ public class KudoCardService {
         } else {
             throw new NegociationRulesException("Não foi encontrado nenhum kudo card associado ao kudo box.");
         }
+    }
+
+    public KudoCardDTO listKudoCardById(Integer idKudoCard) throws NegociationRulesException {
+        return entityToDTO(findById(idKudoCard));
     }
 
     public PageDTO<KudoCardDTO> listKudoCardByStartDate(Integer pagina, Integer registro) throws NegociationRulesException {
