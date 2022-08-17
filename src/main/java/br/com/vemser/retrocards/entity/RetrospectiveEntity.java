@@ -41,6 +41,6 @@ public class RetrospectiveEntity {
     private SprintEntity sprint;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "retrospective", cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "retrospective", cascade = CascadeType.ALL)
     private Set<ItemRetrospectiveEntity> items;
 }
