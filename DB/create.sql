@@ -73,6 +73,18 @@ create table item_retrospectivas (
                                      constraint fk_retrospectivas_item_retrospectivas foreign key (id_retrospective) references retrospectivas (id_retrospective)
 );
 
+create table email (
+                       id_email	numeric not null,
+                       receiver	text not null,
+                       subject		text not null,
+                       send_date	timestamp not null,
+                       primary key (id_email)
+);
+
+create sequence seq_email
+    increment 1
+start 1;
+
 create sequence seq_retrospectiva
     increment 1
 start 1;
@@ -107,6 +119,7 @@ start 1;
 
 insert into cargos (id_roles, role_name) values (nextval('seq_cargo'), 'ROLE_FACILITATOR');
 insert into cargos (id_roles, role_name) values (nextval('seq_cargo'), 'ROLE_MEMBER');
+insert into cargos (id_roles, role_name) values (nextval('seq_cargo'), 'ROLE_ADMIN');
 
 insert into usuarios (id_user, id_roles, user_name, email, user_password) values (nextval('seq_usuario'), 1, 'DANYLLO', 'danyllo@gmail.com', '$2a$10$5rMcXmTxuoQibO.RvqX6B.gEV0mxHjoZO8Sqx0JoFuFAddV2fYAX2');
 
