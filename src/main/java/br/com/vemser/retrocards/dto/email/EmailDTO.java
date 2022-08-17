@@ -1,6 +1,7 @@
 package br.com.vemser.retrocards.dto.email;
 
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveEmailDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -30,5 +31,5 @@ public class EmailDTO {
 
     @Schema(description = "Retrospective")
     @NotNull
-    private RetrospectiveDTO retrospectiveDTO;
+    private RetrospectiveEmailDTO retrospectiveEmailDTO;
 }

@@ -2,10 +2,16 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.email.EmailCreateDTO;
 import br.com.vemser.retrocards.dto.email.EmailDTO;
+import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveEmailDTO;
 import br.com.vemser.retrocards.entity.EmailEntity;
+import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
+import br.com.vemser.retrocards.enums.ItemType;
+import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.EmailRepository;
+import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.template.Template;
@@ -18,9 +24,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -40,14 +48,16 @@ public class EmailService {
 
     private final RetrospectiveRepository retrospectiveRepository;
 
+    private final ItemRetrospectiveRepository itemRetrospectiveRepository;
+
     private String message;
 
-    public EmailDTO createEmail(EmailCreateDTO emailCreateDTO, Integer idRetrospective) {
+    public EmailDTO createEmail(EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws MessagingException, TemplateException, IOException {
         EmailEntity emailEntity = createToEntity(emailCreateDTO);
         emailEntity = emailRepository.save(emailEntity);
         EmailDTO emailDTO = entityToDTO(emailEntity);
 
-        emailDTO.setRetrospectiveDTO(retrospectiveEntityToDTO(retrospectiveRepository.findById(idRetrospective).get()));
+        emailDTO.setRetrospectiveEmailDTO(retrospectiveEntityToDTO(retrospectiveRepository.findById(idRetrospective).get()));
         sendEmailFinishedRetrospective(emailDTO);
         return emailDTO;
     }
@@ -55,23 +65,41 @@ public class EmailService {
     //TODO RESOLVER ESTE MÉTODO AINDA!
     public EmailDTO sendEmailFinishedRetrospective(EmailDTO emailDTO) {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
-        try {
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-            mimeMessageHelper.setFrom(from);
-            mimeMessageHelper.setSubject("Relatório de retrospectiva");
-            mimeMessageHelper.setText(getContentFromTemplateRetrospective(emailDTO));
-            emailSender.send(mimeMessageHelper.getMimeMessage());
-        } catch (MessagingException | IOException | TemplateException e) {
-            System.out.println("Erro ao enviar email");
-            message = "Erro ao enviar email para o usuário";
-        }
+
+        List<ItemRetrospectiveDTO> itemsWorked = emailDTO.getRetrospectiveEmailDTO().getItemList().stream()
+                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.WORKED)).toList();
+
+        List<ItemRetrospectiveDTO> itemsImprove = emailDTO.getRetrospectiveEmailDTO().getItemList().stream()
+                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.IMPROVE)).toList();
+
+        List<ItemRetrospectiveDTO> itemsNext = emailDTO.getRetrospectiveEmailDTO().getItemList().stream()
+                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.NEXT)).toList();
+
+        emailDTO.getReceiver().forEach(receiver -> {
+            try {
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+                mimeMessageHelper.setFrom(from);
+                mimeMessageHelper.setSubject(emailDTO.getSubject());
+                mimeMessageHelper.setText(getContentFromTemplateRetrospective(emailDTO, itemsWorked, itemsImprove, itemsNext));
+                mimeMessageHelper.setTo((InternetAddress) emailDTO.getReceiver());
+                emailSender.send(mimeMessageHelper.getMimeMessage());
+            } catch (MessagingException | IOException | TemplateException e) {
+                e.printStackTrace();
+            }
+        });
         return emailDTO;
     }
 
-    public String getContentFromTemplateRetrospective(EmailDTO emailDTO) throws IOException,TemplateException {
+    public String getContentFromTemplateRetrospective(EmailDTO emailDTO,
+                                                      List<ItemRetrospectiveDTO> itemsWorked,
+                                                      List<ItemRetrospectiveDTO> itemsImprove,
+                                                      List<ItemRetrospectiveDTO> itemsNext) throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
         dados.put("nome", emailDTO.getReceiver());
         dados.put("email", from);
+        dados.put("itemsWorked", itemsWorked);
+        dados.put("itemsImprove", itemsImprove);
+        dados.put("itemsNext", itemsNext);
 
         Template template = null;
         template = fmConfiguration.getTemplate("emailFinishedRetrospective-template.ftl");
@@ -87,8 +115,20 @@ public class EmailService {
         return objectMapper.convertValue(emailCreateDTO, EmailEntity.class);
     }
 
-    public RetrospectiveDTO retrospectiveEntityToDTO(RetrospectiveEntity retrospectiveEntity) {
-        return objectMapper.convertValue(retrospectiveEntity, RetrospectiveDTO.class);
+    public RetrospectiveEmailDTO retrospectiveEntityToDTO(RetrospectiveEntity retrospectiveEntity) {
+        RetrospectiveEmailDTO retrospectiveEmailDTO = objectMapper.convertValue(retrospectiveEntity, RetrospectiveEmailDTO.class);
+
+        List<ItemRetrospectiveEntity> listEntiTy = itemRetrospectiveRepository.findAllByRetrospective_IdRetrospective(retrospectiveEmailDTO.getIdRetrospective());
+
+        retrospectiveEmailDTO.setItemList(listEntiTy.stream()
+                .map(this::itemRetrospectiveEntityToDTO)
+                .toList());
+
+        return retrospectiveEmailDTO;
+    }
+
+    public ItemRetrospectiveDTO itemRetrospectiveEntityToDTO(ItemRetrospectiveEntity itemRetrospectiveEntity) {
+        return objectMapper.convertValue(itemRetrospectiveEntity, ItemRetrospectiveDTO.class);
     }
 
     public String getMessage() {
