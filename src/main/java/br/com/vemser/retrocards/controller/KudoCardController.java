@@ -45,6 +45,6 @@ public class KudoCardController implements KudoCardDocumentation {
     @Operation(summary = "List all the kudo cards ordered by start date ascending")
     @GetMapping("/list/start-date")
     public ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardsByStartDate(Integer pagina, Integer registros) throws NegociationRulesException {
-        return new ResponseEntity<>(kudoCardService.listByKudoCardByStartDate(pagina, registros), HttpStatus.OK);
+        return new ResponseEntity<>(kudoCardService.listKudoCardByStartDate(pagina, registros), HttpStatus.OK);
     }
 }

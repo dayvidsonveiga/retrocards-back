@@ -4,10 +4,8 @@ import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
 import br.com.vemser.retrocards.entity.KudoCardEntity;
-import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.KudoCardRepository;
@@ -48,10 +46,10 @@ public class KudoCardService {
             if (kudoCardEntity.getKudobox().getStatus().name() == KudoStatus.IN_PROGRESS.name()) {
                 kudoCardRepository.delete(kudoCardEntity);
             } else {
-                throw new NegociationRulesException("Não é possivel deletar enquanto a kudobox esta em progresso.");
+                throw new NegociationRulesException("Só é possivel deletar quando a kudo box estiver em progresso.");
             }
         } else {
-            throw new NegociationRulesException("Você não é o criador desse kudo car.");
+            throw new NegociationRulesException("Você não é o criador desse kudo card.");
         }
     }
 
@@ -68,7 +66,7 @@ public class KudoCardService {
         }
     }
 
-    public PageDTO<KudoCardDTO> listByKudoCardByStartDate(Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<KudoCardDTO> listKudoCardByStartDate(Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("createDate").ascending());
         Page<KudoCardEntity> page = kudoCardRepository.findAllByCreateDateOrderByCreateDate(pageRequest);
         if (!page.isEmpty()) {

@@ -1,8 +1,8 @@
 package br.com.vemser.retrocards.service;
 
-import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveCreateDTO;
-import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveDTO;
-import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveUpdateDTO;
+import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveCreateDTO;
+import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.enums.ItemType;

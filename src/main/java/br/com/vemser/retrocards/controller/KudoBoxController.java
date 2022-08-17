@@ -3,6 +3,7 @@ package br.com.vemser.retrocards.controller;
 import br.com.vemser.retrocards.documentation.KudoBoxDocumentation;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
 @RequestMapping("/kudobox")
 @Validated
 @RequiredArgsConstructor
-public class KudoBoxController implements KudoBoxDocumentation {
+public class KudoBoxController {
 
     private final KudoBoxService kudoBoxService;
 
@@ -38,7 +39,7 @@ public class KudoBoxController implements KudoBoxDocumentation {
 
     @Operation(summary = "List all the kudo boxes associated with a sprint")
     @GetMapping("/list/sprint/{idSprint}")
-    public ResponseEntity<PageDTO<KudoBoxDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registros) throws NegociationRulesException {
+    public ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registros) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.listKudoBoxByIdSprint(idSprint, pagina, registros), HttpStatus.OK);
     }
 }

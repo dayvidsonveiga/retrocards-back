@@ -2,12 +2,14 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
+import br.com.vemser.retrocards.repository.KudoCardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -28,6 +30,7 @@ public class KudoBoxService {
     private final SprintService sprintService;
 
     private final ObjectMapper objectMapper;
+    private final KudoCardRepository kudoCardRepository;
 
     public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         SprintEntity sprintEntity = sprintService.findById(kudoBoxCreateDTO.getIdSprint());
@@ -56,12 +59,12 @@ public class KudoBoxService {
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
     }
 
-    public PageDTO<KudoBoxDTO> listKudoBoxByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<KudoBoxWithCountOfItensDTO> listKudoBoxByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<KudoBoxEntity> page = kudoBoxRepository.findAllBySprint_IdSprint(idSprint, pageRequest);
         if (!page.isEmpty()) {
-            List<KudoBoxDTO> retrospectiveDTO = page.getContent().stream()
-                    .map(this::entityToDTO)
+            List<KudoBoxWithCountOfItensDTO> retrospectiveDTO = page.getContent().stream()
+                    .map(this::entityToKudoBoxWithCountOfItensDTO)
                     .toList();
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, retrospectiveDTO);
         } else {
@@ -87,6 +90,12 @@ public class KudoBoxService {
     public KudoBoxDTO entityToDTO(KudoBoxEntity kudoBoxEntity) {
         KudoBoxDTO kudoBoxDTO = objectMapper.convertValue(kudoBoxEntity, KudoBoxDTO.class);
         return kudoBoxDTO;
+    }
+
+    public KudoBoxWithCountOfItensDTO entityToKudoBoxWithCountOfItensDTO(KudoBoxEntity kudoBoxEntity) {
+        KudoBoxWithCountOfItensDTO dtoWithCount = objectMapper.convertValue(kudoBoxEntity, KudoBoxWithCountOfItensDTO.class);
+        dtoWithCount.setNumberOfItens(kudoCardRepository.countAllByKudobox_IdKudoBox(dtoWithCount.getIdKudoBox()));
+        return dtoWithCount;
     }
 
     public KudoBoxDTO createToDTO(KudoBoxCreateDTO kudoBoxCreateDTO) {
