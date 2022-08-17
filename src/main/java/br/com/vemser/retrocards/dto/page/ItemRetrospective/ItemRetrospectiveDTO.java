@@ -1,27 +1,24 @@
-package br.com.vemser.retrocards.dto.retrospective.ItemRetrospective;
+package br.com.vemser.retrocards.dto.page.ItemRetrospective;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Data
-public class ItemRetrospectiveCreateDTO {
+public class ItemRetrospectiveDTO {
 
-    @Schema(description = "Id da retrospectiva")
+    @Schema(description = "Id item retrospectiva.")
     @NotNull
-    private Integer idRetrospective;
+    private Integer idItemRetrospective;
 
     @Schema(description = "Tipo do item de avaliação.")
-    @Hidden
+    @NotBlank
     private String type;
 
     @Schema(description = "Título do item.")
     @NotBlank
-    @Size(min = 3, max = 60)
     private String title;
 
     @Schema(description = "Descrição da avaliação.")

@@ -1,9 +1,9 @@
 package br.com.vemser.retrocards.controller;
 
-import br.com.vemser.retrocards.documentation.RetrospectiveDocumentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveCreateDTO;
-import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.RetrospectiveService;
@@ -15,13 +15,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/retrospective")
 @Validated
 @RequiredArgsConstructor
-public class RetrospectiveController implements RetrospectiveDocumentation {
+public class RetrospectiveController {
 
     private final RetrospectiveService retrospectiveService;
 
@@ -38,6 +37,13 @@ public class RetrospectiveController implements RetrospectiveDocumentation {
         return new ResponseEntity<>(retrospectiveService.updateStatus(idRetrospective, status), HttpStatus.OK);
     }
 
+    @Operation(summary = "Remove retrospective")
+    @DeleteMapping("/delete/{idRetrospective}")
+    public ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
+        retrospectiveService.delete(idRetrospective);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @Operation(summary = "List all the data in a retrospective")
     @GetMapping("/list/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
@@ -46,7 +52,7 @@ public class RetrospectiveController implements RetrospectiveDocumentation {
 
     @Operation(summary = "List all retrospectives associated with the sprint")
     @GetMapping("/list/sprint/{idSprint}")
-    public ResponseEntity<PageDTO<RetrospectiveDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
+    public ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.listRetrospectiveByIdSprint(idSprint, pagina, registro), HttpStatus.OK);
     }
 }

@@ -1,21 +1,20 @@
 package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveDTO;
-import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveCreateDTO;
-import br.com.vemser.retrocards.dto.retrospective.Retrospective.RetrospectiveDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -29,6 +28,8 @@ public class RetrospectiveService {
     private final RetrospectiveRepository retrospectiveRepository;
     private final SprintService sprintService;
     private final ObjectMapper objectMapper;
+
+    private final ItemRetrospectiveRepository itemRetrospectiveRepository;
 
 
     public RetrospectiveDTO create(RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
@@ -69,16 +70,21 @@ public class RetrospectiveService {
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
 
+    public void delete(Integer idRetrospective) throws NegociationRulesException {
+        RetrospectiveEntity retrospectiveEntity = findById(idRetrospective);
+        retrospectiveRepository.delete(retrospectiveEntity);
+    }
+
     public RetrospectiveDTO listById(Integer id) throws NegociationRulesException {
         return entityToDTO(findById(id));
     }
 
-    public PageDTO<RetrospectiveDTO> listRetrospectiveByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<RetrospectiveWithCountOfItensDTO> listRetrospectiveByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<RetrospectiveEntity> page = retrospectiveRepository.findAllBySprint_IdSprint(idSprint, pageRequest);
         if (!page.isEmpty()) {
-            List<RetrospectiveDTO> retrospectiveDTO = page.getContent().stream()
-                    .map(this::entityToDTO)
+            List<RetrospectiveWithCountOfItensDTO> retrospectiveDTO = page.getContent().stream()
+                    .map(this::entityToRetrospectiveWithCountOfItensDTO)
                     .toList();
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, retrospectiveDTO);
         } else {
@@ -96,6 +102,12 @@ public class RetrospectiveService {
     public RetrospectiveDTO entityToDTO(RetrospectiveEntity retrospectiveEntity) {
         RetrospectiveDTO retrospectiveDTO = objectMapper.convertValue(retrospectiveEntity, RetrospectiveDTO.class);
         return retrospectiveDTO;
+    }
+
+    public RetrospectiveWithCountOfItensDTO entityToRetrospectiveWithCountOfItensDTO(RetrospectiveEntity retrospectiveEntity) {
+        RetrospectiveWithCountOfItensDTO dtoCount = objectMapper.convertValue(retrospectiveEntity, RetrospectiveWithCountOfItensDTO.class);
+        dtoCount.setNumberOfItens(itemRetrospectiveRepository.countAllByRetrospective_IdRetrospective(dtoCount.getIdRetrospective()));
+        return dtoCount;
     }
 
     public RetrospectiveEntity createToEntity(RetrospectiveCreateDTO retrospectiveCreateDTO) {

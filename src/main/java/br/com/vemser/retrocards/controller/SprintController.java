@@ -4,6 +4,7 @@ import br.com.vemser.retrocards.documentation.SprintDocumentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintDTO;
+import br.com.vemser.retrocards.dto.sprint.SprintWithEndDateDTO;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.SprintService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
 @RequestMapping("/sprint")
 @Validated
 @RequiredArgsConstructor
-public class SprintController implements SprintDocumentation {
+public class SprintController {
 
     private final SprintService sprintService;
 
@@ -31,7 +32,7 @@ public class SprintController implements SprintDocumentation {
 
     @Operation(summary = "List sprint in order of completion")
     @GetMapping("/list")
-    public ResponseEntity<PageDTO<SprintDTO>> listByDateDesc(Integer page, Integer register) throws NegociationRulesException {
+    public ResponseEntity<PageDTO<SprintWithEndDateDTO>> listByDateDesc(Integer page, Integer register) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.listByDateDesc(page, register), HttpStatus.OK);
     }
 }

@@ -16,4 +16,6 @@ public interface KudoCardRepository extends JpaRepository<KudoCardEntity, Intege
             "             FROM kudo_cards k " +
             "         ORDER BY k.createDate ASC")
     Page<KudoCardEntity> findAllByCreateDateOrderByCreateDate(Pageable pageable);
+
+    Integer countAllByKudobox_IdKudoBox(Integer idKudoBox);
 }
