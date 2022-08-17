@@ -70,6 +70,11 @@ public class RetrospectiveService {
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
 
+    public void delete(Integer idRetrospective) throws NegociationRulesException {
+        RetrospectiveEntity retrospectiveEntity = findById(idRetrospective);
+        retrospectiveRepository.delete(retrospectiveEntity);
+    }
+
     public RetrospectiveDTO listById(Integer id) throws NegociationRulesException {
         return entityToDTO(findById(id));
     }

@@ -30,7 +30,7 @@ public class SprintService {
         log.info("Creating a new sprint ...");
 
         if (sprintCreateDTO.getStartDate().isAfter(sprintCreateDTO.getEndDate())) {
-            throw new NegociationRulesException("Data is wrong!");
+            throw new NegociationRulesException("A data final deve ser posterior a data de início.");
         }
 
         SprintDTO sprintDTO = createToDTO(sprintCreateDTO);
