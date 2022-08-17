@@ -26,18 +26,6 @@ public interface UserDocumentation {
     @PostMapping("/create")
     ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "Register new admin")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the successfully created user."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
-            }
-    )
-    @PostMapping("/create-admin")
-    ResponseEntity<UserDTO> createAdmin(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegociationRulesException;
-
     @Operation(summary = "Change role")
     @ApiResponses(
             value = {

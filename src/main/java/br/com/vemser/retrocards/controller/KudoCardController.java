@@ -3,11 +3,7 @@ package br.com.vemser.retrocards.controller;
 import br.com.vemser.retrocards.documentation.KudoCardDocumentation;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
-import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveDTO;
-import br.com.vemser.retrocards.dto.retrospective.ItemRetrospective.ItemRetrospectiveUpdateDTO;
-import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.KudoCardService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,12 +29,6 @@ public class KudoCardController implements KudoCardDocumentation {
         return new ResponseEntity<>(kudoCardService.create(kudoCardCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update retrospective item")
-    @PutMapping("/update/{idKudocard}")
-    public ResponseEntity<KudoCardDTO> update(@PathVariable("idKudocard") Integer idItem, KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException {
-        return new ResponseEntity<>(kudoCardService.update(idItem, kudoCardUpdateDTO), HttpStatus.OK);
-    }
-
     @Operation(summary = "Remove retrospective item")
     @DeleteMapping("/delete/{idKudocard}")
     public ResponseEntity<Void> delete(@PathVariable("idKudocard") Integer idKudocard) throws NegociationRulesException {
@@ -47,7 +37,7 @@ public class KudoCardController implements KudoCardDocumentation {
     }
 
     @Operation(summary = "List all the kudo cards associated with the kudo box")
-    @GetMapping("/list/kudobox/{idKudoBox}")
+    @GetMapping("/list/kudocard/{idKudoBox}")
     public ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardByIdKudoBox(@PathVariable("idKudoBox") Integer idKudoBox, Integer pagina, Integer registros) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.listKudoCardByIdKudoBox(idKudoBox, pagina, registros), HttpStatus.OK);
     }

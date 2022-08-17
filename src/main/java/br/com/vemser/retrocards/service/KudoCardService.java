@@ -42,27 +42,6 @@ public class KudoCardService {
         return entityToDTO(kudoCardRepository.save(kudoCardEntity));
     }
 
-    public KudoCardDTO update(Integer idKudoCard, KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException {
-
-        KudoCardEntity kudoCardEntityRecovered = findById(idKudoCard);
-        KudoCardEntity kudoCardEntityUpdate = updateToEntity(kudoCardUpdateDTO);
-
-        if (kudoCardUpdateDTO.getTitle() == null) {
-            kudoCardEntityUpdate.setTitle(kudoCardEntityRecovered.getTitle());
-        }
-        if (kudoCardUpdateDTO.getSender() == null) {
-            kudoCardEntityUpdate.setSender(kudoCardEntityRecovered.getSender());
-        }
-        if (kudoCardUpdateDTO.getReceiver() == null) {
-            kudoCardEntityUpdate.setReceiver(kudoCardEntityRecovered.getReceiver());
-        }
-
-        kudoCardEntityUpdate.setIdKudoCard(idKudoCard);
-        kudoCardEntityUpdate.setIdCreator(kudoCardEntityRecovered.getIdCreator());
-
-        return entityToDTO(kudoCardRepository.save(kudoCardEntityUpdate));
-    }
-
     public void delete(Integer idKudoCard) throws NegociationRulesException {
         KudoCardEntity kudoCardEntity = findById(idKudoCard);
         if (kudoCardEntity.getIdCreator().equals(userService.getIdLoggedUser())) {

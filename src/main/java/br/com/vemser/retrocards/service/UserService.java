@@ -35,13 +35,6 @@ public class UserService {
         return entityToDTO(userRepository.save(userEntity));
     }
 
-    public UserDTO registerAdmin(UserCreateDTO userCreateDTO) throws NegociationRulesException {
-        checkEmailExist(userCreateDTO.getEmail());
-        UserEntity userEntity = createToEntity(userCreateDTO);
-        userEntity.setRole(rolesService.findByRoleName("ROLE_ADMIN"));
-        return entityToDTO(userRepository.save(userEntity));
-    }
-
     public void changeRole(Integer idUser, UserType userType) throws NegociationRulesException {
         UserEntity userEntity = findById(idUser);
         if (userEntity.getRole().equals(UserType.FACILITATOR)) {
@@ -92,6 +85,7 @@ public class UserService {
     }
 
     // Util
+
     public Integer getIdLoggedUser() throws NegociationRulesException{
         Object principal = SecurityContextHolder
                 .getContext()

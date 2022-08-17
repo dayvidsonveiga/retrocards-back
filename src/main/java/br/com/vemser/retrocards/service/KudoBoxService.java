@@ -55,10 +55,6 @@ public class KudoBoxService {
         }
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
     }
-    public void delete(Integer idKudoBox) throws NegociationRulesException {
-        KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
-        kudoBoxRepository.delete(kudoBoxEntity);
-    }
 
     public PageDTO<KudoBoxDTO> listKudoBoxByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);

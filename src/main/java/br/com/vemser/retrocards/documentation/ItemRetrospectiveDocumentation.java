@@ -77,16 +77,4 @@ public interface ItemRetrospectiveDocumentation {
     )
     @GetMapping("/list/{idItem}")
     ResponseEntity<ItemRetrospectiveDTO> listByIdItem(@PathVariable("idItem") Integer idItem) throws NegociationRulesException;
-
-    @Operation(summary = "List retrospective items associated with the retrospective")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns all Items referring to ID retrospective."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
-            }
-    )
-    @GetMapping("/list/retrospective/{idRetrospective}")
-    ResponseEntity<List<ItemRetrospectiveDTO>> listByIdRetrospective(@PathVariable("idRetrospective") Integer idRetrospective);
 }

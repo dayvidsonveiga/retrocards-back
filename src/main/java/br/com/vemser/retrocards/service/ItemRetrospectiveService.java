@@ -75,13 +75,6 @@ public class ItemRetrospectiveService {
         return entityToDTO(findById(id));
     }
 
-    public List<ItemRetrospectiveDTO> listByIdRetrospective(Integer idRetrospective) {
-        return findByIdRetrospective(idRetrospective).stream()
-                .map(this::entityToDTO)
-                .toList();
-    }
-
-
     // Util
 
     public ItemRetrospectiveEntity findById(Integer idItemRetrospective) throws NegociationRulesException {

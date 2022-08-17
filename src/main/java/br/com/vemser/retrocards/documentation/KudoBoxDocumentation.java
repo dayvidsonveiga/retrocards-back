@@ -27,18 +27,6 @@ public interface KudoBoxDocumentation {
     @PostMapping("/create")
     ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "Delete kudobox")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns all kudoboxes referring to ID sprint."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
-            }
-    )
-    @DeleteMapping("/delete/{idKudoBox}")
-    ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException;
-
     @Operation(summary = "Update status kudobox")
     @ApiResponses(
             value = {

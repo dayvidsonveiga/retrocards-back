@@ -69,18 +69,6 @@ public class RetrospectiveService {
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
 
-    public void delete(Integer idRetrospective) throws NegociationRulesException {
-        RetrospectiveEntity retrospectiveEntity = findById(idRetrospective);
-        retrospectiveRepository.delete(retrospectiveEntity);
-
-    }
-
-    public List<RetrospectiveDTO> listAll() {
-        return retrospectiveRepository.findAll().stream()
-                .map(this::entityToDTO)
-                .toList();
-    }
-
     public RetrospectiveDTO listById(Integer id) throws NegociationRulesException {
         return entityToDTO(findById(id));
     }

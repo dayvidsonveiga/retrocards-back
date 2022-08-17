@@ -30,15 +30,8 @@ public class KudoBoxController implements KudoBoxDocumentation {
         return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Delete kudobox")
-    @DeleteMapping("/delete/{idKudoBox}")
-    public ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException {
-        kudoBoxService.delete(idKudoBox);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @Operation(summary = "Update status kudobox")
-    @PutMapping("/update/{idKudoBox}")
+    @PutMapping("/update-status/{idKudoBox}")
     public ResponseEntity<KudoBoxDTO> updateStatus(@PathVariable("idKudoBox") Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.updateStatus(idKudoBox, kudoStatus), HttpStatus.OK);
     }

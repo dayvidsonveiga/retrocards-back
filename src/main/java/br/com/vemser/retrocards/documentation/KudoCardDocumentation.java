@@ -30,18 +30,6 @@ public interface KudoCardDocumentation {
     @PostMapping("/create")
     ResponseEntity<KudoCardDTO> create(@RequestBody @Valid KudoCardCreateDTO kudoCardCreateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "Update retrospective item")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the successfully created kudocard."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
-            }
-    )
-    @PostMapping("/update/{idKudocard}")
-    ResponseEntity<KudoCardDTO> update(@PathVariable("idKudocard") Integer idItem, KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException;
-
     @Operation(summary = "Remove retrospective item")
     @ApiResponses(
             value = {

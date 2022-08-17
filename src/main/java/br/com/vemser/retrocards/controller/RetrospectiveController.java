@@ -31,30 +31,11 @@ public class RetrospectiveController implements RetrospectiveDocumentation {
         return new ResponseEntity<>(retrospectiveService.create(retrospectiveCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update retrospective")
-    @PutMapping("/update/{idRetrospective}")
-    public ResponseEntity<RetrospectiveDTO> update(@PathVariable("idRetrospective") Integer idRetrospective,
-                                         RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
-        return new ResponseEntity<>(retrospectiveService.update(idRetrospective, retrospectiveCreateDTO), HttpStatus.OK);
-    }
-
     @Operation(summary = "Update retrospective status")
     @PutMapping("/update/{idRetrospective}/status")
     public ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
                                          RetrospectiveStatus status) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.updateStatus(idRetrospective, status), HttpStatus.OK);
-    }
-
-    @Operation(summary = "Remove retrospective and all data")
-    @DeleteMapping("/delete/{idRetrospective}")
-    public void delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
-        retrospectiveService.delete(idRetrospective);
-    }
-
-    @Operation(summary = "List all retrospective")
-    @GetMapping("/list")
-    public ResponseEntity<List<RetrospectiveDTO>> listAll() {
-        return new ResponseEntity<>(retrospectiveService.listAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "List all the data in a retrospective")

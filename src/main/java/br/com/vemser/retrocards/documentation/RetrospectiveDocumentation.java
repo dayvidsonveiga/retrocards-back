@@ -28,19 +28,6 @@ public interface RetrospectiveDocumentation {
     @PostMapping("/create")
     ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "Update retrospective")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the successfully updated retrospective."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
-            }
-    )
-    @PutMapping("/update/{idRetrospective}")
-    ResponseEntity<RetrospectiveDTO> update(@PathVariable("idRetrospective") Integer idRetrospective,
-                                            RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException;
-
     @Operation(summary = "Update retrospective status")
     @ApiResponses(
             value = {
@@ -53,30 +40,6 @@ public interface RetrospectiveDocumentation {
     @PutMapping("/update/{idRetrospective}/status")
     ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
                                                   RetrospectiveStatus status) throws NegociationRulesException;
-
-    @Operation(summary = "Remove retrospective and all data")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Retrospective successfully deleted."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
-            }
-    )
-    @DeleteMapping("/delete/{idRetrospective}")
-    void delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException;
-
-    @Operation(summary = "List all retrospective")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the list of all retrospectives."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
-            }
-    )
-    @GetMapping("/list")
-    ResponseEntity<List<RetrospectiveDTO>> listAll();
 
     @Operation(summary = "List retrospective by id")
     @ApiResponses(
