@@ -53,6 +53,10 @@ public class KudoCardService {
         }
     }
 
+    public KudoCardDTO listKudoCardById(Integer idKudoCard) throws NegociationRulesException {
+        return entityToDTO(findById(idKudoCard));
+    }
+
     public PageDTO<KudoCardDTO> listKudoCardByIdKudoBox(Integer idKudoBox, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<KudoCardEntity> page = kudoCardRepository.findAllByKudobox_IdKudoBox(idKudoBox, pageRequest);

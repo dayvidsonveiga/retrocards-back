@@ -36,6 +36,12 @@ public class KudoCardController implements KudoCardDocumentation {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "List kudo card by ID")
+    @GetMapping("/list/{idKudoCard}")
+    public ResponseEntity<KudoCardDTO> listKudoCardById(@PathVariable("idKudoCard") Integer idKudoCard) throws NegociationRulesException {
+        return new ResponseEntity<>(kudoCardService.listKudoCardById(idKudoCard), HttpStatus.OK);
+    }
+
     @Operation(summary = "List all the kudo cards associated with the kudo box")
     @GetMapping("/list/kudocard/{idKudoBox}")
     public ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardByIdKudoBox(@PathVariable("idKudoBox") Integer idKudoBox, Integer pagina, Integer registros) throws NegociationRulesException {
