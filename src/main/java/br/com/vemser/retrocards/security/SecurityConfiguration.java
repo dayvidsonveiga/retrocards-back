@@ -30,7 +30,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authz) ->
                         authz.antMatchers("/", "/user/list", "/user/get-logged", "/user/login", "/user/create", "/user/list-name-email/{idUser}").permitAll()
                                 .antMatchers("/user/change-role/{idUser}").hasRole("ADMIN")
-                                .antMatchers("/user/create-admin").hasRole("ADMIN")
                                 .antMatchers("/user/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
