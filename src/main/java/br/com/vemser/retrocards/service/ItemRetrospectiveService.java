@@ -58,7 +58,7 @@ public class ItemRetrospectiveService {
 
     public void delete(Integer idItemRetrospective) throws NegociationRulesException {
         ItemRetrospectiveEntity itemEntity = findById(idItemRetrospective);
-        if (itemEntity.getRetrospective().getStatus().name().equals(RetrospectiveStatus.IN_PROGRESS.name())) {
+        if (itemEntity.getRetrospective().getStatus() == (RetrospectiveStatus.IN_PROGRESS)) {
             itemRetrospectiveRepository.delete(itemEntity);
         } else {
             throw new NegociationRulesException("Você só pode remover um item de retrospectiva se a mesma estiver em progresso.");
@@ -79,7 +79,7 @@ public class ItemRetrospectiveService {
 
     public ItemRetrospectiveEntity findById(Integer idItemRetrospective) throws NegociationRulesException {
         return itemRetrospectiveRepository.findById(idItemRetrospective)
-                .orElseThrow(() -> new NegociationRulesException("Item retrospective not found"));
+                .orElseThrow(() -> new NegociationRulesException("Item de retrospectiva não encontrado."));
     }
 
     public List<ItemRetrospectiveEntity> findByIdRetrospective(Integer idRetrospective) {
