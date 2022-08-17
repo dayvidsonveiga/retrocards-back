@@ -185,3 +185,12 @@ public KudoCardDTO update(Integer idKudoCard, KudoCardUpdateDTO kudoCardUpdateDT
                 .map(this::entityToDTO)
                 .toList();
     }
+
+    public RetrospectiveDTO update(Integer id, RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
+        listById(id);
+
+        RetrospectiveEntity retrospectiveEntity = createToEntity(retrospectiveCreateDTO);
+        retrospectiveEntity.setIdRetrospective(id);
+
+        return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
+    }

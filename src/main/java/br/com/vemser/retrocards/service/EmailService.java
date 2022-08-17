@@ -1,6 +1,7 @@
 //package br.com.vemser.retrocards.service;
 //
 //import br.com.vemser.retrocards.dto.user.UserDTO;
+//import br.com.vemser.retrocards.dto.user.UserNameEmailDTO;
 //import freemarker.template.Template;
 //import freemarker.template.TemplateException;
 //import lombok.RequiredArgsConstructor;
@@ -29,14 +30,14 @@
 //
 //    private String message;
 //
-//    public void sendEmailFinishedRetrospective(UserDTO userDTO) {
+//    public void sendEmailFinishedRetrospective(UserNameEmailDTO userNameEmailDTO) {
 //        MimeMessage mimeMessage = emailSender.createMimeMessage();
 //        try {
 //            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 //            mimeMessageHelper.setFrom(from);
-//            mimeMessageHelper.setTo(userDTO.getEmail());
+//            mimeMessageHelper.setTo(userNameEmailDTO.getEmail());
 //            mimeMessageHelper.setSubject("Retrospectiva concluída com sucesso");
-//            mimeMessageHelper.setText(getContentFromTemplateRetrospective(userDTO));
+//            mimeMessageHelper.setText(getContentFromTemplateRetrospective(userNameEmailDTO));
 //            emailSender.send(mimeMessageHelper.getMimeMessage());
 //        } catch (MessagingException | IOException | TemplateException e) {
 //            System.out.println("Erro ao enviar email");
@@ -44,9 +45,9 @@
 //        }
 //    }
 //
-//    public String getContentFromTemplateRetrospective(UserDTO userDTO) throws IOException,TemplateException {
+//    public String getContentFromTemplateRetrospective(UserNameEmailDTO userNameEmailDTO) throws IOException,TemplateException {
 //        Map<String, Object> dados = new HashMap<>();
-//        dados.put("nome", userDTO.getName());
+//        dados.put("nome", userNameEmailDTO.getName());
 //        dados.put("email", from);
 //
 //        Template template = null;

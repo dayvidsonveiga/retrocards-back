@@ -84,5 +84,5 @@ public interface UserDocumentation {
             }
     )
     @GetMapping("/list-name-email/{idUser}")
-    ResponseEntity<UserNomeEmailDTO> findUserWithNameAndEmail(@PathVariable("idUser") Integer idUser) throws NegociationRulesException;
+    ResponseEntity<UserNameEmailDTO> findUserWithNameAndEmail(@PathVariable("idUser") Integer idUser) throws NegociationRulesException;
 }

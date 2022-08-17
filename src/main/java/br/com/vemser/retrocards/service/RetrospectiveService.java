@@ -29,6 +29,7 @@ public class RetrospectiveService {
     private final SprintService sprintService;
     private final ObjectMapper objectMapper;
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
+
 //    private final EmailService emailService;
 
 
@@ -42,16 +43,6 @@ public class RetrospectiveService {
         retrospectiveEntity.setSprint(sprintEntity);
 
         retrospectiveEntity.setStatus(RetrospectiveStatus.CREATE);
-
-        return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
-    }
-
-    //TODO VERIFICAR POSSIBILIDADE DE REMOÇÃO DESSE UPDATE
-    public RetrospectiveDTO update(Integer id, RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
-        listById(id);
-
-        RetrospectiveEntity retrospectiveEntity = createToEntity(retrospectiveCreateDTO);
-        retrospectiveEntity.setIdRetrospective(id);
 
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }

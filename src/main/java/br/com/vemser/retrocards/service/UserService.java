@@ -62,7 +62,7 @@ public class UserService {
         return userDTO;
     }
 
-    public List<UserNomeEmailDTO> listUsersWithNameAndEmail() throws NegociationRulesException {
+    public List<UserNameEmailDTO> listUsersWithNameAndEmail() throws NegociationRulesException {
         if (!userRepository.findAll().isEmpty()) {
             return userRepository.findAll().stream()
                     .map(this::entityToNomeEmailDTO).toList();
@@ -124,8 +124,8 @@ public class UserService {
         return usuarioEntity;
     }
 
-    public UserNomeEmailDTO entityToNomeEmailDTO(UserEntity userEntity) {
-        UserNomeEmailDTO userNomeEmailDTO = objectMapper.convertValue(userEntity, UserNomeEmailDTO.class);
-        return userNomeEmailDTO;
+    public UserNameEmailDTO entityToNomeEmailDTO(UserEntity userEntity) {
+        UserNameEmailDTO userNameEmailDTO = objectMapper.convertValue(userEntity, UserNameEmailDTO.class);
+        return userNameEmailDTO;
     }
 }

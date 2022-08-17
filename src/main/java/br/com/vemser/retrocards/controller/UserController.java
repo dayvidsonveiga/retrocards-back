@@ -29,6 +29,17 @@ public class UserController {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
 
+    @Operation(summary = "Get data from the logged on user")
+    @GetMapping("/get-logged")
+    public ResponseEntity<UserDTO> getLoggedUser() throws NegociationRulesException {
+        return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "List all users with name and email")
+    @GetMapping("/list-name-email")
+    public ResponseEntity<List<UserNameEmailDTO>> listAllUsersWithNameAndEmail() throws NegociationRulesException {
+        return new ResponseEntity<>(userService.listUsersWithNameAndEmail(), HttpStatus.OK);
+    }
 
     @Operation(summary = "Register new user")
     @PostMapping("/create")
@@ -50,7 +61,7 @@ public class UserController {
             String token = tokenService.getToken((UserEntity) authentication.getPrincipal());
             return new ResponseEntity<>(userService.login(userLoginDTO, token), HttpStatus.OK);
         } else {
-            throw new NegociationRulesException("Email or password incorrect");
+            throw new NegociationRulesException("Email ou senha inválidos.");
         }
     }
 
@@ -59,17 +70,5 @@ public class UserController {
     public ResponseEntity<Void> changeRole(@PathVariable("idUser") Integer idUser, UserType userType) throws NegociationRulesException {
         userService.changeRole(idUser, userType);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Operation(summary = "Get data from the logged on user")
-    @GetMapping("/get-logged")
-    public ResponseEntity<UserDTO> getLoggedUser() throws NegociationRulesException {
-        return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
-    }
-
-    @Operation(summary = "List user by id with name and email")
-    @GetMapping("/list-name-email")
-    public ResponseEntity<List<UserNomeEmailDTO>> listAllUsersWithNameAndEmail() throws NegociationRulesException {
-        return new ResponseEntity<>(userService.listUsersWithNameAndEmail(), HttpStatus.OK);
     }
 }
