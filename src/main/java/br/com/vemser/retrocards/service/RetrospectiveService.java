@@ -28,8 +28,8 @@ public class RetrospectiveService {
     private final RetrospectiveRepository retrospectiveRepository;
     private final SprintService sprintService;
     private final ObjectMapper objectMapper;
-
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
+//    private final EmailService emailService;
 
 
     public RetrospectiveDTO create(RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
@@ -46,6 +46,7 @@ public class RetrospectiveService {
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
 
+    //TODO VERIFICAR POSSIBILIDADE DE REMOÇÃO DESSE UPDATE
     public RetrospectiveDTO update(Integer id, RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
         listById(id);
 
@@ -60,13 +61,13 @@ public class RetrospectiveService {
         SprintEntity sprintEntity = retrospectiveEntity.getSprint();
 
         if (retrospectiveStatus.name() == RetrospectiveStatus.IN_PROGRESS.name()) {
-            if (sprintEntity.getRetrospectives().stream().anyMatch(retrospective -> retrospective.getStatus().name() == RetrospectiveStatus.IN_PROGRESS.name())){
+            if (sprintEntity.getRetrospectives().stream()
+                    .anyMatch(retrospective -> retrospective.getStatus().name() == RetrospectiveStatus.IN_PROGRESS.name())){
                 throw new NegociationRulesException("Não é possivel atualizar status em uma sprint em progresso!");
             }
         }
 
         retrospectiveEntity.setStatus(retrospectiveStatus);
-
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
 

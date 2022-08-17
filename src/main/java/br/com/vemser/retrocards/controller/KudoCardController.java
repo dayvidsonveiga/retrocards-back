@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/kudocard")
 @Validated
 @RequiredArgsConstructor
-public class KudoCardController implements KudoCardDocumentation {
+public class KudoCardController {
 
     private final KudoCardService kudoCardService;
 
@@ -29,7 +29,7 @@ public class KudoCardController implements KudoCardDocumentation {
         return new ResponseEntity<>(kudoCardService.create(kudoCardCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Remove retrospective item")
+    @Operation(summary = "Remove kudo card")
     @DeleteMapping("/delete/{idKudocard}")
     public ResponseEntity<Void> delete(@PathVariable("idKudocard") Integer idKudocard) throws NegociationRulesException {
         kudoCardService.delete(idKudocard);
@@ -43,13 +43,13 @@ public class KudoCardController implements KudoCardDocumentation {
     }
 
     @Operation(summary = "List all the kudo cards associated with the kudo box")
-    @GetMapping("/list/kudocard/{idKudoBox}")
+    @GetMapping("/list/kudocards/{idKudoBox}")
     public ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardByIdKudoBox(@PathVariable("idKudoBox") Integer idKudoBox, Integer pagina, Integer registros) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.listKudoCardByIdKudoBox(idKudoBox, pagina, registros), HttpStatus.OK);
     }
 
     @Operation(summary = "List all the kudo cards ordered by start date ascending")
-    @GetMapping("/list/start-date")
+    @GetMapping("/list/kudocards/start-date")
     public ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardsByStartDate(Integer pagina, Integer registros) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.listKudoCardByStartDate(pagina, registros), HttpStatus.OK);
     }
