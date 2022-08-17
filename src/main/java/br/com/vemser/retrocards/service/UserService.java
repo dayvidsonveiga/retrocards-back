@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.service;
 
+import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.*;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.enums.UserType;
@@ -8,6 +9,8 @@ import br.com.vemser.retrocards.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -68,6 +71,19 @@ public class UserService {
                     .map(this::entityToNomeEmailDTO).toList();
         } else {
             throw new NegociationRulesException("Não há usuários a serem listados!");
+        }
+    }
+
+    public PageDTO<UserDTO> listAll(Integer pagina, Integer registro) throws NegociationRulesException {
+        PageRequest pageRequest = PageRequest.of(pagina, registro);
+        Page<UserEntity> page = userRepository.findAll(pageRequest);
+        if (!page.isEmpty()) {
+            List<UserDTO> userDTOS = page.getContent().stream()
+                    .map(this::entityToDTO)
+                    .toList();
+            return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, userDTOS);
+        } else {
+            throw new NegociationRulesException("Não foi encontrado nenhum kudo card associado ao kudo box.");
         }
     }
 

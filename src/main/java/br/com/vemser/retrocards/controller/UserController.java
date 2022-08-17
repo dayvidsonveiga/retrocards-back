@@ -15,12 +15,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Validated
-public class UserController implements UserDocumentation {
+public class UserController {
 
     private final UserService userService;
     private final LogginService logginService;
@@ -58,8 +59,8 @@ public class UserController implements UserDocumentation {
     }
 
     @Operation(summary = "List user by id with name and email")
-    @GetMapping("/list-name-email/{idUser}")
-    public ResponseEntity<UserNomeEmailDTO> findUserWithNameAndEmail(@PathVariable("idUser") Integer idUser) throws NegociationRulesException {
-        return new ResponseEntity<>(userService.findUserWithNameAndEmail(idUser), HttpStatus.OK);
+    @GetMapping("/list-name-email")
+    public ResponseEntity<List<UserNameEmailDTO>> findUserWithNameAndEmail() throws NegociationRulesException {
+        return new ResponseEntity<>(userService.listUsersWithNameAndEmail(), HttpStatus.OK);
     }
 }
