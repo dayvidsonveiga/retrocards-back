@@ -1,10 +1,7 @@
 package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.user.UserCreateDTO;
-import br.com.vemser.retrocards.dto.user.UserDTO;
-import br.com.vemser.retrocards.dto.user.UserLoginDTO;
-import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
+import br.com.vemser.retrocards.dto.user.*;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.enums.UserType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
@@ -89,6 +86,11 @@ public class UserService {
         }
     }
 
+    public UserNomeEmailDTO findUserWithNameAndEmail(Integer idUser) throws NegociationRulesException {
+        UserEntity userEntity = findById(idUser);
+        return entityToNomeEmailDTO(userEntity);
+    }
+
     // Util
     public Integer getIdLoggedUser() throws NegociationRulesException{
         Object principal = SecurityContextHolder
@@ -138,5 +140,10 @@ public class UserService {
         UserEntity usuarioEntity = objectMapper.convertValue(userCreateDTO, UserEntity.class);
         usuarioEntity.setPass(passwordEncoder.encode(userCreateDTO.getPassword()));
         return usuarioEntity;
+    }
+
+    public UserNomeEmailDTO entityToNomeEmailDTO(UserEntity userEntity) {
+        UserNomeEmailDTO userNomeEmailDTO = objectMapper.convertValue(userEntity, UserNomeEmailDTO.class);
+        return userNomeEmailDTO;
     }
 }

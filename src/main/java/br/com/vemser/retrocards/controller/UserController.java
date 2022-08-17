@@ -2,10 +2,7 @@ package br.com.vemser.retrocards.controller;
 
 import br.com.vemser.retrocards.documentation.UserDocumentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.user.UserCreateDTO;
-import br.com.vemser.retrocards.dto.user.UserDTO;
-import br.com.vemser.retrocards.dto.user.UserLoginDTO;
-import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
+import br.com.vemser.retrocards.dto.user.*;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.enums.UserType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
@@ -81,5 +78,11 @@ public class UserController implements UserDocumentation {
     @GetMapping("/list")
     public ResponseEntity<PageDTO<UserDTO>> listAll(Integer pagina, Integer registros) throws NegociationRulesException {
         return new ResponseEntity<>(userService.listAll(pagina, registros), HttpStatus.OK);
+    }
+
+    @Operation(summary = "List user by id with name and email")
+    @GetMapping("/list-name-email/{idUser}")
+    public ResponseEntity<UserNomeEmailDTO> findUserWithNameAndEmail(@PathVariable("idUser") Integer idUser) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.findUserWithNameAndEmail(idUser), HttpStatus.OK);
     }
 }
