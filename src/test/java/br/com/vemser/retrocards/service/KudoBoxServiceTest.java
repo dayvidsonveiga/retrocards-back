@@ -4,8 +4,6 @@ import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintWithEndDateDTO;
 import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
