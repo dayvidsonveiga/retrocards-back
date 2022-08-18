@@ -4,94 +4,78 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Recebemos seu pedido</title>
+    <title>Retrospectiva</title>
     <style>
         * {
-            margin: 0 0 10px;
+            margin: 0;
             padding: 0;
             border: 0 none;
         }
 
         html {
-            font-size: 62.5%;
+            font-size: 100%;
         }
 
-        img {
-            max-width: 100%;
-            height: auto;
+        span, p {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            width: 100%;
+            text-align: center;
+        }
+
+        ul li {
+            width: 100%;
+            list-style: none;
+            padding: 10px;
         }
 
         @media (max-width: 600px) {
-            table {
-                width: 100% !important;
-                min-width: 320px;
-            }
 
             h1 {
-                font-size: 1 . rem;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
-<body style="background-color:  #fffff">
+<body style="background-color:#fff">
 
 
-<table style="background:#fffff; width: 600px; margin: 20px auto; font-family: Verdana, sans-serif;">
-    <tr>
-        <td style="width: 10px;"></td>
-        <td>
-            <img style="border-radius: 0%; width:100%; display: block; margin: 20px auto;"
-                 src="https://i.imgur.com/kAky3Cs.png" alt=""></a>
-        </td>
-        <td style="width: 10px;"></td>
-    </tr>
-    <tr>
-        <td style="width: 10px;"></td>
-        <td>
-            <div style="padding: 20px;">
+<a href="https://retrocards-front.vercel.app/" target="_blank">
+    <img style="width:300px; display: block; margin: 20px auto;" src="https://github.com/dayvidsonveiga/retrocards-back/blob/develop/src/main/resources/templates/banner.png?raw=true" alt="">
+</a>
 
-                <h1 style="color: #98519b">Olá </h1>
-                <h5><i> <b><p style="color: #000000;"> A Retrospectiva de id: ${id} com titulo: ${title} foi concluída!
-                                Veja os itens apontados pelo time:
-                                <br> O que funcionou bem?
-                            <ul>
-                                <#list itemsWorked as item>
-                                    <li>${item.idItemRetrospective}.${item.title} from ${item.description}</li>
-                                </#list>
-                            </ul>
-                            .<br>O que pode ser melhorado?
-                            <ul>
-                                <#list itemsImprove as item>
-                                    <li>${item.idItemRetrospective}.${item.title} from ${item.description}</li>
-                                </#list>
-                            </ul>
-                            <br>O que faremos no próximo sprint para melhorar?
-                            <ul>
-                                <#list itemsNext as item>
-                                    <li>${item.idItemRetrospective}.${item.title} from ${item.description}</li>
-                                </#list>
-                            </ul>
-                        </b> </i> </p></h5>
-                <br>
-
-
-            </div>
-        </td>
-        <td style="width: 10px;"></td>
-    </tr>
-    <tr>
-    <tr>
-
-    <tr>
-        <td colspan="3">
-                <span style="background-color: #98519b; display: block; padding: 10px 5px 7px; margin: 0 auto;  width: 300px; height: 30px; text-align: center;  margin-bottom: 30px;  border-style: dashed;  color: #fff;">
-                <a style="font-size: 15px; text-decoration: none; color: #fff;"
-                   href="https://milled.com/brazil-empiricus-cpl/acabaram-as-newsletters-0mx4ioTVyg4xnFse">Clique aqui para abri-la </a></span>
-        </td>
-    </tr>
-
-
-</table>
-
+<div style="padding: 20px; display: flex; flex-direction: column; align-items: center;">
+    <span style="color: #5454fb;font-weight: 700;">Olá,</span>
+    <span>A Retrospectiva de id: ${id} com titulo: ${title} foi concluída!</span>
+    <span>Veja os itens apontados pelo time:</span>
+    <p style="font-weight: 600;">O que funcionou bem?</p>
+    <ul>
+        <#list itemsWorked as item>
+        <li>${item.idItemRetrospective} - ${item.title} - ${item.description}</li>
+        </#list>
+    </ul>
+    <p style="font-weight: 600;">O que pode ser melhorado?</p>
+    <ul>
+        <#list itemsImprove as item>
+        <li>${item.idItemRetrospective} - ${item.title} - ${item.description}</li>
+        </#list>
+    </ul>
+    <p style="font-weight: 600;">O que faremos no próximo sprint para melhorar?</p>
+    <ul>
+        <#list itemsNext as item>
+        <li>${item.idItemRetrospective} - ${item.title} - ${item.description}</li>
+        </#list>
+    </ul>
+</div>
+<div style="display: flex; justify-content:center">
+    <a style="font-size: 15px; text-decoration: none; color: #fff; background-color: #12101a; display: flex; justify-content:center;align-items: center; width: 300px; height: 30px; border-radius: 5px"
+       href="https://retrocards-front.vercel.app/retrospectiva/5" target="_blank">
+        Clique aqui para abri-la
+    </a>
+</div>
 </body>
 </html>
