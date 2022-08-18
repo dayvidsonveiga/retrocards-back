@@ -67,9 +67,9 @@ public class RetrospectiveService {
         retrospectiveRepository.delete(retrospectiveEntity);
     }
 
-    public RetrospectiveDTO listById(Integer id) throws NegociationRulesException {
-        return entityToDTO(findById(id));
-    }
+//    public RetrospectiveDTO listById(Integer id) throws NegociationRulesException {
+//        return entityToDTO(findById(id));
+//    }
 
     public PageDTO<RetrospectiveWithCountOfItensDTO> listRetrospectiveByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
@@ -102,9 +102,9 @@ public class RetrospectiveService {
         return dtoCount;
     }
 
-    public RetrospectiveEntity createToEntity(RetrospectiveCreateDTO retrospectiveCreateDTO) {
-        return objectMapper.convertValue(retrospectiveCreateDTO, RetrospectiveEntity.class);
-    }
+//    public RetrospectiveEntity createToEntity(RetrospectiveCreateDTO retrospectiveCreateDTO) {
+//        return objectMapper.convertValue(retrospectiveCreateDTO, RetrospectiveEntity.class);
+//    }
 
     public RetrospectiveEntity dtoToEntity(RetrospectiveDTO retrospectiveDTO) {
         return objectMapper.convertValue(retrospectiveDTO, RetrospectiveEntity.class);
