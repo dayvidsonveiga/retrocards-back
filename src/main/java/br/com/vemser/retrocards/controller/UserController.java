@@ -41,9 +41,8 @@ public class UserController {
 
     @Operation(summary = "Change role")
     @PutMapping("/change-role/{idUser}")
-    public ResponseEntity<Void> changeRole(@PathVariable("idUser") Integer idUser, UserType userType) throws NegociationRulesException {
-        userService.changeRole(idUser, userType);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<UserDTO> changeRole(@PathVariable("idUser") Integer idUser, UserType userType) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.changeRole(idUser, userType), HttpStatus.OK);
     }
 
     @Operation(summary = "Get data from the logged on user")
