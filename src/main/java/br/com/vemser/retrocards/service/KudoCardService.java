@@ -37,6 +37,12 @@ public class KudoCardService {
         kudoCardEntity.setCreateDate(LocalDateTime.now());
         kudoCardEntity.setIdCreator(userService.getIdLoggedUser());
 
+        if (kudoCardCreateDTO.getAnonymous() == true) {
+            kudoCardEntity.setSender("Anônimo");
+        } else {
+            kudoCardEntity.setSender(userService.getLoggedUser().getName());
+        }
+
         return entityToDTO(kudoCardRepository.save(kudoCardEntity));
     }
 
