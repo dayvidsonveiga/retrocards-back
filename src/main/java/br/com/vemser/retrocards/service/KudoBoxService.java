@@ -79,10 +79,6 @@ public class KudoBoxService {
                 .orElseThrow(() -> new NegociationRulesException("Kudobox não encontrada."));
     }
 
-    public KudoBoxEntity createToEntity(KudoBoxCreateDTO kudoBoxCreateDTO) {
-        return objectMapper.convertValue(kudoBoxCreateDTO, KudoBoxEntity.class);
-    }
-
     public KudoBoxEntity dtoToEntity(KudoBoxDTO kudoBoxDTO) {
         return objectMapper.convertValue(kudoBoxDTO, KudoBoxEntity.class);
     }
