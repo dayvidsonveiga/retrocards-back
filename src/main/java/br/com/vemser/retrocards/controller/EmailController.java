@@ -27,7 +27,7 @@ public class EmailController {
 
     @Operation(summary = "Send email for users")
     @PostMapping
-    public ResponseEntity<EmailDTO> sendEmailForAllUsers(@RequestBody @Valid EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws MessagingException, TemplateException, IOException {
+    public ResponseEntity<String> sendEmailForAllUsers(@RequestBody @Valid EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws MessagingException, TemplateException, IOException, NegociationRulesException {
         return new ResponseEntity<>(emailService.createEmail(emailCreateDTO, idRetrospective), HttpStatus.OK);
     }
 }

@@ -10,7 +10,6 @@ import java.util.List;
 public class EmailCreateDTO {
 
     @Schema(description = "Receiver")
-    @NotBlank
     private List<String> receiver;
 
     @Schema(description = "Subject")

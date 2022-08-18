@@ -19,7 +19,7 @@ public class EmailDTO {
 
     @Schema(description = "Receiver")
     @NotBlank
-    private List<String> receiver;
+    private String receiver;
 
     @Schema(description = "Subject")
     @NotBlank
