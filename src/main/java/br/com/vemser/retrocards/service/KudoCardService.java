@@ -72,23 +72,6 @@ public class KudoCardService {
         }
     }
 
-    public KudoCardDTO listKudoCardById(Integer idKudoCard) throws NegociationRulesException {
-        return entityToDTO(findById(idKudoCard));
-    }
-
-    public PageDTO<KudoCardDTO> listKudoCardByStartDate(Integer pagina, Integer registro) throws NegociationRulesException {
-        PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("createDate").ascending());
-        Page<KudoCardEntity> page = kudoCardRepository.findAllByCreateDateOrderByCreateDate(pageRequest);
-        if (!page.isEmpty()) {
-            List<KudoCardDTO> kudoCardDTO = page.getContent().stream()
-                    .map(this::entityToDTO)
-                    .toList();
-            return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, kudoCardDTO);
-        } else {
-            throw new NegociationRulesException("Não foi possível realizar a listagem dos kudo cards.");
-        }
-    }
-
     // Util
 
     public KudoCardEntity findById(Integer idKudoCar) throws NegociationRulesException {
@@ -105,7 +88,7 @@ public class KudoCardService {
         return kudoCardDTO;
     }
 
-    public KudoCardEntity updateToEntity(KudoCardUpdateDTO kudoCardUpdateDTO) {
-        return objectMapper.convertValue(kudoCardUpdateDTO, KudoCardEntity.class);
-    }
+//    public KudoCardEntity updateToEntity(KudoCardUpdateDTO kudoCardUpdateDTO) {
+//        return objectMapper.convertValue(kudoCardUpdateDTO, KudoCardEntity.class);
+//    }
 }

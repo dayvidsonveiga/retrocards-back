@@ -2,15 +2,14 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
-import br.com.vemser.retrocards.entity.RetrospectiveEntity;
-import br.com.vemser.retrocards.entity.RolesEntity;
-import br.com.vemser.retrocards.entity.SprintEntity;
-import br.com.vemser.retrocards.entity.UserEntity;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
+import br.com.vemser.retrocards.dto.page.PageDTO;
+import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
+import br.com.vemser.retrocards.repository.KudoCardRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,10 +21,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,6 +49,9 @@ public class KudoBoxServiceTest {
     private KudoBoxRepository kudoBoxRepository;
 
     @Mock
+    private KudoCardRepository kudoCardRepository;
+
+    @Mock
     private SprintRepository sprintRepository;
 
     @Mock
@@ -62,17 +69,82 @@ public class KudoBoxServiceTest {
     }
 
     @Test
-    public void sholdTestCreateKudoBoxWithSuccess() throws NegociationRulesException {
+    public void shouldTestCreateKudoBoxWithSuccess() throws NegociationRulesException {
         KudoBoxCreateDTO kudoBoxCreateDTO = getKudoBoxCreateDTO();
-        SprintEntity sprintEntity = getSprintEntity();
+        KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
 
-        when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprintEntity));
+        when(kudoBoxRepository.save(any(KudoBoxEntity.class))).thenReturn(kudoBoxEntity);
+
+        KudoBoxDTO kudoBoxDTO = kudoBoxService.create(kudoBoxCreateDTO);
+
+        assertNotNull(kudoBoxDTO);
+        assertEquals(kudoBoxEntity.getIdKudoBox(), kudoBoxDTO.getIdKudoBox());
+        assertEquals(kudoBoxEntity.getStatus().name(), kudoBoxDTO.getStatus());
+        assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
+        assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
+    }
+
+    @Test
+    public void shouldTestListKudoBoxByIdSprintWithSuccess() throws NegociationRulesException {
+        Integer pageNumber = 0;
+        Integer registerNumber = 10;
+        List<KudoBoxEntity> listKudoBox = List.of(getKudoBoxEntity());
+        Page<KudoBoxEntity> dtoPage = new PageImpl<>(listKudoBox);
+
+        when(kudoBoxRepository.findAllBySprint_IdSprint(anyInt(), any(Pageable.class))).thenReturn(dtoPage);
+        when(kudoCardRepository.countAllByKudobox_IdKudoBox(anyInt())).thenReturn(1);
+
+        PageDTO<KudoBoxWithCountOfItensDTO> kudoBoxDTO = kudoBoxService.listKudoBoxByIdSprint(1, pageNumber, registerNumber);
+
+        //asserts
+        assertNotNull(kudoBoxDTO);
+        assertEquals(1, kudoBoxDTO.getTotalElements().intValue());
+        assertEquals(1, kudoBoxDTO.getTotalPages().intValue());
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestListKudoBoxByIdSprintWithoutSuccess() throws NegociationRulesException {
+        Integer pageNumber = 0;
+        Integer registerNumber = 10;
+        List<KudoBoxEntity> listKudoBox = new ArrayList<>();
+        Page<KudoBoxEntity> dtoPage = new PageImpl<>(listKudoBox);
+
+        when(kudoBoxRepository.findAllBySprint_IdSprint(anyInt(), any(Pageable.class))).thenReturn(dtoPage);
+
+        kudoBoxService.listKudoBoxByIdSprint(1, pageNumber, registerNumber);
+    }
+
+    @Test
+    public void shouldTestFindByIdWithSuccess() throws NegociationRulesException {
+        KudoBoxEntity kudoBox = getKudoBoxEntity();
+
+        when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBox));
+
+        KudoBoxEntity kudoBoxEntity = kudoBoxService.findById(1);
+
+        assertNotNull(kudoBoxEntity);
+        assertEquals(kudoBox.getIdKudoBox(), kudoBoxEntity.getIdKudoBox());
+        assertEquals(kudoBox.getTitle(), kudoBoxEntity.getTitle());
+        assertEquals(kudoBox.getStatus(), kudoBoxEntity.getStatus());
+        assertEquals(kudoBox.getEndDate(), kudoBoxEntity.getEndDate());
+        assertEquals(kudoBox.getSprint(), kudoBoxEntity.getSprint());
+    }
+
+    private static KudoBoxEntity getKudoBoxEntity() {
+        KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
+        kudoBoxEntity.setIdKudoBox(1);
+        kudoBoxEntity.setSprint(getSprintEntity());
+        kudoBoxEntity.setStatus(KudoStatus.CREATE);
+        kudoBoxEntity.setTitle("Kudo box title");
+        kudoBoxEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 10, 30));
+        kudoBoxEntity.setKudocards(Set.of(getKudoCardEntity()));
+        return kudoBoxEntity;
     }
 
     private static KudoBoxCreateDTO getKudoBoxCreateDTO() {
         KudoBoxCreateDTO kudoBoxCreateDTO = new KudoBoxCreateDTO();
         kudoBoxCreateDTO.setIdSprint(1);
-        kudoBoxCreateDTO.setStatus(KudoStatus.CREATE.getStatus());
+        kudoBoxCreateDTO.setStatus(KudoStatus.CREATE.name());
         kudoBoxCreateDTO.setTitle("Kudo box title");
         kudoBoxCreateDTO.setEndDate(LocalDate.from(LocalDate.of(2022, 8, 25).atTime(12, 54)));
         return kudoBoxCreateDTO;
@@ -113,5 +185,17 @@ public class KudoBoxServiceTest {
         retrospectiveEntity.setTitle("Retrospective title");
         retrospectiveEntity.setOccurredDate(LocalDateTime.of(2022, 8, 18, 8, 24));
         return retrospectiveEntity;
+    }
+
+    private static KudoCardEntity getKudoCardEntity() {
+        KudoCardEntity kudoCardEntity = new KudoCardEntity();
+        kudoCardEntity.setIdKudoCard(1);
+        kudoCardEntity.setReceiver("Dayvidson");
+        kudoCardEntity.setTitle("Kudo card title");
+        kudoCardEntity.setIdCreator(1);
+        kudoCardEntity.setSender("Willian");
+        kudoCardEntity.setCreateDate(LocalDateTime.now());
+        kudoCardEntity.setDescription("Description kudo card");
+        return kudoCardEntity;
     }
 }
