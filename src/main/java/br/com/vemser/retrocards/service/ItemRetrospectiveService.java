@@ -39,11 +39,6 @@ public class ItemRetrospectiveService {
         ItemRetrospectiveEntity itemEntityRecovered = findById(idItemRetrospective);
         ItemRetrospectiveEntity itemEntityUpdate = updateToEntity(itemRetrospectiveUpdateDTO);
 
-        if (itemRetrospectiveUpdateDTO.getIdRetrospective() == 0 || itemRetrospectiveUpdateDTO.getIdRetrospective() == null) {
-            itemEntityUpdate.setRetrospective(itemEntityRecovered.getRetrospective());
-        } else {
-            itemEntityUpdate.setRetrospective(retrospectiveService.findById(itemRetrospectiveUpdateDTO.getIdRetrospective()));
-        }
         if (itemRetrospectiveUpdateDTO.getTitle() == null) {
             itemEntityUpdate.setTitle(itemEntityRecovered.getTitle());
         }
@@ -71,9 +66,9 @@ public class ItemRetrospectiveService {
                 .toList();
     }
 
-    public ItemRetrospectiveDTO listByIdItem(Integer id) throws NegociationRulesException {
-        return entityToDTO(findById(id));
-    }
+//    public ItemRetrospectiveDTO listByIdItem(Integer id) throws NegociationRulesException {
+//        return entityToDTO(findById(id));
+//    }
 
     public List<ItemRetrospectiveDTO> listByIdRetrospective(Integer idRetrospective) {
         return findByIdRetrospective(idRetrospective).stream()

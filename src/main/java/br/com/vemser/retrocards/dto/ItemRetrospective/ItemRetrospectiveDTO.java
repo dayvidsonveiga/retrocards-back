@@ -10,18 +10,17 @@ import javax.validation.constraints.NotNull;
 public class ItemRetrospectiveDTO {
 
     @Schema(description = "Id item retrospectiva.")
-    @NotNull
     private Integer idItemRetrospective;
 
+    @Schema(description = "Id da retrospectiva")
+    private Integer idRetrospective;
+
     @Schema(description = "Tipo do item de avaliação.")
-    @NotBlank
     private String type;
 
     @Schema(description = "Título do item.")
-    @NotBlank
     private String title;
 
     @Schema(description = "Descrição da avaliação.")
-    @NotBlank
     private String description;
 }
