@@ -1,4 +1,4 @@
-package br.com.vemser.retrocards;
+package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.entity.RolesEntity;
 import br.com.vemser.retrocards.entity.UserEntity;
