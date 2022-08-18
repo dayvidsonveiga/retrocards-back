@@ -30,4 +30,7 @@ public class KudoCardDTO {
 
     @Schema(description = "Nome do usuário que recebeu a Kudo card.")
     private String receiver;
+
+    @Schema(description = "Descrição do Kudo card.")
+    private String description;
 }

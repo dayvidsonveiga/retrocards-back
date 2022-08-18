@@ -40,6 +40,9 @@ public class KudoCardEntity {
     @Column(name = "receiver")
     private String receiver;
 
+    @Column(name = "description")
+    private String description;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_kudo_box", referencedColumnName = "id_kudo_box")

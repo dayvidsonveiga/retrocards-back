@@ -61,7 +61,6 @@ public class KudoBoxServiceTest {
         ReflectionTestUtils.setField(kudoBoxService, "objectMapper", objectMapper);
     }
 
-    //TODO COMEÇAR DAQUI QUANDO RETORNAR
     @Test
     public void sholdTestCreateKudoBoxWithSuccess() throws NegociationRulesException {
         KudoBoxCreateDTO kudoBoxCreateDTO = getKudoBoxCreateDTO();

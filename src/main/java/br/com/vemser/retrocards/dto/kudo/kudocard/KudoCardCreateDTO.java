@@ -1,6 +1,5 @@
 package br.com.vemser.retrocards.dto.kudo.kudocard;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -26,4 +25,8 @@ public class KudoCardCreateDTO {
     @Schema(description = "Nome do usuário que recebeu a Kudo card.")
     @NotBlank
     private String receiver;
+
+    @Schema(description = "Descrição do Kudo card.")
+    @NotBlank
+    private String description;
 }
