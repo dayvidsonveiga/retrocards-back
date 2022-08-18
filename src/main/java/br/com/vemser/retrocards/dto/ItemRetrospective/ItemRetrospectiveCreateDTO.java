@@ -1,4 +1,4 @@
-package br.com.vemser.retrocards.dto.page.ItemRetrospective;
+package br.com.vemser.retrocards.dto.ItemRetrospective;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;

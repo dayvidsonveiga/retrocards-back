@@ -1,8 +1,8 @@
 package br.com.vemser.retrocards.service;
 
-import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveCreateDTO;
-import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveDTO;
-import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveUpdateDTO;
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveCreateDTO;
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.enums.ItemType;
@@ -39,11 +39,6 @@ public class ItemRetrospectiveService {
         ItemRetrospectiveEntity itemEntityRecovered = findById(idItemRetrospective);
         ItemRetrospectiveEntity itemEntityUpdate = updateToEntity(itemRetrospectiveUpdateDTO);
 
-        if (itemRetrospectiveUpdateDTO.getIdRetrospective() == 0 || itemRetrospectiveUpdateDTO.getIdRetrospective() == null) {
-            itemEntityUpdate.setRetrospective(itemEntityRecovered.getRetrospective());
-        } else {
-            itemEntityUpdate.setRetrospective(retrospectiveService.findById(itemRetrospectiveUpdateDTO.getIdRetrospective()));
-        }
         if (itemRetrospectiveUpdateDTO.getTitle() == null) {
             itemEntityUpdate.setTitle(itemEntityRecovered.getTitle());
         }
@@ -71,9 +66,9 @@ public class ItemRetrospectiveService {
                 .toList();
     }
 
-    public ItemRetrospectiveDTO listByIdItem(Integer id) throws NegociationRulesException {
-        return entityToDTO(findById(id));
-    }
+//    public ItemRetrospectiveDTO listByIdItem(Integer id) throws NegociationRulesException {
+//        return entityToDTO(findById(id));
+//    }
 
     public List<ItemRetrospectiveDTO> listByIdRetrospective(Integer idRetrospective) {
         return findByIdRetrospective(idRetrospective).stream()
