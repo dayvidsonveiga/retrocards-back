@@ -57,11 +57,6 @@ public class SprintServiceTest {
         ReflectionTestUtils.setField(sprintService, "objectMapper", objectMapper);
     }
 
-    // ---------------------------------------------------------------------------------------
-    //                            INÍCIO DOS TESTES PARA create()
-    // ---------------------------------------------------------------------------------------
-
-    //TODO CONCLUIR ESTE MÉTODO AMANHÃ!!!!
     @Test
     public void sholdTestCreateSprintWithSuccess() throws NegociationRulesException {
         //setup

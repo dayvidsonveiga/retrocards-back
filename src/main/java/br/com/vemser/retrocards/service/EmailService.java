@@ -51,9 +51,15 @@ public class EmailService {
     public String createEmail(EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegociationRulesException {
         EmailEntity emailEntity = createToEntity(emailCreateDTO);
 
+        RetrospectiveEmailDTO retrospectiveEmailDTO = retrospectiveEntityToDTO(retrospectiveService.findById(idRetrospective));
+
+        emailEntity.setSubject("[RetroCards - Retrospectiva concluída!] <" +
+                retrospectiveEmailDTO.getIdRetrospective() + "> - <" +
+                retrospectiveEmailDTO.getTitle() + ">");
+
         EmailDTO emailDTO = entityToDTO(emailRepository.save(emailEntity));
 
-        emailDTO.setRetrospectiveEmailDTO(retrospectiveEntityToDTO(retrospectiveService.findById(idRetrospective)));
+        emailDTO.setRetrospectiveEmailDTO(retrospectiveEmailDTO);
 
         sendEmailFinishedRetrospective(emailDTO);
 
@@ -77,9 +83,7 @@ public class EmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(from);
             mimeMessageHelper.setTo(emailDTO.getReceiver().split(";"));
-            mimeMessageHelper.setSubject("[RetroCards - Retrospectiva concluída!] <" +
-                    emailDTO.getRetrospectiveEmailDTO().getIdRetrospective() + "> - <" +
-                    emailDTO.getRetrospectiveEmailDTO().getTitle() + ">");
+            mimeMessageHelper.setSubject(emailDTO.getSubject());
             mimeMessageHelper.setText(getContentFromTemplateRetrospective(emailDTO, itemsWorked, itemsImprove, itemsNext), true);
             emailSender.send(mimeMessageHelper.getMimeMessage());
         } catch (MessagingException | IOException | TemplateException e) {
@@ -117,7 +121,6 @@ public class EmailService {
         String listEmail = String.join(";", emailCreateDTO.getReceiver());
 
         EmailEntity emailEntity = new EmailEntity();
-        emailEntity.setSubject(emailCreateDTO.getSubject());
         emailEntity.setSendDate(LocalDate.now());
         emailEntity.setReceiver(listEmail);
 
