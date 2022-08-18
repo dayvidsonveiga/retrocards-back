@@ -31,7 +31,7 @@ public class RetrospectiveController {
     }
 
     @Operation(summary = "Update retrospective status")
-    @PutMapping("/update/{idRetrospective}/status")
+    @PutMapping("/update-status/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
                                          RetrospectiveStatus status) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.updateStatus(idRetrospective, status), HttpStatus.OK);
