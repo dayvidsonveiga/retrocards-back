@@ -60,10 +60,6 @@ public class SprintService {
                 .orElseThrow(() -> new NegociationRulesException("Sprint not found!"));
     }
 
-    public SprintEntity createToEntity(SprintCreateDTO sprintCreateDTO) {
-        return objectMapper.convertValue(sprintCreateDTO, SprintEntity.class);
-    }
-
     public SprintEntity dtoToEntity(SprintDTO sprintDTO) {
         return objectMapper.convertValue(sprintDTO, SprintEntity.class);
     }
