@@ -28,10 +28,38 @@ public class SecurityConfiguration {
                 .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests((authz) ->
-                        authz.antMatchers("/", "/user/list", "/user/get-logged", "/user/login", "/user/create", "/user/list-name-email").permitAll()
+                        authz.antMatchers("/", "/user/login", "/user/create").permitAll()
+                                // User
                                 .antMatchers("/user/change-role/{idUser}").hasRole("ADMIN")
-                                .antMatchers("/user/**").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+                                .antMatchers("/user/list").hasAnyRole("FACILITATOR", "ADMIN")
+                                .antMatchers("/user/list-name-email").hasAnyRole("FACILITATOR", "ADMIN")
+                                .antMatchers("/user/get-logged").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+
+                                // Retrospective
+                                .antMatchers("/retrospective/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/retrospective/update-status/{idRetrospective}").hasAnyRole("FACILITATOR", "ADMIN")
+                                .antMatchers("/retrospective/create").hasRole("FACILITATOR")
+
+                                // Sprints
+                                .antMatchers("/sprint/list").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/sprint/create").hasAnyRole("FACILITATOR", "ADMIN")
+
+                                // Kudo Box
+                                .antMatchers("/kudobox/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/kudobox/create").hasAnyRole("FACILITATOR", "ADMIN")
+
+                                // Kudo Cards
+                                .antMatchers("/kudocard/list/kudocards/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/kudocard/delete/{idKudocard}").hasRole("MEMBER")
+                                .antMatchers("/kudocard/create").hasRole("MEMBER")
+
+                                // Item Retrospective
+                                .antMatchers("/itemretrospective/list/retrospective/{idRetrospective}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/itemretrospective/delete/{idItem}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/itemretrospective/create").hasRole("MEMBER")
+
+                                // Email
+                                .antMatchers("/email/send").hasRole("FACILITATOR")
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
