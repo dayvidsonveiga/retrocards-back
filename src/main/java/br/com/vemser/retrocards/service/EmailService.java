@@ -106,7 +106,6 @@ public class EmailService {
         dados.put("itemsWorked", itemsWorked);
         dados.put("itemsImprove", itemsImprove);
         dados.put("itemsNext", itemsNext);
-        System.out.println(itemsWorked);
 
         Template template = fmConfiguration.getTemplate("finishedRetrospective-template.ftl");
 

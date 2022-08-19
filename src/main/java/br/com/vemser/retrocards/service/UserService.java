@@ -70,8 +70,8 @@ public class UserService {
 
     public UserDTO getLoggedUser() throws NegociationRulesException {
         Integer idLoggedUser = getIdLoggedUser();
-        UserDTO userDTO = entityToDTO(findById(idLoggedUser));
         UserEntity byId = findById(idLoggedUser);
+        UserDTO userDTO = entityToDTO(byId);
         userDTO.setRole(byId.getRole().getRoleName());
         return userDTO;
     }
