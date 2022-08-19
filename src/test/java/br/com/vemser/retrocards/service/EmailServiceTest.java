@@ -82,7 +82,6 @@ public class EmailServiceTest {
     public void shouldTestCreateEmail() throws NegociationRulesException, MessagingException, IOException {
         EmailEntity emailEntity = getEmailEntity();
         EmailCreateDTO emailCreateDTO = getEmailCreateDTO();
-        RetrospectiveEmailDTO retrospectiveEmailDTO = getRetrospectiveEmailDTO();
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
         EmailDTO emailDTO = getEmailDTO();
         mimeMessage.setSubject(emailDTO.getSubject());
@@ -100,26 +99,20 @@ public class EmailServiceTest {
         assertEquals("Email enviado com sucesso!", message);
     }
 
-//    @Test
-//    public void shouldTestCreateEmailWithoutSuccess() throws NegociationRulesException, MessagingException, IOException {
-//        EmailEntity emailEntity = getEmailEntity();
-//        EmailCreateDTO emailCreateDTO = getEmailCreateDTO();
-//        RetrospectiveEmailDTO retrospectiveEmailDTO = getRetrospectiveEmailDTO();
-//        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
-//        EmailDTO emailDTO = getEmailDTO();
-//        mimeMessage.setSubject(null);
-//
-//        when(retrospectiveService.findById(anyInt())).thenReturn(retrospectiveEntity);
-//        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
-//        ReflectionTestUtils.setField(emailService, "from", "test@gmail.com");
-//        when(fmConfiguration.getTemplate(anyString())).thenReturn(new Template("test", "test", new Configuration()));
-//        when(emailRepository.save(any(EmailEntity.class))).thenReturn(emailEntity);
-//
-//        String message = emailService.createEmail(emailCreateDTO, 1);
-//
-//        assertNotNull(message);
-//        assertEquals("Email enviado com sucesso!", message);
-//    }
+    @Test
+    public void shouldTestCreateEmailWithoutSuccess() throws IOException, MessagingException, NegociationRulesException {
+
+        EmailDTO emailDTO = getEmailDTO();
+
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        ReflectionTestUtils.setField(emailService, "from", null);
+
+        EmailDTO emailDTO1 = emailService.sendEmailFinishedRetrospective(emailDTO);
+
+        verify(javaMailSender, times(0)).send(any(MimeMessage.class));
+
+        assertNotNull(emailDTO1);
+    }
 
     private static EmailEntity getEmailEntity() {
         EmailEntity emailEntity = new EmailEntity();
@@ -133,17 +126,25 @@ public class EmailServiceTest {
     private static EmailDTO getEmailDTO() {
         EmailDTO emailDTO = new EmailDTO();
         emailDTO.setIdEmail(1);
-        emailDTO.setReceiver("Dayvidson");
-        emailDTO.setSubject("Subject email dto");
-        emailDTO.setSendDate(LocalDate.of(2022, 8, 19));
 
         RetrospectiveEmailDTO retrospectiveEmailDTO = new RetrospectiveEmailDTO();
         retrospectiveEmailDTO.setIdRetrospective(1);
-        retrospectiveEmailDTO.setTitle("Retrospective title");
-        retrospectiveEmailDTO.setStatus(RetrospectiveStatus.CREATE);
-        retrospectiveEmailDTO.setOccurredDate(LocalDateTime.of(2022, 8, 20, 20, 30));
+        retrospectiveEmailDTO.setStatus(RetrospectiveStatus.IN_PROGRESS);
+        retrospectiveEmailDTO.setTitle("Retrospective email dto title");
+        retrospectiveEmailDTO.setOccurredDate(LocalDateTime.of(2022, 8, 25, 19, 18));
 
+        ItemRetrospectiveDTO itemRetrospectiveDTO = new ItemRetrospectiveDTO();
+        itemRetrospectiveDTO.setIdRetrospective(1);
+        itemRetrospectiveDTO.setIdItemRetrospective(1);
+        itemRetrospectiveDTO.setTitle("Title item retrospective");
+        itemRetrospectiveDTO.setDescription("Description item retrospective");
+        itemRetrospectiveDTO.setType(ItemType.WORKED.name());
+
+        retrospectiveEmailDTO.setItemList(List.of(itemRetrospectiveDTO));
         emailDTO.setRetrospectiveEmailDTO(retrospectiveEmailDTO);
+        emailDTO.setReceiver("Dayvidson");
+        emailDTO.setSubject("Subject email dto");
+        emailDTO.setSendDate(LocalDate.of(2022, 8, 19));
         return emailDTO;
     }
 

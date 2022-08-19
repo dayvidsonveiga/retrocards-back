@@ -45,15 +45,15 @@ public class LogginServiceTest {
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
-                        userLoginDTO.getEmail(),
+                        userEntity,
                         userLoginDTO.getPassword()
                 );
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
         when(userService.findByEmail(anyString())).thenReturn(userEntity);
         when(userService.checkPasswordIsCorrect(anyString(), anyString())).thenReturn(true);
-//        when(userService.checkPasswordIsCorrect(anyString(), anyString())).thenReturn(true);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(usernamePasswordAuthenticationToken);
+        when(userService.login(userLoginDTO, null)).thenReturn(userLoginReturnDTO);
 
         UserLoginReturnDTO userLoginReturnDTO1 = logginService.login(userLoginDTO);
 

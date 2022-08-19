@@ -143,7 +143,7 @@ public class KudoBoxServiceTest {
     private static KudoBoxCreateDTO getKudoBoxCreateDTO() {
         KudoBoxCreateDTO kudoBoxCreateDTO = new KudoBoxCreateDTO();
         kudoBoxCreateDTO.setIdSprint(1);
-        kudoBoxCreateDTO.setStatus(KudoStatus.CREATE.name());
+        kudoBoxCreateDTO.setStatus(KudoStatus.IN_PROGRESS);
         kudoBoxCreateDTO.setTitle("Kudo box title");
         kudoBoxCreateDTO.setEndDate(LocalDate.from(LocalDate.of(2022, 8, 25).atTime(12, 54)));
         return kudoBoxCreateDTO;

@@ -48,7 +48,7 @@ public class EmailService {
 
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
 
-    private String message;
+    private String message = "";
 
     public String createEmail(EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegociationRulesException {
         EmailEntity emailEntity = createToEntity(emailCreateDTO);
@@ -88,11 +88,9 @@ public class EmailService {
             mimeMessageHelper.setSubject(emailDTO.getSubject());
             mimeMessageHelper.setText(getContentFromTemplateRetrospective(emailDTO, itemsWorked, itemsImprove, itemsNext), true);
             emailSender.send(mimeMessageHelper.getMimeMessage());
-        } catch (MessagingException | IOException | TemplateException e) {
-            System.out.println("Erro ao enviar email!");
-            message = "Erro ao enviar email para os usuários.";
+        } catch (MessagingException | IOException | TemplateException | IllegalArgumentException e) {
+            e.printStackTrace();
         }
-
         return emailDTO;
     }
 
@@ -142,9 +140,5 @@ public class EmailService {
 
     public ItemRetrospectiveDTO itemRetrospectiveEntityToDTO(ItemRetrospectiveEntity itemRetrospectiveEntity) {
         return objectMapper.convertValue(itemRetrospectiveEntity, ItemRetrospectiveDTO.class);
-    }
-
-    public String getMessage() {
-        return message;
     }
 }
