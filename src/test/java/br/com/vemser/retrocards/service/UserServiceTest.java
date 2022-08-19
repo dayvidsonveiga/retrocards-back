@@ -1,7 +1,9 @@
 package br.com.vemser.retrocards.service;
 
+import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.UserCreateDTO;
 import br.com.vemser.retrocards.dto.user.UserDTO;
+import br.com.vemser.retrocards.dto.user.UserNameEmailDTO;
 import br.com.vemser.retrocards.entity.RolesEntity;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.enums.UserType;
@@ -18,12 +20,17 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.management.relation.Role;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -93,8 +100,75 @@ public class UserServiceTest {
 //    }
 
     @Test
-    public void shouldTestGetIdLoggedUser() throws NegociationRulesException {
+    public void shouldTestListAllWithSuccess() throws NegociationRulesException {
+        Integer pageNumber = 0;
+        Integer registerNumber = 10;
+        List<UserEntity> listUsers = List.of(getUserEntity());
+        Page<UserEntity> dtoPage = new PageImpl<>(listUsers);
+
+        when(userRepository.findAll(any(Pageable.class))).thenReturn(dtoPage);
+
+        PageDTO<UserDTO> userDTO = userService.listAll(pageNumber, registerNumber);
+
+        assertNotNull(userDTO);
+        assertEquals(1, userDTO.getTotalElements().intValue());
+        assertEquals(1, userDTO.getTotalPages().intValue());
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestListAllWithoutSuccess() throws NegociationRulesException {
+        Integer pageNumber = 0;
+        Integer registerNumber = 10;
+        List<UserEntity> listUsers = new ArrayList<>();
+        Page<UserEntity> dtoPage = new PageImpl<>(listUsers);
+
+        when(userRepository.findAll(any(Pageable.class))).thenReturn(dtoPage);
+
+        userService.listAll(pageNumber, registerNumber);
+    }
+
+    @Test
+    public void shouldTestListUsersWithNameAndEmailWithSuccess() throws NegociationRulesException {
+        List<UserEntity> listUsers = List.of(getUserEntity());
+
+        when(userRepository.findAll()).thenReturn(listUsers);
+
+        List<UserNameEmailDTO> listUserNameEmail = userService.listUsersWithNameAndEmail();
+
+        assertNotNull(listUserNameEmail);
+        assertEquals(listUsers.size(), listUserNameEmail.size());
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestListUsersWithNameAndEmailWithoutSuccess() throws NegociationRulesException {
+        List<UserEntity> listUsers = new ArrayList<>();
+
+        when(userRepository.findAll()).thenReturn(listUsers);
+
+        userService.listUsersWithNameAndEmail();
+    }
+
+    @Test
+    public void shouldTestGetLoggedUser() throws NegociationRulesException {
         //setup
+        UserEntity userEntity = getUserEntity();
+        shouldTestGetIdLoggedUserWithSuccess();
+
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(userEntity));
+
+        //act
+        UserDTO userDTO = userService.getLoggedUser();
+
+        //asserts
+        assertNotNull(userDTO);
+        assertEquals(userEntity.getIdUser(), userDTO.getIdUser());
+        assertEquals(userEntity.getName(), userDTO.getName());
+        assertEquals(userEntity.getEmail(), userDTO.getEmail());
+        assertEquals(userEntity.getRole().getRoleName(), userDTO.getRole());
+    }
+
+    @Test
+    public void shouldTestGetIdLoggedUserWithSuccess() throws NegociationRulesException {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
                         123,
