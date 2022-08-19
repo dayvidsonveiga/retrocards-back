@@ -53,9 +53,9 @@ public class EmailService {
 
         RetrospectiveEmailDTO retrospectiveEmailDTO = retrospectiveEntityToDTO(retrospectiveService.findById(idRetrospective));
 
-        emailEntity.setSubject("[RetroCards - Retrospectiva concluída!] <" +
-                retrospectiveEmailDTO.getIdRetrospective() + "> - <" +
-                retrospectiveEmailDTO.getTitle() + ">");
+        emailEntity.setSubject("RetroCards - Retrospectiva concluída! " +
+                retrospectiveEmailDTO.getIdRetrospective() + " - " +
+                retrospectiveEmailDTO.getTitle() + "");
 
         EmailDTO emailDTO = entityToDTO(emailRepository.save(emailEntity));
 
