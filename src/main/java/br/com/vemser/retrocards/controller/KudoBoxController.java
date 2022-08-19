@@ -39,8 +39,8 @@ public class KudoBoxController {
 
     @Operation(summary = "List all the kudo boxes associated with a sprint")
     @GetMapping("/list/sprint/{idSprint}")
-    public ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registros) throws NegociationRulesException {
-        return new ResponseEntity<>(kudoBoxService.listKudoBoxByIdSprint(idSprint, pagina, registros), HttpStatus.OK);
+    public ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer page, Integer quantityPerPage) throws NegociationRulesException {
+        return new ResponseEntity<>(kudoBoxService.listKudoBoxByIdSprint(idSprint, page, quantityPerPage), HttpStatus.OK);
     }
 }
 

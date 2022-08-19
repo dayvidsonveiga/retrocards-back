@@ -38,8 +38,8 @@ public class KudoCardController {
 
     @Operation(summary = "List all the kudo cards associated with the kudo box")
     @GetMapping("/list/kudocards/{idKudoBox}")
-    public ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardByIdKudoBox(@PathVariable("idKudoBox") Integer idKudoBox, Integer pagina, Integer registros) throws NegociationRulesException {
-        return new ResponseEntity<>(kudoCardService.listKudoCardByIdKudoBox(idKudoBox, pagina, registros), HttpStatus.OK);
+    public ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardByIdKudoBox(@PathVariable("idKudoBox") Integer idKudoBox, Integer page, Integer quantityPerPage) throws NegociationRulesException {
+        return new ResponseEntity<>(kudoCardService.listKudoCardByIdKudoBox(idKudoBox, page, quantityPerPage), HttpStatus.OK);
     }
 
 //    @Operation(summary = "List kudo card by ID")

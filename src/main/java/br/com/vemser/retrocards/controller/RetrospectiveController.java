@@ -46,7 +46,7 @@ public class RetrospectiveController {
 
     @Operation(summary = "List all retrospectives associated with the sprint")
     @GetMapping("/list/sprint/{idSprint}")
-    public ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
-        return new ResponseEntity<>(retrospectiveService.listRetrospectiveByIdSprint(idSprint, pagina, registro), HttpStatus.OK);
+    public ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer page, Integer quantityPerPage) throws NegociationRulesException {
+        return new ResponseEntity<>(retrospectiveService.listRetrospectiveByIdSprint(idSprint, page, quantityPerPage), HttpStatus.OK);
     }
 }
