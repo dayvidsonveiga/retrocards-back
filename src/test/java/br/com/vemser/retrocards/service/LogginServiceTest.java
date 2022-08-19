@@ -52,7 +52,7 @@ public class LogginServiceTest {
 
         when(userService.findByEmail(anyString())).thenReturn(userEntity);
         when(userService.checkPasswordIsCorrect(anyString(), anyString())).thenReturn(true);
-        when(userService.checkPasswordIsCorrect(anyString(), anyString())).thenReturn(true);
+//        when(userService.checkPasswordIsCorrect(anyString(), anyString())).thenReturn(true);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(usernamePasswordAuthenticationToken);
 
         UserLoginReturnDTO userLoginReturnDTO1 = logginService.login(userLoginDTO);
