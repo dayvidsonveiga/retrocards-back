@@ -41,9 +41,8 @@ public class UserController {
 
     @Operation(summary = "Change role")
     @PutMapping("/change-role/{idUser}")
-    public ResponseEntity<Void> changeRole(@PathVariable("idUser") Integer idUser, UserType userType) throws NegociationRulesException {
-        userService.changeRole(idUser, userType);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<UserDTO> changeRole(@PathVariable("idUser") Integer idUser, UserType userType) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.changeRole(idUser, userType), HttpStatus.OK);
     }
 
     @Operation(summary = "Get data from the logged on user")
@@ -54,8 +53,8 @@ public class UserController {
 
     @Operation(summary = "List all the registered users")
     @GetMapping("/list")
-    public ResponseEntity<PageDTO<UserDTO>> listAll(Integer pagina, Integer registros) throws NegociationRulesException {
-        return new ResponseEntity<>(userService.listAll(pagina, registros), HttpStatus.OK);
+    public ResponseEntity<PageDTO<UserDTO>> listAll(Integer page, Integer quantityPerPage) throws NegociationRulesException {
+        return new ResponseEntity<>(userService.listAll(page, quantityPerPage), HttpStatus.OK);
     }
 
     @Operation(summary = "List user by id with name and email")

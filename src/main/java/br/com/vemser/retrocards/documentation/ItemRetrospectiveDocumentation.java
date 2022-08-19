@@ -1,8 +1,8 @@
 package br.com.vemser.retrocards.documentation;
 
-import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveCreateDTO;
-import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveDTO;
-import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveUpdateDTO;
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveCreateDTO;
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import io.swagger.v3.oas.annotations.Operation;

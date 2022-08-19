@@ -2,7 +2,7 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.email.EmailCreateDTO;
 import br.com.vemser.retrocards.dto.email.EmailDTO;
-import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveEmailDTO;
 import br.com.vemser.retrocards.entity.EmailEntity;
 import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
@@ -53,9 +53,9 @@ public class EmailService {
 
         RetrospectiveEmailDTO retrospectiveEmailDTO = retrospectiveEntityToDTO(retrospectiveService.findById(idRetrospective));
 
-        emailEntity.setSubject("[RetroCards - Retrospectiva concluída!] <" +
-                retrospectiveEmailDTO.getIdRetrospective() + "> - <" +
-                retrospectiveEmailDTO.getTitle() + ">");
+        emailEntity.setSubject("RetroCards - Retrospectiva concluída! " +
+                retrospectiveEmailDTO.getIdRetrospective() + " - " +
+                retrospectiveEmailDTO.getTitle() + "");
 
         EmailDTO emailDTO = entityToDTO(emailRepository.save(emailEntity));
 
@@ -106,7 +106,6 @@ public class EmailService {
         dados.put("itemsWorked", itemsWorked);
         dados.put("itemsImprove", itemsImprove);
         dados.put("itemsNext", itemsNext);
-        System.out.println(itemsWorked);
 
         Template template = fmConfiguration.getTemplate("finishedRetrospective-template.ftl");
 

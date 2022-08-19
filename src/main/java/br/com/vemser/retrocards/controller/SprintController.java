@@ -32,7 +32,7 @@ public class SprintController {
 
     @Operation(summary = "List sprint in order of completion")
     @GetMapping("/list")
-    public ResponseEntity<PageDTO<SprintWithEndDateDTO>> listByDateDesc(Integer page, Integer register) throws NegociationRulesException {
-        return new ResponseEntity<>(sprintService.listByDateDesc(page, register), HttpStatus.OK);
+    public ResponseEntity<PageDTO<SprintWithEndDateDTO>> listByDateDesc(Integer page, Integer quantityPerPage) throws NegociationRulesException {
+        return new ResponseEntity<>(sprintService.listByDateDesc(page, quantityPerPage), HttpStatus.OK);
     }
 }

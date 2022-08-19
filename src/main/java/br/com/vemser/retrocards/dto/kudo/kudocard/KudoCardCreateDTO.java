@@ -11,11 +11,11 @@ import javax.validation.constraints.Size;
 public class KudoCardCreateDTO {
 
     @Schema(description = "Id do Kudo box")
-    @NotNull
+    @NotNull(message = "É necessário informar o ID da kudo box que deseja associar o kudo card!")
     private Integer idKudoBox;
 
     @Schema(description = "Título da Kudo card.")
-    @NotBlank
+    @NotBlank(message = "O título do kudo card não pode ser vazio/nulo!")
     @Size(min = 3, max = 60)
     private String title;
 
@@ -23,10 +23,10 @@ public class KudoCardCreateDTO {
     private Boolean anonymous;
 
     @Schema(description = "Nome do usuário que recebeu a Kudo card.")
-    @NotBlank
+    @NotBlank(message = "O nome do destinatário não pode ser vazio/nulo!")
     private String receiver;
 
     @Schema(description = "Descrição do Kudo card.")
-    @NotBlank
+    @NotBlank(message = "A descrição do kudo card não pode ser vazia/nula!")
     private String description;
 }

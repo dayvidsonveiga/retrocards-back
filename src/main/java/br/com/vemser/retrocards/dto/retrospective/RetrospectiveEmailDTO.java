@@ -1,6 +1,6 @@
 package br.com.vemser.retrocards.dto.retrospective;
 
-import br.com.vemser.retrocards.dto.page.ItemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

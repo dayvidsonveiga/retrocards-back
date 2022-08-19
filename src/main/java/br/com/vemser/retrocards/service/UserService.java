@@ -34,17 +34,14 @@ public class UserService {
         return entityToDTO(userRepository.save(userEntity));
     }
 
-    public void changeRole(Integer idUser, UserType userType) throws NegociationRulesException {
+    public UserDTO changeRole(Integer idUser, UserType userType) throws NegociationRulesException {
         UserEntity userEntity = findById(idUser);
-        if (userEntity.getRole().equals(UserType.FACILITATOR)) {
+        UserDTO userLogged = getLoggedUser();
+        if (userLogged.getRole().equals(UserType.ADMIN.getRoleName())) {
             userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
-            userRepository.save(userEntity);
-        } else if (userEntity.getRole().equals(UserType.MEMBER)) {
-            userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
-            userRepository.save(userEntity);
+            return entityToDTO(userRepository.save(userEntity));
         } else {
-            userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
-            userRepository.save(userEntity);
+            throw new NegociationRulesException("Somente adminstrador pode alterar cargo.");
         }
     }
 
@@ -59,8 +56,8 @@ public class UserService {
 
     public UserDTO getLoggedUser() throws NegociationRulesException {
         Integer idLoggedUser = getIdLoggedUser();
-        UserDTO userDTO = entityToDTO(findById(idLoggedUser));
         UserEntity byId = findById(idLoggedUser);
+        UserDTO userDTO = entityToDTO(byId);
         userDTO.setRole(byId.getRole().getRoleName());
         return userDTO;
     }

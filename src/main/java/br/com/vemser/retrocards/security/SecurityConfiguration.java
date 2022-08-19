@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                                 // User
                                 .antMatchers("/user/change-role/{idUser}").hasRole("ADMIN")
                                 .antMatchers("/user/list").hasAnyRole("FACILITATOR", "ADMIN")
-                                .antMatchers("/user/list-name-email").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/user/list-name-email").hasAnyRole("FACILITATOR", "ADMIN", "MEMBER")
                                 .antMatchers("/user/get-logged").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
 
                                 // Retrospective
