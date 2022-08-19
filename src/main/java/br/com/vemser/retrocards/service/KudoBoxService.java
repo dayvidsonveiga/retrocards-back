@@ -35,15 +35,19 @@ public class KudoBoxService {
     public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         SprintEntity sprintEntity = sprintService.findById(kudoBoxCreateDTO.getIdSprint());
 
-        KudoBoxDTO kudoBoxDTO = createToDTO(kudoBoxCreateDTO);
+        if (sprintEntity.getKudoboxs().stream().anyMatch(kudoBoxEntity -> kudoBoxEntity.getStatus() == KudoStatus.IN_PROGRESS)) {
+            throw new NegociationRulesException("Não é possível criar kudo box! Outra kudo box em progresso");
+        } else {
+            KudoBoxDTO kudoBoxDTO = createToDTO(kudoBoxCreateDTO);
 
-        KudoBoxEntity kudoBoxEntity = dtoToEntity(kudoBoxDTO);
+            KudoBoxEntity kudoBoxEntity = dtoToEntity(kudoBoxDTO);
 
-        kudoBoxEntity.setSprint(sprintEntity);
+            kudoBoxEntity.setSprint(sprintEntity);
 
-        kudoBoxEntity.setStatus(KudoStatus.CREATE);
+            kudoBoxEntity.setStatus(KudoStatus.IN_PROGRESS);
 
-        return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
+            return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
+        }
     }
 
 //    public KudoBoxDTO updateStatus(Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
