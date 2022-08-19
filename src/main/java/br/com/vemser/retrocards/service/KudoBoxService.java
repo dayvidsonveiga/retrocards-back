@@ -72,6 +72,10 @@ public class KudoBoxService {
         }
     }
 
+    public KudoBoxDTO listById(Integer id) throws NegociationRulesException {
+        return entityToDTO(findById(id));
+    }
+
     // Util
 
     public KudoBoxEntity findById(Integer idKudoBox) throws NegociationRulesException {

@@ -67,9 +67,9 @@ public class RetrospectiveService {
         retrospectiveRepository.delete(retrospectiveEntity);
     }
 
-//    public RetrospectiveDTO listById(Integer id) throws NegociationRulesException {
-//        return entityToDTO(findById(id));
-//    }
+    public RetrospectiveDTO listById(Integer id) throws NegociationRulesException {
+        return entityToDTO(findById(id));
+    }
 
     public PageDTO<RetrospectiveWithCountOfItensDTO> listRetrospectiveByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);

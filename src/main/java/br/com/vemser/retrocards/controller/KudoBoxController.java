@@ -42,6 +42,12 @@ public class KudoBoxController {
     public ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer page, Integer quantityPerPage) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.listKudoBoxByIdSprint(idSprint, page, quantityPerPage), HttpStatus.OK);
     }
+
+    @Operation(summary = "List all the data in a kudo box")
+    @GetMapping("/list/{idKudobox}")
+    public ResponseEntity<KudoBoxDTO> listById(@PathVariable("idKudobox") Integer idRetrospective) throws NegociationRulesException {
+        return new ResponseEntity<>(kudoBoxService.listById(idRetrospective), HttpStatus.OK);
+    }
 }
 
 
