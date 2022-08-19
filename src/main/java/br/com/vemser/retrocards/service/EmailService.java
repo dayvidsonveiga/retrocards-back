@@ -132,13 +132,9 @@ public class EmailService {
         List<ItemRetrospectiveEntity> listEntiTy = itemRetrospectiveRepository.findAllByRetrospective_IdRetrospective(retrospectiveEmailDTO.getIdRetrospective());
 
         retrospectiveEmailDTO.setItemList(listEntiTy.stream()
-                .map(this::itemRetrospectiveEntityToDTO)
+                .map(itemRetrospectiveEntity -> objectMapper.convertValue(itemRetrospectiveEntity, ItemRetrospectiveDTO.class))
                 .toList());
 
         return retrospectiveEmailDTO;
-    }
-
-    public ItemRetrospectiveDTO itemRetrospectiveEntityToDTO(ItemRetrospectiveEntity itemRetrospectiveEntity) {
-        return objectMapper.convertValue(itemRetrospectiveEntity, ItemRetrospectiveDTO.class);
     }
 }
