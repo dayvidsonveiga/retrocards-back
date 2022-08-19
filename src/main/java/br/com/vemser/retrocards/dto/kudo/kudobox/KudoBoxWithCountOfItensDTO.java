@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.dto.kudo.kudobox;
 
+import br.com.vemser.retrocards.enums.KudoStatus;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class KudoBoxWithCountOfItensDTO {
     private LocalDateTime endDate;
 
     @Schema(description = "Status da Kudo box.")
-    private String status;
+    private KudoStatus status;
 
     @Schema(description = "Quantidade de itens cadastrados na kudobox.")
     private Integer numberOfItens;
