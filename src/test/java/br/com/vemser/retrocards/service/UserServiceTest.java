@@ -1,9 +1,7 @@
 package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.user.UserCreateDTO;
-import br.com.vemser.retrocards.dto.user.UserDTO;
-import br.com.vemser.retrocards.dto.user.UserNameEmailDTO;
+import br.com.vemser.retrocards.dto.user.*;
 import br.com.vemser.retrocards.entity.RolesEntity;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.enums.UserType;
@@ -129,7 +127,19 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldTestGetIdLoggedUser() throws NegociationRulesException {
+    public void shouldTestLoginWithSuccess() throws NegociationRulesException {
+        UserEntity userEntity = getUserEntity();
+        UserLoginDTO userLoginDTO = getUserLoginDTO();
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(userEntity));
+
+        UserLoginReturnDTO userLogin = userService.login(userLoginDTO, "string");
+
+        assertNotNull(userLogin);
+    }
+
+    @Test
+    public void shouldTestGetIdLoggedUserWithSuccess() throws NegociationRulesException {
         UserEntity userLoginEntity = getUserEntity();
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
@@ -147,6 +157,66 @@ public class UserServiceTest {
         assertNotNull(userLogin);
         assertEquals(1, userLogin.getIdUser().intValue());
         assertEquals("Willian", userLogin.getName());
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestGetIdLoggedUserWithoutSuccess() throws NegociationRulesException {
+        UserEntity userLoginEntity = getUserEntity();
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        "anonymousUser",
+                        null
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        userService.getLoggedUser();
+    }
+
+    @Test
+    public void shouldTestCheckEmailExistWithSuccess() throws NegociationRulesException {
+        UserEntity userEntity = getUserEntity();
+        userEntity.setEmail("dayvidson@gmail.com");
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestCheckEmailExistWithoutSuccess() throws NegociationRulesException {
+        UserEntity userEntity = getUserEntity();
+        userEntity.setEmail("dayvidson@gmail.com");
+
+        UserEntity userEntity2 = getUserEntity();
+        userEntity2.setEmail("dayvidson@gmail.com");
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(userEntity));
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(userEntity2));
+
+        userService.checkEmailExist(userEntity.getEmail());
+    }
+
+    @Test
+    public void shouldTestCheckPasswordIsCorrectTrue() {
+        String pass1 = "teste";
+        String pass2 = "teste";
+        Boolean verify = true;
+
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(verify);
+
+        Boolean test = userService.checkPasswordIsCorrect(pass1, pass2);
+
+        assertEquals(test, true);
+    }
+
+    @Test
+    public void shouldTestCheckPasswordIsCorrectFalse() {
+        String pass1 = "teste";
+        String pass2 = "string";
+        Boolean verify = false;
+
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(verify);
+
+        Boolean test = userService.checkPasswordIsCorrect(pass1, pass2);
+
+        assertEquals(test, false);
     }
 
     @Test
@@ -202,7 +272,7 @@ public class UserServiceTest {
     public void shouldTestGetLoggedUser() throws NegociationRulesException {
         //setup
         UserEntity userEntity = getUserEntity();
-        shouldTestGetIdLoggedUser();
+        shouldTestGetIdLoggedUserWithSuccess();
 
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(userEntity));
 
@@ -232,6 +302,13 @@ public class UserServiceTest {
         userCreateDTO.setEmail("willian@gmail.com");
         userCreateDTO.setPassword("123");
         return userCreateDTO;
+    }
+
+    private static UserLoginDTO getUserLoginDTO() {
+        UserLoginDTO userLoginDTO = new UserLoginDTO();
+        userLoginDTO.setEmail("dayvidson@gmail.com");
+        userLoginDTO.setPassword("123");
+        return userLoginDTO;
     }
 
     private static RolesEntity getRolesEntity() {
