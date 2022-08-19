@@ -159,6 +159,19 @@ public class RetrospectiveServiceTest {
         assertEquals(1, pageDTO.getContent().size());
     }
 
+    @Test
+    public void shouldTesteListByIdWithSucess() throws NegociationRulesException {
+        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
+
+        when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
+
+        RetrospectiveDTO retrospectiveDTO = retrospectiveService.listById(1);
+
+        assertNotNull(retrospectiveDTO);
+        assertEquals(retrospectiveEntity.getTitle(), retrospectiveDTO.getTitle());
+        assertEquals(retrospectiveEntity.getStatus().name(), retrospectiveDTO.getStatus().name());
+    }
+
     private static RetrospectiveCreateDTO getRetrospectiveCreateDTO() {
         RetrospectiveCreateDTO retrospectiveCreateDTO = new RetrospectiveCreateDTO();
         retrospectiveCreateDTO.setIdSprint(1);

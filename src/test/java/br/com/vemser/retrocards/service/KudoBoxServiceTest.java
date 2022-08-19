@@ -120,14 +120,13 @@ public class KudoBoxServiceTest {
 
         when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBox));
 
-        KudoBoxEntity kudoBoxEntity = kudoBoxService.findById(1);
+        KudoBoxDTO kudoBoxDTO = kudoBoxService.listById(1);
 
-        assertNotNull(kudoBoxEntity);
-        assertEquals(kudoBox.getIdKudoBox(), kudoBoxEntity.getIdKudoBox());
-        assertEquals(kudoBox.getTitle(), kudoBoxEntity.getTitle());
-        assertEquals(kudoBox.getStatus(), kudoBoxEntity.getStatus());
-        assertEquals(kudoBox.getEndDate(), kudoBoxEntity.getEndDate());
-        assertEquals(kudoBox.getSprint(), kudoBoxEntity.getSprint());
+        assertNotNull(kudoBoxDTO);
+        assertEquals(kudoBox.getIdKudoBox(), kudoBoxDTO.getIdKudoBox());
+        assertEquals(kudoBox.getTitle(), kudoBoxDTO.getTitle());
+        assertEquals(kudoBox.getStatus().name(), kudoBoxDTO.getStatus());
+        assertEquals(kudoBox.getEndDate(), kudoBoxDTO.getEndDate());
     }
 
     private static KudoBoxEntity getKudoBoxEntity() {
