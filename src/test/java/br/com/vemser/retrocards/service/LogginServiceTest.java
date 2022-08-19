@@ -5,13 +5,7 @@ import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
 import br.com.vemser.retrocards.entity.RolesEntity;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
-import br.com.vemser.retrocards.repository.UserRepository;
 import br.com.vemser.retrocards.security.TokenService;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,17 +13,13 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LogginServiceTest {
@@ -65,11 +55,9 @@ public class LogginServiceTest {
         when(userService.checkPasswordIsCorrect(anyString(), anyString())).thenReturn(true);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(usernamePasswordAuthenticationToken);
 
-
         UserLoginReturnDTO userLoginReturnDTO1 = logginService.login(userLoginDTO);
 
         assertNotNull(userLoginReturnDTO1);
-
     }
 
     @Test(expected = NegociationRulesException.class)
