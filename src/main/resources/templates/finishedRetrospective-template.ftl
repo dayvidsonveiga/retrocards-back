@@ -7,9 +7,9 @@
     <title> Recebemos seu pedido</title>
     <style>
         * {
-            margin: 0 0 10px;
+            margin: 0;
             padding: 0;
-            border: 0 none;
+            box-sizing: border-box;
         }
 
         html {
@@ -17,8 +17,19 @@
         }
 
         img {
-            max-width: 100%;
             height: auto;
+        }
+        table {
+            width: 300px;
+        }
+
+        .border {
+            border: 1px solid #12101a;
+            padding: 5px;
+        }
+
+        .margin {
+            margin-bottom: 20px;
         }
 
         li {
@@ -46,8 +57,10 @@
     <tr>
         <td style="width: 10px;"></td>
         <td>
-            <img style="border-radius: 0%; width:100%; display: block; margin: 20px auto;"
-                 src="https://github.com/dayvidsonveiga/retrocards-back/blob/develop/src/main/resources/templates/banner.png?raw=true" alt=""></a>
+            <a href="https://retrocards-front.vercel.app/" target="_blank">
+                <img  style="width:100%; display: block; margin: 20px auto;"
+                      src="https://github.com/dayvidsonveiga/retrocards-back/blob/develop/src/main/resources/templates/banner.png?raw=true" alt="">
+            </a>
         </td>
         <td style="width: 10px;"></td>
     </tr>
@@ -56,42 +69,50 @@
         <td>
             <div style="padding: 20px;">
 
-                <h1 style="color: #98519b">Olá </h1>
-                <h5> A Retrospectiva de id: ${id} com titulo: ${title} foi concluída!</h5>
-                <p>Veja os itens apontados pelo time:</p>
-                <p>O que funcionou bem?</p>
-                <ul>
-                    <#list itemsWorked as item>
-                    <li>
-                        <#if item?length == 0>
-                        <span>Nenhum item cadastrado que funcionou bem</span>
-                        </#if>
-                        <span>${item.idItemRetrospective}. ${item.title} | ${item.description}</span>
-                    </li>
-                    </#list>
-                </ul>
-                <p>O que pode ser melhorado?</p>
-                <ul>
-                    <#list itemsImprove as item>
-                    <li>
-                        <#if item?length == 0>
-                        <span>Nenhum item cadastrado que precisa ser melhorado</span>
-                        </#if>
-                        <span>${item.idItemRetrospective}. ${item.title} | ${item.description}</span>
-                    </li>
-                    </#list>
-                </ul>
-                <p>O que faremos no próximo sprint para melhorar?</p>
-                <ul>
-                    <#list itemsNext as item>
-                    <li>
-                        <#if item?length == 0>
-                        <span>Nenhum item cadastrado que será realizado na próxima sprint para melhorar</span>
-                        </#if>
-                        <span>${item.idItemRetrospective}. ${item.title} | ${item.description}</span>
-                    </li>
-                    </#list>
-                </ul>
+                <h1 style="color: #5454fb; margin-bottom: 5px;">Olá </h1>
+                <h5 style="font-size: 12px; margin-bottom: 10px"> A Retrospectiva de id: ${id} com titulo: ${title} foi concluída!</h5>
+                <p style="margin-bottom: 20px;">Veja os itens apontados pelo time:</p>
+                <table>
+                    <tr>
+                        <td class="border"><p style="text-align: center;">O que funcionou bem?</p></td>
+                    </tr>
+                    <tr>
+                        <#list itemsWorked as item>
+                        <td class="border margin">
+                            <p>${item.idItemRetrospective}. ${item.title}</p>
+                            <p>${item.description}</p>
+                        </td>
+                        </#list>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td class="border"><p style="text-align: center;">O que pode ser melhorado?</p></td>
+                    </tr>
+                    <tr>
+                        <#list itemsImprove as item>
+                        <td class="border margin">
+                            <p>${item.idItemRetrospective}. ${item.title}</p>
+                            <p>${item.description}</p>
+                        </td>
+                        </#list>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td class="border">
+                            <p style="text-align: center;">O que faremos no próximo sprint para melhorar?</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <#list itemsNext as item>
+                        <td class="border margin">
+                            <p>${item.idItemRetrospective}. ${item.title} </p>
+                            <p>${item.description}</p>
+                        </td>
+                        </#list>
+                    </tr>
+                </table>
             </div>
         </td>
         <td style="width: 10px;"></td>
@@ -101,9 +122,9 @@
 
     <tr>
         <td colspan="3">
-                <span style="background-color: #98519b; display: block; padding: 10px 5px 7px; margin: 0 auto;  width: 300px; height: 30px; text-align: center;  margin-bottom: 30px;  border-style: dashed;  color: #fff;">
+                <span style="background-color: #5454fb; display: block; padding: 10px 0; margin: 0 auto;  width: 300px; text-align: center; color: #fff;">
                 <a style="font-size: 15px; text-decoration: none; color: #fff;"
-                   href="https://milled.com/brazil-empiricus-cpl/acabaram-as-newsletters-0mx4ioTVyg4xnFse">Clique aqui para abri-la </a></span>
+                   href='https://retrocards-front.vercel.app/retrospectiva/${id}' target="_blank">Clique aqui para abri-la </a></span>
         </td>
     </tr>
 
