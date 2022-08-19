@@ -79,7 +79,7 @@ public class KudoBoxServiceTest {
 
         assertNotNull(kudoBoxDTO);
         assertEquals(kudoBoxEntity.getIdKudoBox(), kudoBoxDTO.getIdKudoBox());
-        assertEquals(kudoBoxEntity.getStatus().name(), kudoBoxDTO.getStatus());
+        assertEquals(kudoBoxEntity.getStatus(), kudoBoxDTO.getStatus());
         assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
         assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
     }
@@ -125,7 +125,7 @@ public class KudoBoxServiceTest {
         assertNotNull(kudoBoxDTO);
         assertEquals(kudoBox.getIdKudoBox(), kudoBoxDTO.getIdKudoBox());
         assertEquals(kudoBox.getTitle(), kudoBoxDTO.getTitle());
-        assertEquals(kudoBox.getStatus().name(), kudoBoxDTO.getStatus());
+        assertEquals(kudoBox.getStatus(), kudoBoxDTO.getStatus());
         assertEquals(kudoBox.getEndDate(), kudoBoxDTO.getEndDate());
     }
 
@@ -143,7 +143,7 @@ public class KudoBoxServiceTest {
     private static KudoBoxCreateDTO getKudoBoxCreateDTO() {
         KudoBoxCreateDTO kudoBoxCreateDTO = new KudoBoxCreateDTO();
         kudoBoxCreateDTO.setIdSprint(1);
-        kudoBoxCreateDTO.setStatus(KudoStatus.CREATE.name());
+        kudoBoxCreateDTO.setStatus(KudoStatus.CREATE);
         kudoBoxCreateDTO.setTitle("Kudo box title");
         kudoBoxCreateDTO.setEndDate(LocalDate.from(LocalDate.of(2022, 8, 25).atTime(12, 54)));
         return kudoBoxCreateDTO;
