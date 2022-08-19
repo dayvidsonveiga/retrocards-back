@@ -26,17 +26,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -290,6 +289,7 @@ public class UserServiceTest {
     private static UserEntity getUserEntity() {
         UserEntity userEntity = new UserEntity();
         userEntity.setIdUser(1);
+        userEntity.setEmail("willian@gmail.com");
         userEntity.setName("Willian");
         userEntity.setPass("123");
         userEntity.setRole(getRolesEntity());
