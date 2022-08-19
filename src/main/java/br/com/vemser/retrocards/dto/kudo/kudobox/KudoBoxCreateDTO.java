@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.dto.kudo.kudobox;
 
+import br.com.vemser.retrocards.enums.KudoStatus;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -30,5 +31,5 @@ public class KudoBoxCreateDTO {
 
     @Schema(description = "Status da Kudo box.")
     @Hidden
-    private String status;
+    private KudoStatus status;
 }
