@@ -34,20 +34,6 @@ public class UserService {
         return entityToDTO(userRepository.save(userEntity));
     }
 
-//    public void changeRole(Integer idUser, UserType userType) throws NegociationRulesException {
-//        UserEntity userEntity = findById(idUser);
-//        if (userEntity.getRole().equals(UserType.FACILITATOR)) {
-//            userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
-//            userRepository.save(userEntity);
-//        } else if (userEntity.getRole().equals(UserType.MEMBER)) {
-//            userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
-//            userRepository.save(userEntity);
-//        } else {
-//            userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
-//            userRepository.save(userEntity);
-//        }
-//    }
-
     public UserDTO changeRole(Integer idUser, UserType userType) throws NegociationRulesException {
         UserEntity userEntity = findById(idUser);
         UserDTO userLogged = getLoggedUser();

@@ -85,19 +85,69 @@ public class UserServiceTest {
         assertEquals(userEntity.getRole().getRoleName(), userDTO.getRole());
     }
 
-//    @Test
-//    public void shouldTestChangeRole() throws NegociationRulesException {
-//        UserEntity userEntity = getUserEntity();
-//        userEntity.getRole().setRoleName(UserType.ADMIN.getRoleName());
-//        shouldTestGetIdLoggedUser();
-//
-//        when(userRepository.findById(anyInt())).thenReturn(Optional.of(userEntity));
-//        when(userRepository.save(any(UserEntity.class))).thenReturn(userEntity);
-//
-//        UserDTO userDTO = userService.changeRole(1, UserType.MEMBER);
-//
-//        assertNotNull(userDTO);
-//    }
+    @Test
+    public void shouldTestChangeRoleWithSucess() throws NegociationRulesException {
+        UserEntity userLoginEntity = getUserEntity();
+        userLoginEntity.getRole().setRoleName(UserType.ADMIN.getRoleName());
+        RolesEntity roles = getRolesEntity();
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        1,
+                        null
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(userLoginEntity));
+        when(rolesService.findByRoleName(anyString())).thenReturn(roles);
+        when(userRepository.save(any(UserEntity.class))).thenReturn(userLoginEntity);
+
+        UserDTO userDTO = userService.changeRole(1, UserType.MEMBER);
+
+        assertNotNull(userDTO);
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestChangeRoleWithoutSucess() throws NegociationRulesException {
+        UserEntity userLoginEntity = getUserEntity();
+        userLoginEntity.getRole().setRoleName(UserType.MEMBER.getRoleName());
+        RolesEntity roles = getRolesEntity();
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        1,
+                        null
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(userLoginEntity));
+        UserDTO userDTO = userService.changeRole(1, UserType.MEMBER);
+
+        assertNotNull(userDTO);
+    }
+
+    @Test
+    public void shouldTestGetIdLoggedUser() throws NegociationRulesException {
+        UserEntity userLoginEntity = getUserEntity();
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        1,
+                        null
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+        when(userRepository.findById(anyInt())).thenReturn(Optional.of(userLoginEntity));
+
+        UserDTO userLogin = userService.getLoggedUser();
+
+        assertNotNull(userLogin);
+        assertEquals(1, userLogin.getIdUser().intValue());
+        assertEquals("Willian", userLogin.getName());
+    }
 
     @Test
     public void shouldTestListAllWithSuccess() throws NegociationRulesException {
@@ -152,7 +202,7 @@ public class UserServiceTest {
     public void shouldTestGetLoggedUser() throws NegociationRulesException {
         //setup
         UserEntity userEntity = getUserEntity();
-        shouldTestGetIdLoggedUserWithSuccess();
+        shouldTestGetIdLoggedUser();
 
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(userEntity));
 
@@ -165,21 +215,6 @@ public class UserServiceTest {
         assertEquals(userEntity.getName(), userDTO.getName());
         assertEquals(userEntity.getEmail(), userDTO.getEmail());
         assertEquals(userEntity.getRole().getRoleName(), userDTO.getRole());
-    }
-
-    @Test
-    public void shouldTestGetIdLoggedUserWithSuccess() throws NegociationRulesException {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(
-                        123,
-                        "senha",
-                        Set.of(getRolesEntity())
-                );
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
-        Integer idLoggedUser = userService.getIdLoggedUser();
-
-        assertEquals(123, idLoggedUser.intValue());
     }
 
     private static UserEntity getUserEntity() {
