@@ -59,7 +59,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void sholdTestCreateSprintWithSuccess() throws NegociationRulesException {
+    public void shouldTestCreateSprintWithSuccess() throws NegociationRulesException {
         //setup
         SprintCreateDTO sprintCreateDTO = getSprintCreateDTO();
         SprintEntity sprintEntity = getSprintEntity();
@@ -77,7 +77,7 @@ public class SprintServiceTest {
     }
 
     @Test(expected = NegociationRulesException.class)
-    public void sholdTestCreateSprintWithoutSucess() throws NegociationRulesException {
+    public void shouldTestCreateSprintWithoutSucess() throws NegociationRulesException {
         //setup
         SprintCreateDTO sprintCreateDTO = getSprintCreateDTO();
         sprintCreateDTO.setStartDate(LocalDate.of(2022, 8, 18));
@@ -130,7 +130,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void sholdTestLisByDateDescWithSucess() throws NegociationRulesException {
+    public void shouldTestLisByDateDescWithSucess() throws NegociationRulesException {
         Integer pageNumber = 0;
         Integer register = 10;
         List<SprintEntity> list = List.of(getSprintEntity());
@@ -146,7 +146,7 @@ public class SprintServiceTest {
     }
 
     @Test(expected = NegociationRulesException.class)
-    public void sholdTestLisByDateDescWithoutSucess() throws NegociationRulesException {
+    public void shouldTestLisByDateDescWithoutSucess() throws NegociationRulesException {
         Integer pageNumber = 0;
         Integer register = 10;
         List<SprintEntity> list = new ArrayList<>();
@@ -162,7 +162,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void sholdTestFindByIdWithSucess() throws NegociationRulesException {
+    public void shouldTestFindByIdWithSucess() throws NegociationRulesException {
         SprintEntity sprint = getSprintEntity();
 
         when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprint));
@@ -176,7 +176,7 @@ public class SprintServiceTest {
     }
 
     @Test(expected = NegociationRulesException.class)
-    public void sholdTestFindByIdWithoutSucess() throws NegociationRulesException {
+    public void shouldTestFindByIdWithoutSucess() throws NegociationRulesException {
         SprintEntity sprint = getSprintEntity();
 
         SprintEntity sprintEntity = sprintService.findById(1);

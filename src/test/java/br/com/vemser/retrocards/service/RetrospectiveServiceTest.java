@@ -3,7 +3,10 @@ package br.com.vemser.retrocards.service;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
+import br.com.vemser.retrocards.dto.sprint.SprintDTO;
+import br.com.vemser.retrocards.dto.sprint.SprintUpdateDTO;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
@@ -130,6 +133,28 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
+    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+        RetrospectiveUpdateDTO retrospectiveUpdateDTO = getRetrospectiveUpdateDTO();
+        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
+        RetrospectiveUpdateDTO retrospectiveUpdateDTO1 = new RetrospectiveUpdateDTO();
+
+        when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
+        when(retrospectiveRepository.save(any(RetrospectiveEntity.class))).thenReturn(retrospectiveEntity);
+
+        RetrospectiveDTO retrospectiveDTO = retrospectiveService.update(1, retrospectiveUpdateDTO);
+        RetrospectiveDTO retrospectiveDTO1 = retrospectiveService.update(1, retrospectiveUpdateDTO1);
+
+        assertNotNull(retrospectiveDTO);
+        assertEquals(retrospectiveEntity.getTitle(), retrospectiveDTO.getTitle());
+        assertEquals(retrospectiveEntity.getOccurredDate(), retrospectiveDTO.getOccurredDate());
+        assertEquals(retrospectiveEntity.getOccurredDate(), retrospectiveDTO.getOccurredDate());
+
+        assertNotNull(retrospectiveDTO1);
+        assertEquals(retrospectiveEntity.getTitle(), retrospectiveDTO1.getTitle());
+        assertEquals(retrospectiveEntity.getOccurredDate(), retrospectiveDTO1.getOccurredDate());
+    }
+
+    @Test
     public void shouldTestListRetrospectiveByIdSprintWithSucess() throws NegociationRulesException {
         Integer pageNumber = 0;
         Integer register = 10;
@@ -179,6 +204,13 @@ public class RetrospectiveServiceTest {
         retrospectiveCreateDTO.setStatus(RetrospectiveStatus.CREATE.name());
         retrospectiveCreateDTO.setOccurredDate(LocalDate.of(2022, 8, 18));
         return retrospectiveCreateDTO;
+    }
+
+    private static RetrospectiveUpdateDTO getRetrospectiveUpdateDTO() {
+        RetrospectiveUpdateDTO retrospectiveUpdateDTO = new RetrospectiveUpdateDTO();
+        retrospectiveUpdateDTO.setTitle("Test");
+        retrospectiveUpdateDTO.setOccurredDate(LocalDate.of(2022, 8, 18));
+        return retrospectiveUpdateDTO;
     }
 
     private static RetrospectiveEntity getRetrospectiveEntity() {

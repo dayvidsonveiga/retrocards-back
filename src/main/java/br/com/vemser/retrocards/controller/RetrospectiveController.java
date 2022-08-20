@@ -3,6 +3,7 @@ package br.com.vemser.retrocards.controller;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
@@ -28,6 +29,13 @@ public class RetrospectiveController {
     @PostMapping("/create")
     public ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.create(retrospectiveCreateDTO), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Update retrospective")
+    @PutMapping("/update/{idRetrospective}")
+    public ResponseEntity<RetrospectiveDTO> update(@PathVariable("idRetrospective") Integer idRetrospective,
+                                                   @RequestBody RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegociationRulesException {
+        return new ResponseEntity<>(retrospectiveService.update(idRetrospective, retrospectiveUpdateDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Update retrospective status")

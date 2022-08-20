@@ -1,6 +1,7 @@
 package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
@@ -45,6 +46,25 @@ public class RetrospectiveService {
         retrospectiveEntity.setStatus(RetrospectiveStatus.CREATE);
 
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
+    }
+
+    public RetrospectiveDTO update(Integer idRetrospective, RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegociationRulesException {
+        RetrospectiveEntity retrospectiveEntityRecovered = findById(idRetrospective);
+        RetrospectiveEntity retrospectiveEntityUpdate = updateToEntity(retrospectiveUpdateDTO);
+
+        if (retrospectiveUpdateDTO.getTitle() == null) {
+            retrospectiveEntityUpdate.setTitle(retrospectiveEntityRecovered.getTitle());
+        }
+        if (retrospectiveUpdateDTO.getOccurredDate() == null) {
+            retrospectiveEntityUpdate.setOccurredDate(retrospectiveEntityRecovered.getOccurredDate());
+        }
+
+        retrospectiveEntityUpdate.setIdRetrospective(idRetrospective);
+        retrospectiveEntityUpdate.setSprint(retrospectiveEntityRecovered.getSprint());
+        retrospectiveEntityUpdate.setStatus(retrospectiveEntityRecovered.getStatus());
+        retrospectiveEntityUpdate.setItems(retrospectiveEntityRecovered.getItems());
+
+        return entityToDTO(retrospectiveRepository.save(retrospectiveEntityUpdate));
     }
 
     public RetrospectiveDTO updateStatus(Integer idRetrospectiva, RetrospectiveStatus retrospectiveStatus) throws NegociationRulesException {
@@ -102,9 +122,14 @@ public class RetrospectiveService {
         return dtoCount;
     }
 
-//    public RetrospectiveEntity createToEntity(RetrospectiveCreateDTO retrospectiveCreateDTO) {
-//        return objectMapper.convertValue(retrospectiveCreateDTO, RetrospectiveEntity.class);
-//    }
+    public RetrospectiveEntity updateToEntity(RetrospectiveUpdateDTO retrospectiveUpdateDTO) {
+        RetrospectiveEntity retrospectiveEntity = new RetrospectiveEntity();
+        retrospectiveEntity.setTitle(retrospectiveUpdateDTO.getTitle());
+        if (retrospectiveUpdateDTO.getOccurredDate() != null) {
+            retrospectiveEntity.setOccurredDate(retrospectiveUpdateDTO.getOccurredDate().atTime(23, 59, 00));
+        }
+        return retrospectiveEntity;
+    }
 
     public RetrospectiveEntity dtoToEntity(RetrospectiveDTO retrospectiveDTO) {
         return objectMapper.convertValue(retrospectiveDTO, RetrospectiveEntity.class);

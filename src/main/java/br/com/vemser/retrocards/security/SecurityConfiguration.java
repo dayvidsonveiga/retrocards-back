@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                                 // Retrospective
                                 .antMatchers("/retrospective/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
                                 .antMatchers("/retrospective/update-status/{idRetrospective}").hasAnyRole("FACILITATOR", "ADMIN")
+                                .antMatchers("/retrospective/update/{idRetrospective}").hasAnyRole("FACILITATOR", "ADMIN")
                                 .antMatchers("/retrospective/create").hasRole("FACILITATOR")
 
                                 // Sprints
