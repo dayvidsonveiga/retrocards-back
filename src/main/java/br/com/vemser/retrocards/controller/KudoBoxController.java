@@ -3,8 +3,11 @@ package br.com.vemser.retrocards.controller;
 import br.com.vemser.retrocards.documentation.KudoBoxDocumentation;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.KudoBoxService;
@@ -29,6 +32,13 @@ public class KudoBoxController {
     @PostMapping("/create")
     public ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Update kudo box")
+    @PutMapping("/update/{idKudobox}")
+    public ResponseEntity<KudoBoxDTO> update(@PathVariable("idKudobox") Integer idKudobox,
+                                                   @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException {
+        return new ResponseEntity<>(kudoBoxService.update(idKudobox, kudoBoxUpdateDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Update status kudobox")

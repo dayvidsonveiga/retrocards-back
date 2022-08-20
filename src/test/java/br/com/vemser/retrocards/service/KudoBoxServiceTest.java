@@ -2,8 +2,11 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
@@ -95,6 +98,27 @@ public class KudoBoxServiceTest {
         when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
 
         KudoBoxDTO kudoBoxDTO = kudoBoxService.create(kudoBoxCreateDTO);
+    }
+
+    @Test
+    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+        KudoBoxUpdateDTO kudoBoxUpdateDTO = getKudoBoxUpdateDTO();
+        KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
+        KudoBoxUpdateDTO kudoBoxUpdateDTO1 = new KudoBoxUpdateDTO();
+
+        when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBoxEntity));
+        when(kudoBoxRepository.save(any(KudoBoxEntity.class))).thenReturn(kudoBoxEntity);
+
+        KudoBoxDTO kudoBoxDTO = kudoBoxService.update(1, kudoBoxUpdateDTO);
+        KudoBoxDTO kudoBoxDTO1 = kudoBoxService.update(1, kudoBoxUpdateDTO1);
+
+        assertNotNull(kudoBoxDTO);
+        assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
+        assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
+
+        assertNotNull(kudoBoxDTO1);
+        assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO1.getTitle());
+        assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO1.getEndDate());
     }
 
     @Test
@@ -202,6 +226,13 @@ public class KudoBoxServiceTest {
         kudoBoxCreateDTO.setTitle("Kudo box title");
         kudoBoxCreateDTO.setEndDate(LocalDate.from(LocalDate.of(2022, 8, 25).atTime(12, 54)));
         return kudoBoxCreateDTO;
+    }
+
+    private static KudoBoxUpdateDTO getKudoBoxUpdateDTO() {
+        KudoBoxUpdateDTO kudoBoxUpdateDTO = new KudoBoxUpdateDTO();
+        kudoBoxUpdateDTO.setTitle("Kudo box title");
+        kudoBoxUpdateDTO.setEndDate(LocalDate.from(LocalDate.of(2022, 8, 25).atTime(12, 54)));
+        return kudoBoxUpdateDTO;
     }
 
     private static SprintEntity getSprintEntity() {

@@ -2,9 +2,13 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
+import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
@@ -50,6 +54,25 @@ public class KudoBoxService {
         }
     }
 
+    public KudoBoxDTO update(Integer idKudoBox, KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException {
+        KudoBoxEntity kudoBoxEntityRecovered = findById(idKudoBox);
+        KudoBoxEntity kudoBoxEntityUpdate = updateToEntity(kudoBoxUpdateDTO);
+
+        if (kudoBoxUpdateDTO.getTitle() == null) {
+            kudoBoxEntityUpdate.setTitle(kudoBoxEntityRecovered.getTitle());
+        }
+        if (kudoBoxUpdateDTO.getEndDate() == null) {
+            kudoBoxEntityUpdate.setEndDate(kudoBoxEntityRecovered.getEndDate());
+        }
+
+        kudoBoxEntityUpdate.setIdKudoBox(idKudoBox);
+        kudoBoxEntityUpdate.setSprint(kudoBoxEntityRecovered.getSprint());
+        kudoBoxEntityUpdate.setStatus(kudoBoxEntityRecovered.getStatus());
+        kudoBoxEntityUpdate.setKudocards(kudoBoxEntityRecovered.getKudocards());
+
+        return entityToDTO(kudoBoxRepository.save(kudoBoxEntityUpdate));
+    }
+
     public KudoBoxDTO updateStatus(Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
         KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
         SprintEntity sprintEntity = sprintService.findById(kudoBoxEntity.getSprint().getIdSprint());
@@ -90,6 +113,15 @@ public class KudoBoxService {
         return objectMapper.convertValue(kudoBoxDTO, KudoBoxEntity.class);
     }
 
+    public KudoBoxEntity updateToEntity(KudoBoxUpdateDTO kudoBoxUpdateDTO) {
+        KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
+        kudoBoxEntity.setTitle(kudoBoxUpdateDTO.getTitle());
+        if (kudoBoxUpdateDTO.getEndDate() != null) {
+            kudoBoxEntity.setEndDate(kudoBoxUpdateDTO.getEndDate().atTime(23, 59, 00));
+        }
+        return kudoBoxEntity;
+    }
+
     public KudoBoxDTO entityToDTO(KudoBoxEntity kudoBoxEntity) {
         KudoBoxDTO kudoBoxDTO = objectMapper.convertValue(kudoBoxEntity, KudoBoxDTO.class);
         return kudoBoxDTO;
@@ -108,4 +140,6 @@ public class KudoBoxService {
         kudoBoxDTO.setEndDate(kudoBoxCreateDTO.getEndDate().atTime(LocalTime.now()));
         return kudoBoxDTO;
     }
+
+
 }
