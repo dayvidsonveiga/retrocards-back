@@ -81,6 +81,18 @@ public class RetrospectiveService {
             }
         }
 
+        if (retrospectiveEntity.getStatus() == RetrospectiveStatus.IN_PROGRESS && retrospectiveStatus == RetrospectiveStatus.CREATE) {
+            throw new NegociationRulesException("Não é possível atualizar status de em progresso para criado!");
+        }
+
+        if (retrospectiveEntity.getStatus() == RetrospectiveStatus.FINISHED && retrospectiveStatus == RetrospectiveStatus.CREATE || retrospectiveStatus == RetrospectiveStatus.IN_PROGRESS) {
+            throw new NegociationRulesException("Não é possível atualizar status! Retrospectiva finalizada!");
+        }
+
+        if (retrospectiveEntity.getStatus() == RetrospectiveStatus.CREATE && retrospectiveStatus == RetrospectiveStatus.FINISHED) {
+            throw new NegociationRulesException("Não é possível atualizar status de criado para finalizado!");
+        }
+
         retrospectiveEntity.setStatus(retrospectiveStatus);
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
