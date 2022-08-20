@@ -14,6 +14,7 @@ import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.KudoCardRepository;
+import br.com.vemser.retrocards.util.CheckDate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +37,12 @@ public class KudoBoxService {
     private final ObjectMapper objectMapper;
     private final KudoCardRepository kudoCardRepository;
 
+    private final CheckDate checkDate;
+
     public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         SprintEntity sprintEntity = sprintService.findById(kudoBoxCreateDTO.getIdSprint());
+
+        checkDate.checkDateIsValid(sprintEntity.getEndDate(), kudoBoxCreateDTO.getEndDate());
 
         if (kudoBoxRepository.existsBySprint_IdSprintAndStatusEquals(sprintEntity.getIdSprint(), KudoStatus.IN_PROGRESS)) {
             throw new NegociationRulesException("Não é possível criar kudo box! Outra kudo box em progresso");
@@ -57,6 +62,8 @@ public class KudoBoxService {
     public KudoBoxDTO update(Integer idKudoBox, KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException {
         KudoBoxEntity kudoBoxEntityRecovered = findById(idKudoBox);
         KudoBoxEntity kudoBoxEntityUpdate = updateToEntity(kudoBoxUpdateDTO);
+
+        checkDate.checkDateIsValid(kudoBoxEntityRecovered.getSprint().getEndDate(), kudoBoxUpdateDTO.getEndDate());
 
         if (kudoBoxUpdateDTO.getTitle() == null) {
             kudoBoxEntityUpdate.setTitle(kudoBoxEntityRecovered.getTitle());

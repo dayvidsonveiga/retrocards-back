@@ -2,7 +2,6 @@ package br.com.vemser.retrocards.documentation;
 
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
-import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import io.swagger.v3.oas.annotations.Operation;

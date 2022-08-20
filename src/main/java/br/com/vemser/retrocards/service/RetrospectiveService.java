@@ -11,6 +11,7 @@ import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
+import br.com.vemser.retrocards.util.CheckDate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +31,12 @@ public class RetrospectiveService {
     private final SprintService sprintService;
     private final ObjectMapper objectMapper;
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
-
-//    private final EmailService emailService;
-
+    private final CheckDate checkDate;
 
     public RetrospectiveDTO create(RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
         SprintEntity sprintEntity = sprintService.findById(retrospectiveCreateDTO.getIdSprint());
+
+        checkDate.checkDateIsValid(sprintEntity.getEndDate(), retrospectiveCreateDTO.getOccurredDate());
 
         RetrospectiveDTO retrospectiveDTO = createToDTO(retrospectiveCreateDTO);
 
@@ -51,6 +52,8 @@ public class RetrospectiveService {
     public RetrospectiveDTO update(Integer idRetrospective, RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegociationRulesException {
         RetrospectiveEntity retrospectiveEntityRecovered = findById(idRetrospective);
         RetrospectiveEntity retrospectiveEntityUpdate = updateToEntity(retrospectiveUpdateDTO);
+
+        checkDate.checkDateIsValid(retrospectiveEntityRecovered.getSprint().getEndDate(), retrospectiveUpdateDTO.getOccurredDate());
 
         if (retrospectiveUpdateDTO.getTitle() == null) {
             retrospectiveEntityUpdate.setTitle(retrospectiveEntityRecovered.getTitle());

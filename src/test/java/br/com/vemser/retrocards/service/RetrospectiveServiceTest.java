@@ -13,6 +13,7 @@ import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
+import br.com.vemser.retrocards.util.CheckDate;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -56,6 +57,9 @@ public class RetrospectiveServiceTest {
     @Mock
     private ItemRetrospectiveRepository itemRetrospectiveRepository;
 
+    @Mock
+    private CheckDate checkDate;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -75,6 +79,7 @@ public class RetrospectiveServiceTest {
 
         when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
         when(retrospectiveRepository.save(any(RetrospectiveEntity.class))).thenReturn(retrospectiveEntity);
+        doNothing().when(checkDate).checkDateIsValid(any(LocalDateTime.class), any(LocalDate.class));
 
         RetrospectiveDTO retrospectiveDTO = retrospectiveService.create(retrospectiveCreateDTO);
 

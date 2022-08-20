@@ -14,6 +14,7 @@ import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.KudoCardRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
+import br.com.vemser.retrocards.util.CheckDate;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -61,6 +62,9 @@ public class KudoBoxServiceTest {
     @Mock
     private SprintService sprintService;
 
+    @Mock
+    private CheckDate checkDate;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -81,6 +85,7 @@ public class KudoBoxServiceTest {
 
         when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
         when(kudoBoxRepository.save(any(KudoBoxEntity.class))).thenReturn(kudoBoxEntity);
+        doNothing().when(checkDate).checkDateIsValid(any(LocalDateTime.class), any(LocalDate.class));
 
         KudoBoxDTO kudoBoxDTO = kudoBoxService.create(kudoBoxCreateDTO);
 
