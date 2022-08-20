@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                                 // Kudo Box
                                 .antMatchers("/kudobox/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
                                 .antMatchers("/kudobox/create").hasAnyRole("FACILITATOR", "ADMIN")
+                                .antMatchers("/kudobox/update-status/{idKudoBox}").hasAnyRole("FACILITATOR", "ADMIN")
 
                                 // Kudo Cards
                                 .antMatchers("/kudocard/list/kudocards/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")

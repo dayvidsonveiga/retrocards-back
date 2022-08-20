@@ -98,6 +98,41 @@ public class KudoBoxServiceTest {
     }
 
     @Test
+    public void shouldTesteUpdateStatusWithSucess() throws NegociationRulesException {
+        KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
+        SprintEntity sprintEntity = getSprintEntity();
+
+        when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBoxEntity));
+        when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
+        when(kudoBoxRepository.save(any(KudoBoxEntity.class))).thenReturn(kudoBoxEntity);
+
+        KudoBoxDTO kudoBoxDTO = kudoBoxService.updateStatus(1, KudoStatus.CREATE);
+
+        assertNotNull(kudoBoxDTO);
+        assertEquals(kudoBoxEntity.getIdKudoBox(), kudoBoxDTO.getIdKudoBox());
+        assertEquals(kudoBoxEntity.getStatus(), kudoBoxDTO.getStatus());
+        assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
+        assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTesteUpdateStatusWithoutSucess() throws NegociationRulesException {
+        KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
+        SprintEntity sprintEntity = getSprintEntityWithErroUpdateStatus();
+
+        when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBoxEntity));
+        when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
+
+        KudoBoxDTO kudoBoxDTO = kudoBoxService.updateStatus(1, KudoStatus.IN_PROGRESS);
+
+        assertNotNull(kudoBoxDTO);
+        assertEquals(kudoBoxEntity.getIdKudoBox(), kudoBoxDTO.getIdKudoBox());
+        assertEquals(kudoBoxEntity.getStatus(), kudoBoxDTO.getStatus());
+        assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
+        assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
+    }
+
+    @Test
     public void shouldTestListKudoBoxByIdSprintWithSuccess() throws NegociationRulesException {
         Integer pageNumber = 0;
         Integer registerNumber = 10;
@@ -179,6 +214,20 @@ public class KudoBoxServiceTest {
         sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
         KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
         kudoBoxEntity.setStatus(KudoStatus.CREATE);
+        sprintEntity.setKudoboxs(Set.of(kudoBoxEntity));
+        return sprintEntity;
+    }
+
+    private static SprintEntity getSprintEntityWithErroUpdateStatus() {
+        SprintEntity sprintEntity = new SprintEntity();
+        sprintEntity.setIdSprint(1);
+        sprintEntity.setTitle("Sprint title");
+        sprintEntity.setStartDate(LocalDateTime.of(2022, 8, 18, 12, 14));
+        sprintEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 12, 20));
+        sprintEntity.setUsers(Set.of(getUserEntity()));
+        sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
+        KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
+        kudoBoxEntity.setStatus(KudoStatus.IN_PROGRESS);
         sprintEntity.setKudoboxs(Set.of(kudoBoxEntity));
         return sprintEntity;
     }
