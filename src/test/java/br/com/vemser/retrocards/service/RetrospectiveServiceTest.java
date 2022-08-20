@@ -118,21 +118,6 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestDeleteWithSucess() throws NegociationRulesException {
-        Integer idParaDeletar = 1;
-        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
-
-        when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
-        doNothing().when(retrospectiveRepository).delete(any(RetrospectiveEntity.class));
-
-        // act
-        retrospectiveService.delete(idParaDeletar);
-
-        //assert
-        verify(retrospectiveRepository, times(1)).delete(any(RetrospectiveEntity.class));
-    }
-
-    @Test
     public void shouldTestUpdateWithSucess() throws NegociationRulesException {
         RetrospectiveUpdateDTO retrospectiveUpdateDTO = getRetrospectiveUpdateDTO();
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
@@ -152,6 +137,21 @@ public class RetrospectiveServiceTest {
         assertNotNull(retrospectiveDTO1);
         assertEquals(retrospectiveEntity.getTitle(), retrospectiveDTO1.getTitle());
         assertEquals(retrospectiveEntity.getOccurredDate(), retrospectiveDTO1.getOccurredDate());
+    }
+
+    @Test
+    public void shouldTestDeleteWithSucess() throws NegociationRulesException {
+        Integer idParaDeletar = 1;
+        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
+
+        when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
+        doNothing().when(retrospectiveRepository).delete(any(RetrospectiveEntity.class));
+
+        // act
+        retrospectiveService.delete(idParaDeletar);
+
+        //assert
+        verify(retrospectiveRepository, times(1)).delete(any(RetrospectiveEntity.class));
     }
 
     @Test
