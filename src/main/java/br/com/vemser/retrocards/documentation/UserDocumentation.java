@@ -17,10 +17,10 @@ public interface UserDocumentation {
     @Operation(summary = "Register new user")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the successfully created user."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Usuário criado com sucesso."),
+                    @ApiResponse(responseCode = "403", description = "Permissão inválida! Você não possui permissão de acesso."),
+                    @ApiResponse(responseCode = "400", description = "Requisição inválida! Parâmetro(s) inválido(s)."),
+                    @ApiResponse(responseCode = "500", description = "Error! Erro ao conectar ao servidor.")
             }
     )
     @PostMapping("/create")
