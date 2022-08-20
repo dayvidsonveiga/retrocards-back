@@ -7,6 +7,7 @@ import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -14,13 +15,15 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class checkEndDate {
+public class checkEndDateSchedule {
 
     private final SprintRepository sprintRepository;
     private final KudoBoxRepository kudoBoxRepository;
     private final RetrospectiveRepository retrospectiveRepository;
 
 
+    //  Busca todas sprints do banco e caso o dia atual seja posterior a data de encerramento da sprint seta as retrospectivas e kudo box  para finalizado
+    @Scheduled(cron = "0 1 00 * * *")
     public void checkEndDateSprint() {
         List<SprintEntity> sprintVerifyList = sprintRepository.findAll();
         LocalDate today = LocalDate.now();
@@ -31,14 +34,13 @@ public class checkEndDate {
 
         sprintCheckedList.forEach(sprint -> {
             sprint.getKudoboxs().forEach(kudobox -> {
-                kudobox.setStatus(KudoStatus.CREATE);
+                kudobox.setStatus(KudoStatus.FINISHED);
                 kudoBoxRepository.save(kudobox);
             });
             sprint.getRetrospectives().forEach(retrospective -> {
                 retrospective.setStatus(RetrospectiveStatus.FINISHED);
                 retrospectiveRepository.save(retrospective);
             });
-            sprintRepository.save(sprint);
         });
     }
 }

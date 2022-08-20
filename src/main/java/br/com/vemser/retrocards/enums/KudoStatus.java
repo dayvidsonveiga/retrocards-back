@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum KudoStatus {
 
     CREATE("CREATE"),
-    IN_PROGRESS("IN_PROGRESS");
+    IN_PROGRESS("IN_PROGRESS"),
+    FINISHED("FINISHED");
 
     String status;
 
