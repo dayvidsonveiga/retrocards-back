@@ -85,6 +85,11 @@ public class KudoBoxService {
         }
     }
 
+    public void delete(Integer idKudoBox) throws NegociationRulesException {
+        KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
+        kudoBoxRepository.delete(kudoBoxEntity);
+    }
+
     public PageDTO<KudoBoxWithCountOfItensDTO> listKudoBoxByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<KudoBoxEntity> page = kudoBoxRepository.findAllBySprint_IdSprint(idSprint, pageRequest);

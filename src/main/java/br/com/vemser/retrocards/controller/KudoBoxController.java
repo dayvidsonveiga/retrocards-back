@@ -28,7 +28,7 @@ public class KudoBoxController {
 
     private final KudoBoxService kudoBoxService;
 
-    @Operation(summary = "Register new kudobox")
+    @Operation(summary = "Register new kudo box")
     @PostMapping("/create")
     public ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
@@ -41,10 +41,17 @@ public class KudoBoxController {
         return new ResponseEntity<>(kudoBoxService.update(idKudobox, kudoBoxUpdateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Update status kudobox")
+    @Operation(summary = "Update status kudo box")
     @PutMapping("/update-status/{idKudoBox}")
     public ResponseEntity<KudoBoxDTO> updateStatus(@PathVariable("idKudoBox") Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.updateStatus(idKudoBox, kudoStatus), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Remove kudo box")
+    @DeleteMapping("/delete/{idKudoBox}")
+    public ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException {
+        kudoBoxService.delete(idKudoBox);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "List all the kudo boxes associated with a sprint")

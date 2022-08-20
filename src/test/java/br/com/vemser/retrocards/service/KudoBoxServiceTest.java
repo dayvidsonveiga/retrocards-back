@@ -40,7 +40,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 @RunWith(MockitoJUnitRunner.class)
 public class KudoBoxServiceTest {
@@ -154,6 +155,21 @@ public class KudoBoxServiceTest {
         assertEquals(kudoBoxEntity.getStatus(), kudoBoxDTO.getStatus());
         assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
         assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
+    }
+
+    @Test
+    public void shouldTestDeleteWithSucess() throws NegociationRulesException {
+        Integer idParaDeletar = 1;
+        KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
+
+        when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBoxEntity));
+        doNothing().when(kudoBoxRepository).delete(any(KudoBoxEntity.class));
+
+        // act
+        kudoBoxService.delete(idParaDeletar);
+
+        //assert
+        verify(kudoBoxRepository, times(1)).delete(any(KudoBoxEntity.class));
     }
 
     @Test
