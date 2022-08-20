@@ -4,6 +4,7 @@ import br.com.vemser.retrocards.documentation.SprintDocumentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintDTO;
+import br.com.vemser.retrocards.dto.sprint.SprintUpdateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintWithEndDateDTO;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.SprintService;
@@ -28,6 +29,12 @@ public class SprintController {
     @PostMapping("/create")
     public ResponseEntity<SprintDTO> create(@RequestBody @Valid SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.create(sprintCreateDTO), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Update a sprint")
+    @PutMapping("/update/{idSprint}")
+    public ResponseEntity<SprintDTO> update(@PathVariable("idSprint") Integer idSprint, @RequestBody @Valid SprintUpdateDTO sprintUpdateDTO) throws NegociationRulesException {
+        return new ResponseEntity<>(sprintService.update(idSprint, sprintUpdateDTO), HttpStatus.CREATED);
     }
 
     @Operation(summary = "List sprint in order of completion")

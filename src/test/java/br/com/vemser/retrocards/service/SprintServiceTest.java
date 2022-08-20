@@ -3,6 +3,7 @@ package br.com.vemser.retrocards.service;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintDTO;
+import br.com.vemser.retrocards.dto.sprint.SprintUpdateDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintWithEndDateDTO;
 import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
@@ -94,6 +95,29 @@ public class SprintServiceTest {
     }
 
     @Test
+    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+        SprintUpdateDTO sprintUpdateDTO = getSprintUpdateDTO();
+        SprintEntity sprintEntity = getSprintEntity();
+        SprintUpdateDTO sprintUpdateDTO1 = new SprintUpdateDTO();
+
+        when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprintEntity));
+        when(sprintRepository.save(any(SprintEntity.class))).thenReturn(sprintEntity);
+
+        SprintDTO sprintDTO = sprintService.update(1, sprintUpdateDTO);
+        SprintDTO sprintDTO1 = sprintService.update(1, sprintUpdateDTO1);
+
+        assertNotNull(sprintDTO);
+        assertEquals(sprintEntity.getTitle(), sprintDTO.getTitle());
+        assertEquals(sprintEntity.getStartDate(), sprintDTO.getStartDate());
+        assertEquals(sprintEntity.getEndDate(), sprintDTO.getEndDate());
+
+        assertNotNull(sprintDTO1);
+        assertEquals(sprintEntity.getTitle(), sprintDTO1.getTitle());
+        assertEquals(sprintEntity.getStartDate(), sprintDTO1.getStartDate());
+        assertEquals(sprintEntity.getEndDate(), sprintDTO1.getEndDate());
+    }
+
+    @Test
     public void sholdTestLisByDateDescWithSucess() throws NegociationRulesException {
         Integer pageNumber = 0;
         Integer register = 10;
@@ -159,6 +183,14 @@ public class SprintServiceTest {
         sprintCreateDTO.setStartDate(LocalDate.of(2022, 8, 18));
         sprintCreateDTO.setEndDate(LocalDate.of(2022, 8, 19));
         return sprintCreateDTO;
+    }
+
+    private static SprintUpdateDTO getSprintUpdateDTO() {
+        SprintUpdateDTO sprintUpdateDTO = new SprintUpdateDTO();
+        sprintUpdateDTO.setTitle("title");
+        sprintUpdateDTO.setStartDate(LocalDate.of(2022, 8, 18));
+        sprintUpdateDTO.setEndDate(LocalDate.of(2022, 8, 19));
+        return sprintUpdateDTO;
     }
 
     private static SprintWithEndDateDTO getSprintWithEndDateDTO() {
