@@ -72,7 +72,10 @@ public class KudoBoxServiceTest {
     public void shouldTestCreateKudoBoxWithSuccess() throws NegociationRulesException {
         KudoBoxCreateDTO kudoBoxCreateDTO = getKudoBoxCreateDTO();
         KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
+        SprintEntity sprintEntity = getSprintEntity();
 
+
+        when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
         when(kudoBoxRepository.save(any(KudoBoxEntity.class))).thenReturn(kudoBoxEntity);
 
         KudoBoxDTO kudoBoxDTO = kudoBoxService.create(kudoBoxCreateDTO);
@@ -82,6 +85,16 @@ public class KudoBoxServiceTest {
         assertEquals(kudoBoxEntity.getStatus(), kudoBoxDTO.getStatus());
         assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
         assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestCreateKudoBoxWithoutSuccess() throws NegociationRulesException {
+        KudoBoxCreateDTO kudoBoxCreateDTO = getKudoBoxCreateDTO();
+        SprintEntity sprintEntity = getSprintEntityWithInProgressKudoBox();
+
+        when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
+
+        KudoBoxDTO kudoBoxDTO = kudoBoxService.create(kudoBoxCreateDTO);
     }
 
     @Test
@@ -132,7 +145,14 @@ public class KudoBoxServiceTest {
     private static KudoBoxEntity getKudoBoxEntity() {
         KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
         kudoBoxEntity.setIdKudoBox(1);
-        kudoBoxEntity.setSprint(getSprintEntity());
+        SprintEntity sprintEntity = new SprintEntity();
+        sprintEntity.setIdSprint(1);
+        sprintEntity.setTitle("Sprint title");
+        sprintEntity.setStartDate(LocalDateTime.of(2022, 8, 18, 12, 14));
+        sprintEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 12, 20));
+        sprintEntity.setUsers(Set.of(getUserEntity()));
+        sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
+        kudoBoxEntity.setSprint(sprintEntity);
         kudoBoxEntity.setStatus(KudoStatus.CREATE);
         kudoBoxEntity.setTitle("Kudo box title");
         kudoBoxEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 10, 30));
@@ -157,6 +177,23 @@ public class KudoBoxServiceTest {
         sprintEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 12, 20));
         sprintEntity.setUsers(Set.of(getUserEntity()));
         sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
+        KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
+        kudoBoxEntity.setStatus(KudoStatus.CREATE);
+        sprintEntity.setKudoboxs(Set.of(kudoBoxEntity));
+        return sprintEntity;
+    }
+
+    private static SprintEntity getSprintEntityWithInProgressKudoBox() {
+        SprintEntity sprintEntity = new SprintEntity();
+        sprintEntity.setIdSprint(1);
+        sprintEntity.setTitle("Sprint title");
+        sprintEntity.setStartDate(LocalDateTime.of(2022, 8, 18, 12, 14));
+        sprintEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 12, 20));
+        sprintEntity.setUsers(Set.of(getUserEntity()));
+        sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
+        KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
+        kudoBoxEntity.setStatus(KudoStatus.IN_PROGRESS);
+        sprintEntity.setKudoboxs(Set.of(kudoBoxEntity));
         return sprintEntity;
     }
 
