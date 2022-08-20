@@ -31,10 +31,17 @@ public class SprintController {
         return new ResponseEntity<>(sprintService.create(sprintCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update a sprint")
+    @Operation(summary = "Update sprint")
     @PutMapping("/update/{idSprint}")
     public ResponseEntity<SprintDTO> update(@PathVariable("idSprint") Integer idSprint, @RequestBody @Valid SprintUpdateDTO sprintUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.update(idSprint, sprintUpdateDTO), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Delete sprint")
+    @DeleteMapping("/delete/{idSprint}")
+    public ResponseEntity<Void> delete(@PathVariable("idSprint") Integer idSprint) throws NegociationRulesException {
+        sprintService.delete(idSprint);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "List sprint in order of completion")

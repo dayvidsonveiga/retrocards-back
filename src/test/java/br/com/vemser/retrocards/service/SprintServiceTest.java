@@ -36,7 +36,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SprintServiceTest {
@@ -115,6 +115,18 @@ public class SprintServiceTest {
         assertEquals(sprintEntity.getTitle(), sprintDTO1.getTitle());
         assertEquals(sprintEntity.getStartDate(), sprintDTO1.getStartDate());
         assertEquals(sprintEntity.getEndDate(), sprintDTO1.getEndDate());
+    }
+
+    @Test
+    public void shouldTestDeleteWithSucess() throws NegociationRulesException {
+        SprintEntity sprintEntity = getSprintEntity();
+
+        when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprintEntity));
+        doNothing().when(sprintRepository).delete(any(SprintEntity.class));
+
+        sprintService.delete(1);
+
+        verify(sprintRepository, times(1)).delete(any(SprintEntity.class));
     }
 
     @Test

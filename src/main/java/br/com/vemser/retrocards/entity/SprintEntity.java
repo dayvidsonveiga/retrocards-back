@@ -44,10 +44,10 @@ public class SprintEntity {
     private Set<UserEntity> users;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sprint", cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sprint", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<KudoBoxEntity> kudoboxs;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sprint", cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sprint", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RetrospectiveEntity> retrospectives;
 }

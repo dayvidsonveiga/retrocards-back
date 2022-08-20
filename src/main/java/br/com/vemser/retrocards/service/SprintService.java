@@ -101,6 +101,11 @@ public class SprintService {
         return sprintEntity;
     }
 
+    public void delete(Integer idSprint) throws NegociationRulesException {
+        SprintEntity sprintEntity = findById(idSprint);
+        sprintRepository.delete(sprintEntity);
+    }
+
     public SprintWithEndDateDTO entityToSprintWithEndDateDTO(SprintEntity sprintEntity) {
         return objectMapper.convertValue(sprintEntity, SprintWithEndDateDTO.class);
     }
