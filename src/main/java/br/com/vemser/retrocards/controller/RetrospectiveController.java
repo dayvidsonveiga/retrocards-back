@@ -45,12 +45,12 @@ public class RetrospectiveController {
         return new ResponseEntity<>(retrospectiveService.updateStatus(idRetrospective, status), HttpStatus.OK);
     }
 
-//    @Operation(summary = "Remove retrospective")
-//    @DeleteMapping("/delete/{idRetrospective}")
-//    public ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
-//        retrospectiveService.delete(idRetrospective);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @Operation(summary = "Remove retrospective")
+    @DeleteMapping("/delete/{idRetrospective}")
+    public ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
+        retrospectiveService.delete(idRetrospective);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @Operation(summary = "List all the data in a retrospective")
     @GetMapping("/list/{idRetrospective}")
