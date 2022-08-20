@@ -45,7 +45,7 @@ public class ItemRetrospectiveController {
 
     @Operation(summary = "List retrospective items associated with the retrospective")
     @GetMapping("/list/retrospective/{idRetrospective}")
-    public ResponseEntity<List<ItemRetrospectiveDTO>> listByIdRetrospective(@PathVariable("idRetrospective") Integer idRetrospective) {
+    public ResponseEntity<List<ItemRetrospectiveDTO>> listByIdRetrospective(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
         return new ResponseEntity<>(itemRetrospectiveService.listByIdRetrospective(idRetrospective), HttpStatus.OK);
     }
 

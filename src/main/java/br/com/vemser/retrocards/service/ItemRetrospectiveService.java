@@ -9,6 +9,7 @@ import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
+import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,9 @@ import java.util.List;
 public class ItemRetrospectiveService {
 
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
+
     private final RetrospectiveService retrospectiveService;
+
     private final ObjectMapper objectMapper;
 
     public ItemRetrospectiveDTO create(ItemRetrospectiveCreateDTO itemRetrospectiveCreateDTO, ItemType itemType) throws NegociationRulesException {
@@ -70,7 +73,7 @@ public class ItemRetrospectiveService {
 //        return entityToDTO(findById(id));
 //    }
 
-    public List<ItemRetrospectiveDTO> listByIdRetrospective(Integer idRetrospective) {
+    public List<ItemRetrospectiveDTO> listByIdRetrospective(Integer idRetrospective) throws NegociationRulesException {
         return findByIdRetrospective(idRetrospective).stream()
                 .map(this::entityToDTO)
                 .toList();
@@ -83,7 +86,8 @@ public class ItemRetrospectiveService {
                 .orElseThrow(() -> new NegociationRulesException("Item de retrospectiva não encontrado."));
     }
 
-    public List<ItemRetrospectiveEntity> findByIdRetrospective(Integer idRetrospective) {
+    public List<ItemRetrospectiveEntity> findByIdRetrospective(Integer idRetrospective) throws NegociationRulesException {
+        retrospectiveService.findById(idRetrospective);
         return itemRetrospectiveRepository.findAllByRetrospective_IdRetrospective(idRetrospective);
     }
 
@@ -97,6 +101,7 @@ public class ItemRetrospectiveService {
 
     public ItemRetrospectiveDTO entityToDTO(ItemRetrospectiveEntity itemRetrospectiveEntity) {
         ItemRetrospectiveDTO itemRetrospectiveDTO = objectMapper.convertValue(itemRetrospectiveEntity, ItemRetrospectiveDTO.class);
+        itemRetrospectiveDTO.setIdRetrospective(itemRetrospectiveEntity.getRetrospective().getIdRetrospective());
         return itemRetrospectiveDTO;
     }
 }

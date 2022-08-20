@@ -133,7 +133,7 @@ public class ItemRetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestListByIdRetrospective() {
+    public void shouldTestListByIdRetrospective() throws NegociationRulesException {
         List<ItemRetrospectiveEntity> itemRetrospectiveEntityList = List.of(getItemRetrospectiveEntity());
 
         when(itemRetrospectiveRepository.findAllByRetrospective_IdRetrospective(anyInt())).thenReturn(itemRetrospectiveEntityList);
