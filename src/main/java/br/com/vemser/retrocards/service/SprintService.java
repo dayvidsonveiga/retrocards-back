@@ -60,6 +60,11 @@ public class SprintService {
         return entityToDTO(sprintRepository.save(sprintEntityUpdate));
     }
 
+    public void delete(Integer idSprint) throws NegociationRulesException {
+        SprintEntity sprintEntity = findById(idSprint);
+        sprintRepository.delete(sprintEntity);
+    }
+
     public PageDTO<SprintWithEndDateDTO> listByDateDesc(Integer pagina, Integer registro) throws NegociationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("endDate").descending());
         Page<SprintEntity> page = sprintRepository.findAll(pageRequest);
@@ -99,11 +104,6 @@ public class SprintService {
             sprintEntity.setEndDate(sprintUpdateDTO.getEndDate().atTime(23,59,00));
         }
         return sprintEntity;
-    }
-
-    public void delete(Integer idSprint) throws NegociationRulesException {
-        SprintEntity sprintEntity = findById(idSprint);
-        sprintRepository.delete(sprintEntity);
     }
 
     public SprintWithEndDateDTO entityToSprintWithEndDateDTO(SprintEntity sprintEntity) {
