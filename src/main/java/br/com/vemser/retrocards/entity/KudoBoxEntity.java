@@ -40,6 +40,6 @@ public class KudoBoxEntity {
     private SprintEntity sprint;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kudobox", cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kudobox", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<KudoCardEntity> kudocards;
 }
