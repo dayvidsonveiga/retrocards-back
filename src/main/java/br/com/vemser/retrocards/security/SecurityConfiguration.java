@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                                 .antMatchers("/retrospective/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
                                 .antMatchers("/retrospective/update-status/{idRetrospective}").hasAnyRole("FACILITATOR", "ADMIN")
                                 .antMatchers("/retrospective/update/{idRetrospective}").hasAnyRole("FACILITATOR", "ADMIN")
+                                .antMatchers("/retrospective/check-progress/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
                                 .antMatchers("/retrospective/create").hasRole("FACILITATOR")
 
                                 // Sprints
@@ -48,7 +49,7 @@ public class SecurityConfiguration {
                                 // Kudo Box
                                 .antMatchers("/kudobox/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
                                 .antMatchers("/kudobox/create").hasAnyRole("FACILITATOR", "ADMIN")
-                                .antMatchers("/kudobox/update-status/{idKudoBox}").hasAnyRole("FACILITATOR", "ADMIN")
+//                                .antMatchers("/kudobox/update-status/{idKudoBox}").hasAnyRole("FACILITATOR", "ADMIN")
 
                                 // Kudo Cards
                                 .antMatchers("/kudocard/list/kudocards/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")

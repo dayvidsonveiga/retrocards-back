@@ -1,12 +1,13 @@
 package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintUpdateDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintWithEndDateDTO;
+import br.com.vemser.retrocards.dto.sprint.*;
 import br.com.vemser.retrocards.entity.SprintEntity;
+import br.com.vemser.retrocards.enums.KudoStatus;
+import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.repository.KudoBoxRepository;
+import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,10 @@ public class SprintService {
 
     private final SprintRepository sprintRepository;
     private final ObjectMapper objectMapper;
+
+    private final KudoBoxRepository kudoBoxRepository;
+
+    private final RetrospectiveRepository retrospectiveRepository;
 
     public SprintDTO create(SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
         log.info("Creating a new sprint ...");
@@ -78,11 +83,32 @@ public class SprintService {
         }
     }
 
+    public SprintCheckDTO checkProgressRetrospectiveAndKudobox(Integer idSprint) throws NegociationRulesException {
+        SprintEntity sprintEntity = findById(idSprint);
+        SprintCheckDTO sprintCheck = checkDTOToEntity(sprintEntity);
+
+        if (kudoBoxRepository.existsBySprint_IdSprintAndStatusEquals(idSprint, KudoStatus.IN_PROGRESS)) {
+            sprintCheck.setVerifyKudoBox(true);
+        } else {
+            sprintCheck.setVerifyKudoBox(false);
+        }
+        if (retrospectiveRepository.existsBySprint_IdSprintAndStatusEquals(idSprint, RetrospectiveStatus.IN_PROGRESS)) {
+            sprintCheck.setVerifyRetrospective(true);
+        } else {
+            sprintCheck.setVerifyRetrospective(false);
+        }
+        return sprintCheck;
+    }
+
     // util
 
     public SprintEntity findById(Integer idSprint) throws NegociationRulesException {
         return sprintRepository.findById(idSprint)
                 .orElseThrow(() -> new NegociationRulesException("Sprint not found!"));
+    }
+
+    public SprintCheckDTO checkDTOToEntity(SprintEntity sprintEntity) {
+        return objectMapper.convertValue(sprintEntity, SprintCheckDTO.class);
     }
 
     public SprintEntity dtoToEntity(SprintDTO sprintDTO) {

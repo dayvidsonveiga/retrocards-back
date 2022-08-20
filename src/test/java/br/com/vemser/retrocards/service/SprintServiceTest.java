@@ -1,14 +1,13 @@
 package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintUpdateDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintWithEndDateDTO;
+import br.com.vemser.retrocards.dto.sprint.*;
 import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.repository.KudoBoxRepository;
+import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,6 +45,12 @@ public class SprintServiceTest {
 
     @Mock
     private SprintRepository sprintRepository;
+
+    @Mock
+    private KudoBoxRepository kudoBoxRepository;
+
+    @Mock
+    private RetrospectiveRepository retrospectiveRepository;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -187,6 +192,35 @@ public class SprintServiceTest {
         assertEquals(sprint.getStartDate(), sprintEntity.getStartDate());
     }
 
+    @Test
+    public void shouldTestCheckProgressRetrospectiveAndKudoboxTrue() throws NegociationRulesException {
+        SprintEntity sprintEntity = getSprintEntity();
+
+        when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprintEntity));
+        when(kudoBoxRepository.existsBySprint_IdSprintAndStatusEquals(anyInt(), any(KudoStatus.class))).thenReturn(true);
+        when(retrospectiveRepository.existsBySprint_IdSprintAndStatusEquals(anyInt(), any(RetrospectiveStatus.class))).thenReturn(true);
+
+        SprintCheckDTO sprintCheckDTO = sprintService.checkProgressRetrospectiveAndKudobox(sprintEntity.getIdSprint());
+
+        assertNotNull(sprintCheckDTO);
+        assertEquals(true, sprintCheckDTO.getVerifyRetrospective());
+        assertEquals(true, sprintCheckDTO.getVerifyKudoBox());
+    }
+
+    @Test
+    public void shouldTestCheckProgressRetrospectiveAndKudoboxFalse() throws NegociationRulesException {
+        SprintEntity sprintEntity = getSprintEntity();
+
+        when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprintEntity));
+        when(kudoBoxRepository.existsBySprint_IdSprintAndStatusEquals(anyInt(), any(KudoStatus.class))).thenReturn(false);
+        when(retrospectiveRepository.existsBySprint_IdSprintAndStatusEquals(anyInt(), any(RetrospectiveStatus.class))).thenReturn(false);
+
+        SprintCheckDTO sprintCheckDTO = sprintService.checkProgressRetrospectiveAndKudobox(sprintEntity.getIdSprint());
+
+        assertNotNull(sprintCheckDTO);
+        assertEquals(false, sprintCheckDTO.getVerifyRetrospective());
+        assertEquals(false, sprintCheckDTO.getVerifyKudoBox());
+    }
 
 
     private static SprintCreateDTO getSprintCreateDTO() {

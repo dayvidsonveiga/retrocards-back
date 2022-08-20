@@ -2,10 +2,7 @@ package br.com.vemser.retrocards.controller;
 
 import br.com.vemser.retrocards.documentation.SprintDocumentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintCreateDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintUpdateDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintWithEndDateDTO;
+import br.com.vemser.retrocards.dto.sprint.*;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.SprintService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,5 +45,11 @@ public class SprintController {
     @GetMapping("/list")
     public ResponseEntity<PageDTO<SprintWithEndDateDTO>> listByDateDesc(Integer page, Integer quantityPerPage) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.listByDateDesc(page, quantityPerPage), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Check progress of Retrospective and Kudo box")
+    @GetMapping("/check-progress/{idSprint}")
+    public ResponseEntity<SprintCheckDTO> checkProgressRetrospectiveAndKudobox(@PathVariable("idSprint") Integer idSprint) throws NegociationRulesException {
+        return new ResponseEntity<>(sprintService.checkProgressRetrospectiveAndKudobox(idSprint), HttpStatus.OK);
     }
 }

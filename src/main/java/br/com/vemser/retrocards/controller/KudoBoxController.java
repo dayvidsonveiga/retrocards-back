@@ -41,11 +41,11 @@ public class KudoBoxController {
         return new ResponseEntity<>(kudoBoxService.update(idKudobox, kudoBoxUpdateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Update status kudo box")
-    @PutMapping("/update-status/{idKudoBox}")
-    public ResponseEntity<KudoBoxDTO> updateStatus(@PathVariable("idKudoBox") Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
-        return new ResponseEntity<>(kudoBoxService.updateStatus(idKudoBox, kudoStatus), HttpStatus.OK);
-    }
+//    @Operation(summary = "Update status kudo box")
+//    @PutMapping("/update-status/{idKudoBox}")
+//    public ResponseEntity<KudoBoxDTO> updateStatus(@PathVariable("idKudoBox") Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
+//        return new ResponseEntity<>(kudoBoxService.updateStatus(idKudoBox, kudoStatus), HttpStatus.OK);
+//    }
 
     @Operation(summary = "Remove kudo box")
     @DeleteMapping("/delete/{idKudoBox}")

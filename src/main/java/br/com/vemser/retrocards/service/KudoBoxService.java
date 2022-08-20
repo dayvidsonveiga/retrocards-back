@@ -73,17 +73,17 @@ public class KudoBoxService {
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntityUpdate));
     }
 
-    public KudoBoxDTO updateStatus(Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
-        KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
-        SprintEntity sprintEntity = sprintService.findById(kudoBoxEntity.getSprint().getIdSprint());
-
-        if (kudoStatus == KudoStatus.IN_PROGRESS && sprintEntity.getKudoboxs().stream().anyMatch(kudobox -> kudobox.getStatus().getStatus() == kudoStatus.getStatus())) {
-            throw new NegociationRulesException("Não é possível atualizar status para em progresso! Outra kudo box já esta em progresso");
-        } else {
-            kudoBoxEntity.setStatus(kudoStatus);
-            return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
-        }
-    }
+//    public KudoBoxDTO updateStatus(Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
+//        KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
+//        SprintEntity sprintEntity = sprintService.findById(kudoBoxEntity.getSprint().getIdSprint());
+//
+//        if (kudoStatus == KudoStatus.IN_PROGRESS && sprintEntity.getKudoboxs().stream().anyMatch(kudobox -> kudobox.getStatus().getStatus() == kudoStatus.getStatus())) {
+//            throw new NegociationRulesException("Não é possível atualizar status para em progresso! Outra kudo box já esta em progresso");
+//        } else {
+//            kudoBoxEntity.setStatus(kudoStatus);
+//            return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
+//        }
+//    }
 
     public void delete(Integer idKudoBox) throws NegociationRulesException {
         KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
