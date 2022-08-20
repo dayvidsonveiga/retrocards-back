@@ -97,6 +97,7 @@ public class KudoBoxServiceTest {
         SprintEntity sprintEntity = getSprintEntityWithInProgressKudoBox();
 
         when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
+        when(kudoBoxRepository.existsBySprint_IdSprintAndStatusEquals(anyInt(), any(KudoStatus.class))).thenReturn(true);
 
         KudoBoxDTO kudoBoxDTO = kudoBoxService.create(kudoBoxCreateDTO);
     }

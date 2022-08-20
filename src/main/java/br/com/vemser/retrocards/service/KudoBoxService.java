@@ -39,7 +39,7 @@ public class KudoBoxService {
     public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         SprintEntity sprintEntity = sprintService.findById(kudoBoxCreateDTO.getIdSprint());
 
-        if (sprintEntity.getKudoboxs().stream().anyMatch(kudoBoxEntity -> kudoBoxEntity.getStatus() == KudoStatus.IN_PROGRESS)) {
+        if (kudoBoxRepository.existsBySprint_IdSprintAndStatusEquals(sprintEntity.getIdSprint(), KudoStatus.IN_PROGRESS)) {
             throw new NegociationRulesException("Não é possível criar kudo box! Outra kudo box em progresso");
         } else {
             KudoBoxDTO kudoBoxDTO = createToDTO(kudoBoxCreateDTO);
