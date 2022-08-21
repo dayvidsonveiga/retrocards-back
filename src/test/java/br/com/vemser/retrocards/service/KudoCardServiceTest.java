@@ -186,6 +186,24 @@ public class KudoCardServiceTest {
         kudoCardService.listKudoCardByIdKudoBox(1, pageNumber, registerNumber);
     }
 
+    @Test
+    public void shouldTestListById() throws NegociationRulesException {
+        KudoCardEntity kudoCardEntity = getKudoCardEntity();
+
+        when(kudoCardRepository.findById(anyInt())).thenReturn(Optional.of(kudoCardEntity));
+
+        KudoCardDTO kudoCardDTO = kudoCardService.listById(kudoCardEntity.getIdKudoCard());
+
+        assertNotNull(kudoCardDTO);
+        assertEquals(kudoCardEntity.getIdKudoCard(), kudoCardDTO.getIdKudoCard());
+        assertEquals(kudoCardEntity.getTitle(), kudoCardDTO.getTitle());
+        assertEquals(kudoCardEntity.getDescription(), kudoCardDTO.getDescription());
+        assertEquals(kudoCardEntity.getReceiver(), kudoCardDTO.getReceiver());
+        assertEquals(kudoCardEntity.getSender(), kudoCardDTO.getSender());
+        assertEquals(kudoCardEntity.getCreateDate(), kudoCardDTO.getCreateDate());
+        assertEquals(kudoCardEntity.getIdCreator(), kudoCardDTO.getIdCreator());
+    }
+
     private static KudoCardCreateDTO getKudoCardCreateDTO() {
         KudoCardCreateDTO kudoCardCreateDTO = new KudoCardCreateDTO();
         kudoCardCreateDTO.setIdKudoBox(1);

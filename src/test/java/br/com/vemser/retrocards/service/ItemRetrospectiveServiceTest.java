@@ -144,6 +144,21 @@ public class ItemRetrospectiveServiceTest {
         assertTrue(list.size() > 0);
     }
 
+    @Test
+    public void shouldTestListById() throws NegociationRulesException {
+        ItemRetrospectiveEntity itemRetrospectiveEntity = getItemRetrospectiveEntity();
+
+        when(itemRetrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(itemRetrospectiveEntity));
+
+        ItemRetrospectiveDTO itemRetrospectiveDTO = itemRetrospectiveService.listById(itemRetrospectiveEntity.getIdItemRetrospective());
+
+        assertNotNull(itemRetrospectiveDTO);
+        assertEquals(itemRetrospectiveEntity.getTitle(), itemRetrospectiveDTO.getTitle());
+        assertEquals(itemRetrospectiveEntity.getDescription(), itemRetrospectiveDTO.getDescription());
+        assertEquals(itemRetrospectiveEntity.getType(), itemRetrospectiveDTO.getType());
+        assertEquals(itemRetrospectiveEntity.getIdItemRetrospective(), itemRetrospectiveDTO.getIdItemRetrospective());
+    }
+
     private static ItemRetrospectiveEntity getItemRetrospectiveEntity() {
         ItemRetrospectiveEntity itemRetrospectiveEntity = new ItemRetrospectiveEntity();
         itemRetrospectiveEntity.setIdItemRetrospective(1);

@@ -72,6 +72,10 @@ public class ItemRetrospectiveService {
                 .toList();
     }
 
+    public ItemRetrospectiveDTO listById(Integer idItemRetrospective) throws NegociationRulesException {
+        return entityToDTO(findById(idItemRetrospective));
+    }
+
     // Util
 
     public ItemRetrospectiveEntity findById(Integer idItemRetrospective) throws NegociationRulesException {

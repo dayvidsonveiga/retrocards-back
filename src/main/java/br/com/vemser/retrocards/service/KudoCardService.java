@@ -93,6 +93,10 @@ public class KudoCardService {
         }
     }
 
+    public KudoCardDTO listById(Integer idKudoCard) throws NegociationRulesException {
+        return entityToDTO(findById(idKudoCard));
+    }
+
     // Util
 
     public KudoCardEntity findById(Integer idKudoCar) throws NegociationRulesException {
