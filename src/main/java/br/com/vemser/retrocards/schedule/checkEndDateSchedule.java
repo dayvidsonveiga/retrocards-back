@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,11 +25,11 @@ public class checkEndDateSchedule {
 
     //  Busca todas sprints do banco e caso o dia atual seja posterior a data de encerramento da sprint seta as retrospectivas e kudo box  para finalizado
     @Scheduled(cron = "0 1 00 * * *")
+    @Transactional
     public void checkEndDateSprint() {
-        List<SprintEntity> sprintVerifyList = sprintRepository.findAll();
         LocalDate today = LocalDate.now();
 
-        List<SprintEntity> sprintCheckedList = sprintVerifyList.stream().filter(
+        List<SprintEntity> sprintCheckedList = sprintRepository.findAll().stream().filter(
                 sprintEntity -> sprintEntity.getEndDate().isBefore(today.atStartOfDay())
         ).toList();
 
