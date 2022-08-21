@@ -2,6 +2,7 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
+import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
 import br.com.vemser.retrocards.entity.KudoCardEntity;
@@ -45,16 +46,38 @@ public class KudoCardService {
         return entityToDTO(kudoCardRepository.save(kudoCardEntity));
     }
 
+    public KudoCardDTO update(Integer idKudoCard, KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException {
+        KudoCardEntity kudoCardEntityRecovered = findById(idKudoCard);
+        KudoCardEntity kudoCardEntityUpdate = updateToEntity(kudoCardUpdateDTO);
+
+        checkIsCreator(kudoCardEntityRecovered.getIdCreator());
+
+        if (kudoCardUpdateDTO.getTitle() == null) {
+            kudoCardEntityUpdate.setTitle(kudoCardEntityRecovered.getTitle());
+        }
+        if (kudoCardUpdateDTO.getDescription() == null) {
+            kudoCardEntityUpdate.setDescription(kudoCardEntityRecovered.getDescription());
+        }
+
+        kudoCardEntityUpdate.setIdKudoCard(idKudoCard);
+        kudoCardEntityUpdate.setIdCreator(kudoCardEntityRecovered.getIdCreator());
+        kudoCardEntityUpdate.setCreateDate(kudoCardEntityRecovered.getCreateDate());
+        kudoCardEntityUpdate.setSender(kudoCardEntityRecovered.getSender());
+        kudoCardEntityUpdate.setReceiver(kudoCardEntityRecovered.getReceiver());
+        kudoCardEntityUpdate.setKudobox(kudoCardEntityRecovered.getKudobox());
+
+        return entityToDTO(kudoCardRepository.save(kudoCardEntityUpdate));
+    }
+
     public void delete(Integer idKudoCard) throws NegociationRulesException {
         KudoCardEntity kudoCardEntity = findById(idKudoCard);
-        if (kudoCardEntity.getIdCreator().equals(userService.getIdLoggedUser())) {
-            if (kudoCardEntity.getKudobox().getStatus().name() == KudoStatus.IN_PROGRESS.name()) {
-                kudoCardRepository.delete(kudoCardEntity);
-            } else {
-                throw new NegociationRulesException("Só é possivel deletar quando a kudo box estiver em progresso.");
-            }
+
+        checkIsCreator(kudoCardEntity.getIdCreator());
+
+        if (kudoCardEntity.getKudobox().getStatus().equals(KudoStatus.IN_PROGRESS)) {
+            kudoCardRepository.delete(kudoCardEntity);
         } else {
-            throw new NegociationRulesException("Você não é o criador desse kudo card.");
+            throw new NegociationRulesException("Só é possivel deletar quando a kudo box estiver em progresso.");
         }
     }
 
@@ -87,7 +110,13 @@ public class KudoCardService {
         return kudoCardDTO;
     }
 
-//    public KudoCardEntity updateToEntity(KudoCardUpdateDTO kudoCardUpdateDTO) {
-//        return objectMapper.convertValue(kudoCardUpdateDTO, KudoCardEntity.class);
-//    }
+    public KudoCardEntity updateToEntity(KudoCardUpdateDTO kudoCardUpdateDTO) {
+        return objectMapper.convertValue(kudoCardUpdateDTO, KudoCardEntity.class);
+    }
+
+    public void checkIsCreator (Integer idCreator) throws NegociationRulesException {
+        if (idCreator != userService.getIdLoggedUser()) {
+            throw new NegociationRulesException("Você não é o criador desse kudo card.");
+        }
+    }
 }

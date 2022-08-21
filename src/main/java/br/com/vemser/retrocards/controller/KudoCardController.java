@@ -1,8 +1,11 @@
 package br.com.vemser.retrocards.controller;
 
 import br.com.vemser.retrocards.documentation.KudoCardDocumentation;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
+import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.service.KudoCardService;
@@ -23,16 +26,23 @@ public class KudoCardController {
 
     private final KudoCardService kudoCardService;
 
-    @Operation(summary = "Register new kudocard")
+    @Operation(summary = "Register new kudo card")
     @PostMapping("/create")
     public ResponseEntity<KudoCardDTO> create(@RequestBody @Valid KudoCardCreateDTO kudoCardCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.create(kudoCardCreateDTO), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update kudo card")
+    @PutMapping("/update/{idKudoCard}")
+    public ResponseEntity<KudoCardDTO> update(@PathVariable("idKudoCard") Integer idKudoCard,
+                                             @RequestBody KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException {
+        return new ResponseEntity<>(kudoCardService.update(idKudoCard, kudoCardUpdateDTO), HttpStatus.OK);
+    }
+
     @Operation(summary = "Remove kudo card")
-    @DeleteMapping("/delete/{idKudocard}")
-    public ResponseEntity<Void> delete(@PathVariable("idKudocard") Integer idKudocard) throws NegociationRulesException {
-        kudoCardService.delete(idKudocard);
+    @DeleteMapping("/delete/{idKudoCard}")
+    public ResponseEntity<Void> delete(@PathVariable("idKudoCard") Integer idKudoCard) throws NegociationRulesException {
+        kudoCardService.delete(idKudoCard);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

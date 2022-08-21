@@ -1,7 +1,10 @@
 package br.com.vemser.retrocards.service;
 
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
+import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.UserDTO;
 import br.com.vemser.retrocards.entity.*;
@@ -96,6 +99,28 @@ public class KudoCardServiceTest {
     }
 
     @Test
+    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+        KudoCardUpdateDTO kudoCardUpdateDTO = getKudoCardUpdateDTO();
+        KudoCardEntity kudoCardEntity = getKudoCardEntity();
+        KudoCardUpdateDTO kudoCardUpdateDTO1 = new KudoCardUpdateDTO();
+
+        when(kudoCardRepository.findById(anyInt())).thenReturn(Optional.of(kudoCardEntity));
+        when(kudoCardRepository.save(any(KudoCardEntity.class))).thenReturn(kudoCardEntity);
+        when(userService.getIdLoggedUser()).thenReturn(1);
+
+        KudoCardDTO kudoCardDTO = kudoCardService.update(1, kudoCardUpdateDTO);
+        KudoCardDTO kudoCardDTO1 = kudoCardService.update(1, kudoCardUpdateDTO1);
+
+        assertNotNull(kudoCardDTO);
+        assertEquals(kudoCardEntity.getTitle(), kudoCardDTO.getTitle());
+        assertEquals(kudoCardEntity.getCreateDate(), kudoCardDTO.getCreateDate());
+
+        assertNotNull(kudoCardDTO1);
+        assertEquals(kudoCardEntity.getTitle(), kudoCardDTO1.getTitle());
+        assertEquals(kudoCardEntity.getCreateDate(), kudoCardDTO1.getCreateDate());
+    }
+
+    @Test
     public void shouldTestDeleteKudoCardWithSuccess() throws NegociationRulesException {
         KudoCardEntity kudoCardEntity = getKudoCardEntity();
         UserEntity userEntity = getUserEntity();
@@ -186,6 +211,15 @@ public class KudoCardServiceTest {
 
         kudoCardEntity.setKudobox(kudoBoxEntity);
         return kudoCardEntity;
+    }
+
+    private static KudoCardUpdateDTO getKudoCardUpdateDTO() {
+        KudoCardUpdateDTO kudoCardUpdateDTO = new KudoCardUpdateDTO();
+
+        kudoCardUpdateDTO.setTitle("Kudo card title");
+        kudoCardUpdateDTO.setDescription("Kudo card description");
+
+        return kudoCardUpdateDTO;
     }
 
     private static KudoBoxEntity getKudoBoxEntity() {
