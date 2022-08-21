@@ -26,7 +26,6 @@ public class KudoCardService {
     private final KudoCardRepository kudoCardRepository;
     private final KudoBoxService kudoBoxService;
     private final ObjectMapper objectMapper;
-
     private final UserService userService;
 
     public KudoCardDTO create(KudoCardCreateDTO kudoCardCreateDTO) throws NegociationRulesException {

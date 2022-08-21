@@ -19,8 +19,7 @@ public class LogginService {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
 
-
-    public UserLoginReturnDTO login (UserLoginDTO userLoginDTO) throws NegociationRulesException {
+    public UserLoginReturnDTO login(UserLoginDTO userLoginDTO) throws NegociationRulesException {
         UserEntity userEntity = userService.findByEmail(userLoginDTO.getEmail());
         if (userService.checkPasswordIsCorrect(userLoginDTO.getPassword(), userEntity.getPassword())) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
@@ -32,7 +31,7 @@ public class LogginService {
             String token = tokenService.getToken((UserEntity) authentication.getPrincipal());
             return userService.login(userLoginDTO, token);
         } else {
-            throw new NegociationRulesException("Email or password incorrect");
+            throw new NegociationRulesException("Email ou senha incorreta!");
         }
     }
 }

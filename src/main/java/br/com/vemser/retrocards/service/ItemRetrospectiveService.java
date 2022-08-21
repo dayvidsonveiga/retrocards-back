@@ -20,9 +20,7 @@ import java.util.List;
 public class ItemRetrospectiveService {
 
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
-
     private final RetrospectiveService retrospectiveService;
-
     private final ObjectMapper objectMapper;
 
     public ItemRetrospectiveDTO create(ItemRetrospectiveCreateDTO itemRetrospectiveCreateDTO, ItemType itemType) throws NegociationRulesException {

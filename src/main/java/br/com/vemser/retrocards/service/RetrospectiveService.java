@@ -19,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -75,7 +74,7 @@ public class RetrospectiveService {
         SprintEntity sprintEntity = retrospectiveEntity.getSprint();
 
         if (retrospectiveStatus.equals(RetrospectiveStatus.IN_PROGRESS)) {
-            if (retrospectiveRepository.existsBySprint_IdSprintAndStatusEquals(sprintEntity.getIdSprint(), RetrospectiveStatus.IN_PROGRESS)){
+            if (retrospectiveRepository.existsBySprint_IdSprintAndStatusEquals(sprintEntity.getIdSprint(), RetrospectiveStatus.IN_PROGRESS)) {
                 throw new NegociationRulesException("Não é possivel atualizar status, pois existe uma retrospectiva em progresso!");
             }
         }
@@ -152,7 +151,7 @@ public class RetrospectiveService {
     public RetrospectiveDTO createToDTO(RetrospectiveCreateDTO createDTO) {
         RetrospectiveDTO dto = new RetrospectiveDTO();
         dto.setTitle(createDTO.getTitle());
-        dto.setOccurredDate(createDTO.getOccurredDate().atTime(LocalTime.now()));
+        dto.setOccurredDate(createDTO.getOccurredDate().atTime(23, 59, 00));
         return dto;
     }
 }

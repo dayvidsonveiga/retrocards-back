@@ -28,9 +28,7 @@ public class SprintService {
 
     private final SprintRepository sprintRepository;
     private final ObjectMapper objectMapper;
-
     private final KudoBoxRepository kudoBoxRepository;
-
     private final RetrospectiveRepository retrospectiveRepository;
 
     public SprintDTO create(SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
@@ -110,7 +108,7 @@ public class SprintService {
 
     public SprintEntity findById(Integer idSprint) throws NegociationRulesException {
         return sprintRepository.findById(idSprint)
-                .orElseThrow(() -> new NegociationRulesException("Sprint not found!"));
+                .orElseThrow(() -> new NegociationRulesException("Sprint não encontrada!"));
     }
 
     public SprintCheckDTO checkDTOToEntity(SprintEntity sprintEntity) {
@@ -133,7 +131,7 @@ public class SprintService {
             sprintEntity.setStartDate(sprintUpdateDTO.getStartDate().atTime(LocalTime.now()));
         }
         if (sprintUpdateDTO.getEndDate() != null) {
-            sprintEntity.setEndDate(sprintUpdateDTO.getEndDate().atTime(23,59,00));
+            sprintEntity.setEndDate(sprintUpdateDTO.getEndDate().atTime(23, 59, 00));
         }
         return sprintEntity;
     }

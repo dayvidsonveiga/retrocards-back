@@ -28,12 +28,9 @@ import java.util.List;
 public class KudoBoxService {
 
     private final KudoBoxRepository kudoBoxRepository;
-
     private final SprintService sprintService;
-
     private final ObjectMapper objectMapper;
     private final KudoCardRepository kudoCardRepository;
-
     private final CheckDate checkDate;
 
     public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
@@ -134,7 +131,7 @@ public class KudoBoxService {
         KudoBoxDTO kudoBoxDTO = new KudoBoxDTO();
         kudoBoxDTO.setTitle(kudoBoxCreateDTO.getTitle());
         kudoBoxDTO.setStatus(kudoBoxCreateDTO.getStatus());
-        kudoBoxDTO.setEndDate(kudoBoxCreateDTO.getEndDate().atTime(LocalTime.now()));
+        kudoBoxDTO.setEndDate(kudoBoxCreateDTO.getEndDate().atTime(23, 59, 00));
         return kudoBoxDTO;
     }
 }
