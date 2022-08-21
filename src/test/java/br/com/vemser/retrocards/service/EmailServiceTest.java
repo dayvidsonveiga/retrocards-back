@@ -26,7 +26,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.mail.MessagingException;
@@ -138,7 +137,7 @@ public class EmailServiceTest {
         itemRetrospectiveDTO.setIdItemRetrospective(1);
         itemRetrospectiveDTO.setTitle("Title item retrospective");
         itemRetrospectiveDTO.setDescription("Description item retrospective");
-        itemRetrospectiveDTO.setType(ItemType.WORKED.name());
+        itemRetrospectiveDTO.setType(ItemType.WORKED);
 
         retrospectiveEmailDTO.setItemList(List.of(itemRetrospectiveDTO));
         emailDTO.setRetrospectiveEmailDTO(retrospectiveEmailDTO);
@@ -173,7 +172,7 @@ public class EmailServiceTest {
         itemRetrospectiveEntity.setIdItemRetrospective(1);
         itemRetrospectiveEntity.setTitle("Title item retrospective");
         itemRetrospectiveEntity.setDescription("Description item retrospective");
-        itemRetrospectiveEntity.setType(ItemType.WORKED.name());
+        itemRetrospectiveEntity.setType(ItemType.WORKED);
 
         retrospectiveEntity.setItems(Set.of(itemRetrospectiveEntity));
         return retrospectiveEntity;
@@ -189,7 +188,7 @@ public class EmailServiceTest {
         itemRetrospectiveDTO.setIdRetrospective(1);
         itemRetrospectiveDTO.setIdItemRetrospective(1);
         itemRetrospectiveDTO.setTitle("Title item retrospective");
-        itemRetrospectiveDTO.setType(ItemType.WORKED.name());
+        itemRetrospectiveDTO.setType(ItemType.WORKED);
         itemRetrospectiveDTO.setDescription("Description item retrospective");
 
         retrospectiveEmailDTO.setItemList(List.of(itemRetrospectiveDTO));
@@ -202,7 +201,7 @@ public class EmailServiceTest {
         itemRetrospectiveDTO.setIdRetrospective(1);
         itemRetrospectiveDTO.setTitle("Title item retrospective");
         itemRetrospectiveDTO.setDescription("Description item retrospective");
-        itemRetrospectiveDTO.setType(ItemType.WORKED.name());
+        itemRetrospectiveDTO.setType(ItemType.WORKED);
         return itemRetrospectiveDTO;
     }
 }

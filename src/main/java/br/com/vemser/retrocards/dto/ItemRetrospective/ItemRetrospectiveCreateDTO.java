@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.dto.ItemRetrospective;
 
+import br.com.vemser.retrocards.enums.ItemType;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class ItemRetrospectiveCreateDTO {
 
     @Schema(description = "Tipo do item de avaliação.")
     @Hidden
-    private String type;
+    private ItemType type;
 
     @Schema(description = "Título do item.")
     @NotBlank

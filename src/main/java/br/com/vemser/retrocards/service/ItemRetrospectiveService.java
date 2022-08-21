@@ -28,7 +28,7 @@ public class ItemRetrospectiveService {
     public ItemRetrospectiveDTO create(ItemRetrospectiveCreateDTO itemRetrospectiveCreateDTO, ItemType itemType) throws NegociationRulesException {
         RetrospectiveEntity retrospectiveEntity = retrospectiveService.findById(itemRetrospectiveCreateDTO.getIdRetrospective());
 
-        itemRetrospectiveCreateDTO.setType(itemType.name());
+        itemRetrospectiveCreateDTO.setType(itemType);
         ItemRetrospectiveEntity itemEntity = createToEntity(itemRetrospectiveCreateDTO);
         itemEntity.setRetrospective(retrospectiveEntity);
 
@@ -36,7 +36,7 @@ public class ItemRetrospectiveService {
     }
 
     public ItemRetrospectiveDTO update(Integer idItemRetrospective, ItemType itemType, ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws NegociationRulesException {
-        itemRetrospectiveUpdateDTO.setType(itemType.name());
+        itemRetrospectiveUpdateDTO.setType(itemType);
 
         ItemRetrospectiveEntity itemEntityRecovered = findById(idItemRetrospective);
         ItemRetrospectiveEntity itemEntityUpdate = updateToEntity(itemRetrospectiveUpdateDTO);

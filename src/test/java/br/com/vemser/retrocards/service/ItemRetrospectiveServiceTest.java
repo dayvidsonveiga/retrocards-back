@@ -149,7 +149,7 @@ public class ItemRetrospectiveServiceTest {
         itemRetrospectiveEntity.setIdItemRetrospective(1);
         itemRetrospectiveEntity.setTitle("test");
         itemRetrospectiveEntity.setDescription("test");
-        itemRetrospectiveEntity.setType(ItemType.WORKED.name());
+        itemRetrospectiveEntity.setType(ItemType.WORKED);
         RetrospectiveEntity retrospectiveEntity = new RetrospectiveEntity();
         retrospectiveEntity.setStatus(RetrospectiveStatus.IN_PROGRESS);
         itemRetrospectiveEntity.setRetrospective(retrospectiveEntity);
@@ -161,7 +161,7 @@ public class ItemRetrospectiveServiceTest {
         itemRetrospectiveCreateDTO.setIdRetrospective(1);
         itemRetrospectiveCreateDTO.setTitle("test");
         itemRetrospectiveCreateDTO.setDescription("test");
-        itemRetrospectiveCreateDTO.setType(ItemType.WORKED.name());
+        itemRetrospectiveCreateDTO.setType(ItemType.WORKED);
         return itemRetrospectiveCreateDTO;
     }
 
@@ -178,7 +178,7 @@ public class ItemRetrospectiveServiceTest {
         itemRetrospectiveDTO.setIdItemRetrospective(1);
         itemRetrospectiveDTO.setTitle("test");
         itemRetrospectiveDTO.setDescription("test");
-        itemRetrospectiveDTO.setType(ItemType.WORKED.name());
+        itemRetrospectiveDTO.setType(ItemType.WORKED);
         return itemRetrospectiveDTO;
     }
 

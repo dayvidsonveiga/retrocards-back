@@ -48,7 +48,6 @@ public class EmailService {
 
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
 
-    private String message = "";
 
     public String createEmail(EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegociationRulesException {
         EmailEntity emailEntity = createToEntity(emailCreateDTO);
@@ -71,13 +70,13 @@ public class EmailService {
     public EmailDTO sendEmailFinishedRetrospective(EmailDTO emailDTO) {
 
         List<ItemRetrospectiveDTO> itemsWorked = emailDTO.getRetrospectiveEmailDTO().getItemList().stream()
-                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.WORKED.name())).toList();
+                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.WORKED)).toList();
 
         List<ItemRetrospectiveDTO> itemsImprove = emailDTO.getRetrospectiveEmailDTO().getItemList().stream()
-                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.IMPROVE.name())).toList();
+                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.IMPROVE)).toList();
 
         List<ItemRetrospectiveDTO> itemsNext = emailDTO.getRetrospectiveEmailDTO().getItemList().stream()
-                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.NEXT.name())).toList();
+                .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.NEXT)).toList();
 
         MimeMessage mimeMessage = emailSender.createMimeMessage();
 
