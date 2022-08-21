@@ -2,12 +2,15 @@ package br.com.vemser.retrocards.documentation;
 
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
+import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,39 +18,61 @@ import javax.validation.Valid;
 
 public interface KudoBoxDocumentation {
 
-    @Operation(summary = "Register new kudobox")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns all kudoboxes referring to ID sprint."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna o kudo box criada."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
             }
     )
     @PostMapping("/create")
     ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "Update status kudobox")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns all kudoboxes referring to ID sprint."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna o kudo box atualizado."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
             }
     )
-    @PutMapping("/update-status/{idKudoBox}")
-    ResponseEntity<KudoBoxDTO> updateStatus(@PathVariable("idKudoBox") Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException;
+    @PutMapping("/update/{idKudobox}")
+    ResponseEntity<KudoBoxDTO> update(@PathVariable("idKudobox") Integer idKudobox,
+                                             @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "List all the kudo boxes associated with a sprint")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns all kudoboxes referring to ID sprint."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Kudo box deletado do banco de dados."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
+            }
+    )
+    @DeleteMapping("/delete/{idKudoBox}")
+    ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException;
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna lista de kudo boxes associados a Sprint."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
             }
     )
     @GetMapping("/list/sprint/{idSprint}")
-    ResponseEntity<PageDTO<KudoBoxDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer pagina, Integer registros) throws NegociationRulesException;
+    ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint,
+                                                                                     @RequestParam Integer page,
+                                                                                     @RequestParam Integer quantityPerPage) throws NegociationRulesException;
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna kudo box associado ao ID."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
+            }
+    )
+    @GetMapping("/list/{idKudobox}")
+    ResponseEntity<KudoBoxDTO> listById(@PathVariable("idKudobox") Integer idRetrospective) throws NegociationRulesException;
 }

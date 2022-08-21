@@ -28,27 +28,27 @@ public class KudoBoxController {
 
     private final KudoBoxService kudoBoxService;
 
-    @Operation(summary = "Register new kudo box")
+    @Operation(summary = "Criar novo kudo box")
     @PostMapping("/create")
     public ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update kudo box")
+    @Operation(summary = "Atualizar kudo box")
     @PutMapping("/update/{idKudobox}")
     public ResponseEntity<KudoBoxDTO> update(@PathVariable("idKudobox") Integer idKudobox,
                                              @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.update(idKudobox, kudoBoxUpdateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Remove kudo box")
+    @Operation(summary = "deletar kudo box")
     @DeleteMapping("/delete/{idKudoBox}")
     public ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException {
         kudoBoxService.delete(idKudoBox);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "List all the kudo boxes associated with a sprint")
+    @Operation(summary = "Listar todos os kudo boxes associados a Sprint")
     @GetMapping("/list/sprint/{idSprint}")
     public ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint,
                                                                                      @RequestParam Integer page,
@@ -56,7 +56,7 @@ public class KudoBoxController {
         return new ResponseEntity<>(kudoBoxService.listKudoBoxByIdSprint(idSprint, page, quantityPerPage), HttpStatus.OK);
     }
 
-    @Operation(summary = "List all the data in a kudo box")
+    @Operation(summary = "Listar o kudo box associado ao ID")
     @GetMapping("/list/{idKudobox}")
     public ResponseEntity<KudoBoxDTO> listById(@PathVariable("idKudobox") Integer idRetrospective) throws NegociationRulesException {
         return new ResponseEntity<>(kudoBoxService.listById(idRetrospective), HttpStatus.OK);

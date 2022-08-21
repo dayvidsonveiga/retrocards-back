@@ -20,5 +20,5 @@ public interface EmailDocumentation {
             }
     )
     @PostMapping("/send")
-    public ResponseEntity<String> sendEmailForAllUsers(@RequestBody @Valid EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegociationRulesException;
+    ResponseEntity<String> sendEmailForAllUsers(@RequestBody @Valid EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegociationRulesException;
 }
