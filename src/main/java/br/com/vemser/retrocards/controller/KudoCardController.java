@@ -22,35 +22,41 @@ import javax.validation.Valid;
 @RequestMapping("/kudocard")
 @Validated
 @RequiredArgsConstructor
-public class KudoCardController {
+public class KudoCardController implements KudoCardDocumentation {
 
     private final KudoCardService kudoCardService;
 
-    @Operation(summary = "Register new kudo card")
+    @Operation(summary = "Criar novo kudo card")
     @PostMapping("/create")
     public ResponseEntity<KudoCardDTO> create(@RequestBody @Valid KudoCardCreateDTO kudoCardCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.create(kudoCardCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update kudo card")
+    @Operation(summary = "Atualizar kudo card")
     @PutMapping("/update/{idKudoCard}")
     public ResponseEntity<KudoCardDTO> update(@PathVariable("idKudoCard") Integer idKudoCard,
                                              @RequestBody KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.update(idKudoCard, kudoCardUpdateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Remove kudo card")
+    @Operation(summary = "Deletar kudo card")
     @DeleteMapping("/delete/{idKudoCard}")
     public ResponseEntity<Void> delete(@PathVariable("idKudoCard") Integer idKudoCard) throws NegociationRulesException {
         kudoCardService.delete(idKudoCard);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "List all the kudo cards associated with the kudo box")
+    @Operation(summary = "Listar todos os kudo cards associados ao kudo box")
     @GetMapping("/list/kudocards/{idKudoBox}")
     public ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardByIdKudoBox(@PathVariable("idKudoBox") Integer idKudoBox,
                                                                         @RequestParam Integer page,
                                                                         @RequestParam Integer quantityPerPage) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.listKudoCardByIdKudoBox(idKudoBox, page, quantityPerPage), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Lista kudo card associado ao ID")
+    @GetMapping("/list/{idKudoCard}")
+    public ResponseEntity<KudoCardDTO> listById(@PathVariable("idKudoCard") Integer idKudoCard) throws NegociationRulesException {
+        return new ResponseEntity<>(kudoCardService.listById(idKudoCard), HttpStatus.OK);
     }
 }

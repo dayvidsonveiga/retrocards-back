@@ -63,4 +63,15 @@ public interface ItemRetrospectiveDocumentation {
     )
     @GetMapping("/list/retrospective/{idRetrospective}")
     ResponseEntity<List<ItemRetrospectiveDTO>> listByIdRetrospective(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException;
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna item de retrospectiva associado ao ID."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
+            }
+    )
+    @GetMapping("/list/{idItemRetrospective}")
+    ResponseEntity<ItemRetrospectiveDTO> listById(@PathVariable("idItemRetrospective") Integer idItemRetrospective) throws NegociationRulesException;
 }

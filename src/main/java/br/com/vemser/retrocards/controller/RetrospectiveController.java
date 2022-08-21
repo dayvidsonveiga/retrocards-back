@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
+import br.com.vemser.retrocards.documentation.RetrospectiveDocumentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
@@ -21,44 +22,44 @@ import javax.validation.Valid;
 @RequestMapping("/retrospective")
 @Validated
 @RequiredArgsConstructor
-public class RetrospectiveController {
+public class RetrospectiveController implements RetrospectiveDocumentation {
 
     private final RetrospectiveService retrospectiveService;
 
-    @Operation(summary = "Register a new retrospective")
+    @Operation(summary = "Criar nova retrospectiva")
     @PostMapping("/create")
     public ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.create(retrospectiveCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update retrospective")
+    @Operation(summary = "Atualizar retrospectiva")
     @PutMapping("/update/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> update(@PathVariable("idRetrospective") Integer idRetrospective,
                                                    @RequestBody RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.update(idRetrospective, retrospectiveUpdateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Update retrospective status")
+    @Operation(summary = "Atualizar status da retrospectiva")
     @PutMapping("/update-status/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
                                                          @RequestParam RetrospectiveStatus status) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.updateStatus(idRetrospective, status), HttpStatus.OK);
     }
 
-    @Operation(summary = "Remove retrospective")
+    @Operation(summary = "Deletar retrospectiva")
     @DeleteMapping("/delete/{idRetrospective}")
     public ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
         retrospectiveService.delete(idRetrospective);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "List all the data in a retrospective")
+    @Operation(summary = "Listar retrospectiva associada ao ID")
     @GetMapping("/list/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.listById(idRetrospective), HttpStatus.OK);
     }
 
-    @Operation(summary = "List all retrospectives associated with the sprint")
+    @Operation(summary = "Lista todas as retrospectivas associadas ao ID da sprint")
     @GetMapping("/list/sprint/{idSprint}")
     public ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint,
                                                                                     @RequestParam Integer page,

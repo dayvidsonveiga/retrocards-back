@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("/kudobox")
 @Validated
 @RequiredArgsConstructor
-public class KudoBoxController {
+public class KudoBoxController implements KudoBoxDocumentation {
 
     private final KudoBoxService kudoBoxService;
 

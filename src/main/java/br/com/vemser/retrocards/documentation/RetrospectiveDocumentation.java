@@ -3,6 +3,8 @@ package br.com.vemser.retrocards.documentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,53 +17,73 @@ import javax.validation.Valid;
 
 public interface RetrospectiveDocumentation {
 
-    @Operation(summary = "Register a new retrospective")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the successfully created retrospective."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna a retrospectiva criada."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar este serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Error! Falha na conexão com os servidores.")
             }
     )
     @PostMapping("/create")
     ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "Update retrospective status")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns the successfully updated retrospective status."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna a retrospectiva atualizada."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
             }
     )
-    @PutMapping("/update/{idRetrospective}/status")
-    ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
-                                                  RetrospectiveStatus status) throws NegociationRulesException;
+    @PutMapping("/update/{idRetrospective}")
+    ResponseEntity<RetrospectiveDTO> update(@PathVariable("idRetrospective") Integer idRetrospective,
+                                            @RequestBody RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegociationRulesException;
 
-    @Operation(summary = "List retrospective by id")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns a retrospective by its ID."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna a retrospectiva com status atualizado."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para utilizar este serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
+            }
+    )
+    @PutMapping("/update-status/{idRetrospective}")
+    ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
+                                                  @RequestParam RetrospectiveStatus status) throws NegociationRulesException;
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retrospectiva deletada com sucesso do banco de dados."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
+            }
+    )
+    @DeleteMapping("/delete/{idRetrospective}")
+    ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException;
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna a retrospectiva associada ao ID."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Erro! Falha na conexão com os servidores.")
             }
     )
     @GetMapping("/list/{idRetrospective}")
     ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException;
 
-    @Operation(summary = "List all retrospectives associated with the sprint")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Sucess! Returns all retrospectives referring to ID sprint."),
-                    @ApiResponse(responseCode = "403", description = "Invalid Permission! You do not have permission to acesses."),
-                    @ApiResponse(responseCode = "400", description = "Bad Request! Invalid parameters"),
-                    @ApiResponse(responseCode = "500", description = "Error! Could not connect to the server.")
+                    @ApiResponse(responseCode = "200", description = "Sucesso! Retorna todas as retrospectivas associadas ao ID da sprint."),
+                    @ApiResponse(responseCode = "403", description = "Permissão Inválida! Você não tem permissão para acessar esse serviço."),
+                    @ApiResponse(responseCode = "400", description = "Erro de Requisição! Parâmetros inválidos."),
+                    @ApiResponse(responseCode = "500", description = "Error! Falha na conexão com os servidores.")
             }
     )
     @GetMapping("/list/sprint/{idSprint}")
-    ResponseEntity<PageDTO<RetrospectiveDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint,
-                                                             Integer pagina, Integer registro) throws NegociationRulesException;
+    ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint,
+                                                                             @RequestParam Integer page,
+                                                                             @RequestParam Integer quantityPerPage) throws NegociationRulesException;
 }
