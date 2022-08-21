@@ -30,7 +30,8 @@ public class SprintController {
 
     @Operation(summary = "Update sprint")
     @PutMapping("/update/{idSprint}")
-    public ResponseEntity<SprintDTO> update(@PathVariable("idSprint") Integer idSprint, @RequestBody @Valid SprintUpdateDTO sprintUpdateDTO) throws NegociationRulesException {
+    public ResponseEntity<SprintDTO> update(@PathVariable("idSprint") Integer idSprint,
+                                            @RequestBody @Valid SprintUpdateDTO sprintUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.update(idSprint, sprintUpdateDTO), HttpStatus.CREATED);
     }
 
@@ -43,7 +44,8 @@ public class SprintController {
 
     @Operation(summary = "List sprint in order of completion")
     @GetMapping("/list")
-    public ResponseEntity<PageDTO<SprintWithEndDateDTO>> listByDateDesc(Integer page, Integer quantityPerPage) throws NegociationRulesException {
+    public ResponseEntity<PageDTO<SprintWithEndDateDTO>> listByDateDesc(@RequestParam Integer page,
+                                                                        @RequestParam Integer quantityPerPage) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.listByDateDesc(page, quantityPerPage), HttpStatus.OK);
     }
 

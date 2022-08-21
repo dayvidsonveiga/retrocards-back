@@ -24,15 +24,17 @@ public class ItemRetrospectiveController {
 
     private final ItemRetrospectiveService itemRetrospectiveService;
 
-    @Operation(summary = "Register a new retrospective item")
+    @Operation(summary = "Criar um novo  a new retrospective item")
     @PostMapping("/create")
-    public ResponseEntity<ItemRetrospectiveDTO> create(@RequestBody @Valid ItemRetrospectiveCreateDTO itemRetrospectiveCreateDTO, ItemType itemType) throws NegociationRulesException {
+    public ResponseEntity<ItemRetrospectiveDTO> create(@RequestBody @Valid ItemRetrospectiveCreateDTO itemRetrospectiveCreateDTO,
+                                                       @RequestParam ItemType itemType) throws NegociationRulesException {
         return new ResponseEntity<>(itemRetrospectiveService.create(itemRetrospectiveCreateDTO, itemType), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Update retrospective item")
     @PutMapping("/update/{idItem}")
-    public ResponseEntity<ItemRetrospectiveDTO> update(@PathVariable("idItem") Integer idItem, ItemType itemType,
+    public ResponseEntity<ItemRetrospectiveDTO> update(@PathVariable("idItem") Integer idItem,
+                                                       @RequestParam ItemType itemType,
                                                        @RequestBody ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(itemRetrospectiveService.update(idItem, itemType, itemRetrospectiveUpdateDTO), HttpStatus.OK);
     }
@@ -48,16 +50,4 @@ public class ItemRetrospectiveController {
     public ResponseEntity<List<ItemRetrospectiveDTO>> listByIdRetrospective(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
         return new ResponseEntity<>(itemRetrospectiveService.listByIdRetrospective(idRetrospective), HttpStatus.OK);
     }
-
-//    @Operation(summary = "List all retrospective items")
-//    @GetMapping("/list")
-//    public ResponseEntity<List<ItemRetrospectiveDTO>> list() {
-//        return new ResponseEntity<>(itemRetrospectiveService.list(), HttpStatus.OK);
-//    }
-//
-//    @Operation(summary = "List retrospective item by id")
-//    @GetMapping("/list/{idItem}")
-//    public ResponseEntity<ItemRetrospectiveDTO> listByIdItem(@PathVariable("idItem") Integer idItem) throws NegociationRulesException {
-//        return new ResponseEntity<>(itemRetrospectiveService.listByIdItem(idItem), HttpStatus.OK);
-//    }
 }

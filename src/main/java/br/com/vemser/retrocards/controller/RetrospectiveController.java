@@ -41,7 +41,7 @@ public class RetrospectiveController {
     @Operation(summary = "Update retrospective status")
     @PutMapping("/update-status/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
-                                         RetrospectiveStatus status) throws NegociationRulesException {
+                                                         @RequestParam RetrospectiveStatus status) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.updateStatus(idRetrospective, status), HttpStatus.OK);
     }
 
@@ -60,7 +60,9 @@ public class RetrospectiveController {
 
     @Operation(summary = "List all retrospectives associated with the sprint")
     @GetMapping("/list/sprint/{idSprint}")
-    public ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint, Integer page, Integer quantityPerPage) throws NegociationRulesException {
+    public ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint,
+                                                                                    @RequestParam Integer page,
+                                                                                    @RequestParam Integer quantityPerPage) throws NegociationRulesException {
         return new ResponseEntity<>(retrospectiveService.listRetrospectiveByIdSprint(idSprint, page, quantityPerPage), HttpStatus.OK);
     }
 }

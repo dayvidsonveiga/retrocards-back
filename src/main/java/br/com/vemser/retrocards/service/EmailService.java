@@ -1,8 +1,8 @@
 package br.com.vemser.retrocards.service;
 
+import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.email.EmailCreateDTO;
 import br.com.vemser.retrocards.dto.email.EmailDTO;
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveEmailDTO;
 import br.com.vemser.retrocards.entity.EmailEntity;
 import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
@@ -68,7 +68,7 @@ public class EmailService {
         return "Email enviado com sucesso!";
     }
 
-    public EmailDTO sendEmailFinishedRetrospective(EmailDTO emailDTO) throws NegociationRulesException {
+    public EmailDTO sendEmailFinishedRetrospective(EmailDTO emailDTO) {
 
         List<ItemRetrospectiveDTO> itemsWorked = emailDTO.getRetrospectiveEmailDTO().getItemList().stream()
                 .filter(itemRetrospectiveDTO -> itemRetrospectiveDTO.getType().equals(ItemType.WORKED.name())).toList();
