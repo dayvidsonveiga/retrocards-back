@@ -11,7 +11,7 @@ public class CheckDate {
 
     public void checkDateIsValid(LocalDateTime sprintEndDate, LocalDate checkDate) throws NegociationRulesException {
         if (checkDate.isAfter(sprintEndDate.toLocalDate())) {
-            throw new NegociationRulesException("A data ser inferior a data de encerramento da sprint.");
+            throw new NegociationRulesException("A data deve ser inferior a data de encerramento da sprint.");
         }
     }
 }

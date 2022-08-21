@@ -7,6 +7,7 @@ import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintDTO;
 import br.com.vemser.retrocards.dto.sprint.SprintUpdateDTO;
+import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
@@ -92,7 +93,7 @@ public class RetrospectiveServiceTest {
     @Test
     public void shouldTestUpdateStatusWithSucess() throws NegociationRulesException {
         Integer idRetrospectiva = 1;
-        RetrospectiveStatus retrospectiveStatus = RetrospectiveStatus.CREATE;
+        RetrospectiveStatus retrospectiveStatus = RetrospectiveStatus.FINISHED;
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
 
         when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
@@ -106,20 +107,52 @@ public class RetrospectiveServiceTest {
         assertEquals(retrospectiveEntity.getOccurredDate(), retrospectiveDTO.getOccurredDate());
     }
 
+
     @Test(expected = NegociationRulesException.class)
-    public void shouldTestUpdateStatusWithoutSucess() throws NegociationRulesException {
+    public void shouldTestUpdateStatusWithoutSucessInProgressToCreate() throws NegociationRulesException {
         Integer idRetrospectiva = 1;
-        RetrospectiveStatus retrospectiveStatus = RetrospectiveStatus.IN_PROGRESS;
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
 
         when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
 
-        RetrospectiveDTO retrospectiveDTO = retrospectiveService.updateStatus(idRetrospectiva, retrospectiveStatus);
+        retrospectiveService.updateStatus(idRetrospectiva, RetrospectiveStatus.CREATE);
+    }
 
-        assertNotNull(retrospectiveDTO);
-        assertEquals(retrospectiveEntity.getTitle(), retrospectiveDTO.getTitle());
-        assertEquals(retrospectiveEntity.getStatus().name(), retrospectiveDTO.getStatus().name());
-        assertEquals(retrospectiveEntity.getOccurredDate(), retrospectiveDTO.getOccurredDate());
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestUpdateStatusWithoutSucessInFinishedToCreate() throws NegociationRulesException {
+        Integer idRetrospectiva = 1;
+        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
+        retrospectiveEntity.setStatus(RetrospectiveStatus.FINISHED);
+
+        when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
+
+        retrospectiveService.updateStatus(idRetrospectiva, RetrospectiveStatus.CREATE);
+    }
+
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestUpdateStatusWithoutSucessInCreateToFinished() throws NegociationRulesException {
+        Integer idRetrospectiva = 1;
+        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
+        retrospectiveEntity.setStatus(RetrospectiveStatus.CREATE);
+
+        when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
+
+        retrospectiveService.updateStatus(idRetrospectiva, RetrospectiveStatus.FINISHED);
+    }
+
+    @Test
+    public void shouldTestUpdateStatusWithoutSucessInExistsInProgress() throws NegociationRulesException {
+        Integer idRetrospectiva = 1;
+        SprintEntity sprintEntity = getSprintEntity();
+        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
+        retrospectiveEntity.setStatus(RetrospectiveStatus.IN_PROGRESS);
+        retrospectiveEntity.setSprint(sprintEntity);
+
+
+
+        when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
+
+        retrospectiveService.updateStatus(idRetrospectiva, RetrospectiveStatus.IN_PROGRESS);
     }
 
     @Test
@@ -224,12 +257,19 @@ public class RetrospectiveServiceTest {
         retrospectiveEntity.setTitle("test");
         retrospectiveEntity.setStatus(RetrospectiveStatus.IN_PROGRESS);
         retrospectiveEntity.setOccurredDate(LocalDateTime.of(2022, 8, 18, 10, 10, 10));
+
         SprintEntity sprintEntity = new SprintEntity();
-        RetrospectiveEntity retrospective = new RetrospectiveEntity();
-        retrospective.setStatus(RetrospectiveStatus.IN_PROGRESS);
-        sprintEntity.setRetrospectives(Set.of(retrospective));
+
+        RetrospectiveEntity retrospectiveEntity1 = new RetrospectiveEntity();
+        retrospectiveEntity1.setStatus(RetrospectiveStatus.IN_PROGRESS);
+
+        RetrospectiveEntity retrospectiveEntity2 = new RetrospectiveEntity();
+        retrospectiveEntity2.setStatus(RetrospectiveStatus.IN_PROGRESS);
+
+        sprintEntity.setRetrospectives(Set.of(retrospectiveEntity1, retrospectiveEntity2));
+
         retrospectiveEntity.setSprint(sprintEntity);
-        retrospectiveEntity.setItems(null);
+
         return retrospectiveEntity;
     }
 
@@ -241,7 +281,11 @@ public class RetrospectiveServiceTest {
         sprintEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 12, 20));
         sprintEntity.setUsers(null);
         sprintEntity.setKudoboxs(null);
-        sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
+        RetrospectiveEntity retrospectiveEntity = new RetrospectiveEntity();
+        retrospectiveEntity.setStatus(RetrospectiveStatus.IN_PROGRESS);
+        RetrospectiveEntity retrospectiveEntity1 = new RetrospectiveEntity();
+        retrospectiveEntity1.setStatus(RetrospectiveStatus.IN_PROGRESS);
+        sprintEntity.setRetrospectives(Set.of(retrospectiveEntity, retrospectiveEntity1));
         return sprintEntity;
     }
 }
