@@ -30,6 +30,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import javax.validation.Validation;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -107,6 +108,16 @@ public class RetrospectiveServiceTest {
         assertEquals(retrospectiveEntity.getOccurredDate(), retrospectiveDTO.getOccurredDate());
     }
 
+    @Test(expected = NegociationRulesException.class)
+    public void shouldTestUpdateStatusWithoutSucess() throws NegociationRulesException {
+        RetrospectiveStatus retrospectiveStatus = RetrospectiveStatus.IN_PROGRESS;
+        RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
+
+        when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
+        when(retrospectiveRepository.existsBySprint_IdSprintAndStatusEquals(anyInt(), any(RetrospectiveStatus.class))).thenReturn(true);
+
+        retrospectiveService.updateStatus(retrospectiveEntity.getIdRetrospective(), retrospectiveStatus);
+    }
 
     @Test(expected = NegociationRulesException.class)
     public void shouldTestUpdateStatusWithoutSucessInProgressToCreate() throws NegociationRulesException {
@@ -259,6 +270,7 @@ public class RetrospectiveServiceTest {
         retrospectiveEntity.setOccurredDate(LocalDateTime.of(2022, 8, 18, 10, 10, 10));
 
         SprintEntity sprintEntity = new SprintEntity();
+        sprintEntity.setIdSprint(1);
 
         RetrospectiveEntity retrospectiveEntity1 = new RetrospectiveEntity();
         retrospectiveEntity1.setStatus(RetrospectiveStatus.IN_PROGRESS);

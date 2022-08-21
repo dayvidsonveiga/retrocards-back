@@ -28,7 +28,7 @@ public class RolesServiceTest {
     private RolesRepository rolesRepository;
 
     @Test
-    public void testFindByRoleName() throws NegociationRulesException {
+    public void shouldTestFindByRoleName() throws NegociationRulesException {
         //setup
         RolesEntity rolesEntity = getRolesEntity();
         when(rolesRepository.findByRoleName(anyString())).thenReturn(Optional.of(rolesEntity));

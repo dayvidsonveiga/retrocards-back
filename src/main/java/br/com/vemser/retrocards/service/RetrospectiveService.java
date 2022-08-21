@@ -74,9 +74,9 @@ public class RetrospectiveService {
         RetrospectiveEntity retrospectiveEntity = findById(idRetrospectiva);
         SprintEntity sprintEntity = retrospectiveEntity.getSprint();
 
-        if (retrospectiveStatus.name() == RetrospectiveStatus.IN_PROGRESS.name()) {
+        if (retrospectiveStatus.equals(RetrospectiveStatus.IN_PROGRESS)) {
             if (retrospectiveRepository.existsBySprint_IdSprintAndStatusEquals(sprintEntity.getIdSprint(), RetrospectiveStatus.IN_PROGRESS)){
-                throw new NegociationRulesException("Não é possivel atualizar status pois já existe uma retrospectiva em progresso!");
+                throw new NegociationRulesException("Não é possivel atualizar status, pois existe uma retrospectiva em progresso!");
             }
         }
 
