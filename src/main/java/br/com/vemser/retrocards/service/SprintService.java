@@ -5,6 +5,7 @@ import br.com.vemser.retrocards.dto.sprint.*;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
+import br.com.vemser.retrocards.enums.SprintStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
@@ -41,6 +42,7 @@ public class SprintService {
 
         SprintDTO sprintDTO = createToDTO(sprintCreateDTO);
         SprintEntity sprintEntity = dtoToEntity(sprintDTO);
+        sprintEntity.setStatus(SprintStatus.IN_PROGRESS);
 
         log.info("Sprint create successfully!");
         return entityToDTO(sprintRepository.save(sprintEntity));
@@ -61,6 +63,7 @@ public class SprintService {
         }
 
         sprintEntityUpdate.setIdSprint(idSprint);
+        sprintEntityUpdate.setStatus(sprintEntityRecovered.getStatus());
         sprintEntityUpdate.setUsers(sprintEntityRecovered.getUsers());
         sprintEntityUpdate.setRetrospectives(sprintEntityRecovered.getRetrospectives());
         sprintEntityUpdate.setKudoboxs(sprintEntityRecovered.getKudoboxs());

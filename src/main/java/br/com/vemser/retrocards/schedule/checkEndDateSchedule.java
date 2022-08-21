@@ -3,6 +3,7 @@ package br.com.vemser.retrocards.schedule;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
+import br.com.vemser.retrocards.enums.SprintStatus;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
@@ -29,9 +30,9 @@ public class checkEndDateSchedule {
     public void checkEndDateSprint() {
         LocalDate today = LocalDate.now();
 
-        List<SprintEntity> sprintCheckedList = sprintRepository.findAll().stream().filter(
-                sprintEntity -> sprintEntity.getEndDate().isBefore(today.atStartOfDay())
-        ).toList();
+        List<SprintEntity> sprintCheckedList = sprintRepository.findAllByStatusIs(SprintStatus.IN_PROGRESS).stream()
+                .filter(sprintEntity -> sprintEntity.getEndDate().isBefore(today.atStartOfDay()))
+                .toList();
 
         sprintCheckedList.forEach(sprint -> {
             sprint.getKudoboxs().forEach(kudobox -> {
@@ -42,6 +43,8 @@ public class checkEndDateSchedule {
                 retrospective.setStatus(RetrospectiveStatus.FINISHED);
                 retrospectiveRepository.save(retrospective);
             });
+            sprint.setStatus(SprintStatus.FINISHED);
+            sprintRepository.save(sprint);
         });
     }
 }

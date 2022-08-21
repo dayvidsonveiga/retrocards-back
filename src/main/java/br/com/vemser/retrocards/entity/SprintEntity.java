@@ -1,5 +1,6 @@
 package br.com.vemser.retrocards.entity;
 
+import br.com.vemser.retrocards.enums.SprintStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +34,10 @@ public class SprintEntity {
 
     @Column(name = "end_date")
     private LocalDateTime endDate;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private SprintStatus status;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
