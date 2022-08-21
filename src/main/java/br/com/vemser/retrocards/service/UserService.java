@@ -48,7 +48,9 @@ public class UserService {
     public UserLoginReturnDTO login(UserLoginDTO userLoginDTO, String token) throws NegociationRulesException {
         UserEntity userEntity = findByEmail(userLoginDTO.getEmail());
         UserLoginReturnDTO userLoginReturnDTO = new UserLoginReturnDTO();
+        userLoginReturnDTO.setIdUser(userEntity.getIdUser());
         userLoginReturnDTO.setName(userEntity.getName());
+        userLoginReturnDTO.setEmail(userEntity.getEmail());
         userLoginReturnDTO.setRole(userEntity.getRole().getRoleName());
         userLoginReturnDTO.setToken(token);
         return userLoginReturnDTO;

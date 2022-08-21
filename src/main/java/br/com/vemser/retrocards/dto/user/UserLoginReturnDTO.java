@@ -6,8 +6,14 @@ import lombok.Data;
 @Data
 public class UserLoginReturnDTO {
 
+    @Schema(description = "Id do Usuario")
+    private Integer idUser;
+
     @Schema(description = "Nome do Usuario")
     private String name;
+
+    @Schema(description = "Email do Usuario")
+    private String email;
 
     @Schema(description = "Cargo do Usuario")
     private String role;
