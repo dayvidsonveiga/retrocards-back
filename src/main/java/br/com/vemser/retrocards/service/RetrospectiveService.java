@@ -1,10 +1,10 @@
 package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
-import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
+import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
@@ -80,15 +80,15 @@ public class RetrospectiveService {
             }
         }
 
-        if (retrospectiveEntity.getStatus() == RetrospectiveStatus.IN_PROGRESS && retrospectiveStatus == RetrospectiveStatus.CREATE) {
+        if (retrospectiveEntity.getStatus().equals(RetrospectiveStatus.IN_PROGRESS) && retrospectiveStatus.equals(RetrospectiveStatus.CREATE)) {
             throw new NegociationRulesException("Não é possível atualizar status de em progresso para criado!");
         }
 
-        if (retrospectiveEntity.getStatus() == RetrospectiveStatus.FINISHED && (retrospectiveStatus == RetrospectiveStatus.CREATE || retrospectiveStatus == RetrospectiveStatus.IN_PROGRESS)) {
+        if (retrospectiveEntity.getStatus().equals(RetrospectiveStatus.FINISHED) && (retrospectiveStatus.equals(RetrospectiveStatus.CREATE) || retrospectiveStatus.equals(RetrospectiveStatus.IN_PROGRESS))) {
             throw new NegociationRulesException("Não é possível atualizar status! Retrospectiva finalizada!");
         }
 
-        if (retrospectiveEntity.getStatus() == RetrospectiveStatus.CREATE && retrospectiveStatus == RetrospectiveStatus.FINISHED) {
+        if (retrospectiveEntity.getStatus().equals(RetrospectiveStatus.CREATE) && retrospectiveStatus.equals(RetrospectiveStatus.FINISHED)) {
             throw new NegociationRulesException("Não é possível atualizar status de criado para finalizado!");
         }
 

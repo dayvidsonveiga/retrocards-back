@@ -5,10 +5,7 @@ import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
-import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
-import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
@@ -80,18 +77,6 @@ public class KudoBoxService {
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntityUpdate));
     }
 
-//    public KudoBoxDTO updateStatus(Integer idKudoBox, KudoStatus kudoStatus) throws NegociationRulesException {
-//        KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
-//        SprintEntity sprintEntity = sprintService.findById(kudoBoxEntity.getSprint().getIdSprint());
-//
-//        if (kudoStatus == KudoStatus.IN_PROGRESS && sprintEntity.getKudoboxs().stream().anyMatch(kudobox -> kudobox.getStatus().getStatus() == kudoStatus.getStatus())) {
-//            throw new NegociationRulesException("Não é possível atualizar status para em progresso! Outra kudo box já esta em progresso");
-//        } else {
-//            kudoBoxEntity.setStatus(kudoStatus);
-//            return entityToDTO(kudoBoxRepository.save(kudoBoxEntity));
-//        }
-//    }
-
     public void delete(Integer idKudoBox) throws NegociationRulesException {
         KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
         kudoBoxRepository.delete(kudoBoxEntity);
@@ -152,6 +137,4 @@ public class KudoBoxService {
         kudoBoxDTO.setEndDate(kudoBoxCreateDTO.getEndDate().atTime(LocalTime.now()));
         return kudoBoxDTO;
     }
-
-
 }

@@ -1,7 +1,6 @@
 package br.com.vemser.retrocards.repository;
 
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
-import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

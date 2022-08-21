@@ -11,16 +11,16 @@ import javax.validation.constraints.Size;
 public class UserCreateDTO {
 
     @Schema(description = "Nome do Usuario")
-    @NotBlank
+    @NotBlank(message = "O campo de name não pode ser vazio/nulo.")
     @Size(min = 3, max = 60)
     private String name;
 
     @Schema(example = "nome@gmail.com")
-    @NotBlank
+    @NotBlank(message = "O campo de email não pode ser vazio/nulo.")
     @Email(message = "Deve ser informado um e-mail válido.")
     private String email;
 
     @Schema(example = "123")
-    @NotBlank
+    @NotBlank(message = "O campo de password não pode ser vazio/nulo.")
     private String password;
 }

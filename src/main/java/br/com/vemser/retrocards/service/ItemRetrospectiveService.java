@@ -9,7 +9,6 @@ import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
-import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -68,10 +67,6 @@ public class ItemRetrospectiveService {
                 .map(this::entityToDTO)
                 .toList();
     }
-
-//    public ItemRetrospectiveDTO listByIdItem(Integer id) throws NegociationRulesException {
-//        return entityToDTO(findById(id));
-//    }
 
     public List<ItemRetrospectiveDTO> listByIdRetrospective(Integer idRetrospective) throws NegociationRulesException {
         return findByIdRetrospective(idRetrospective).stream()
