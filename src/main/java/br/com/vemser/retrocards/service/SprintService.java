@@ -61,6 +61,9 @@ public class SprintService {
         }
 
         sprintEntityUpdate.setIdSprint(idSprint);
+        sprintEntityUpdate.setUsers(sprintEntityRecovered.getUsers());
+        sprintEntityUpdate.setRetrospectives(sprintEntityRecovered.getRetrospectives());
+        sprintEntityUpdate.setKudoboxs(sprintEntityRecovered.getKudoboxs());
 
         return entityToDTO(sprintRepository.save(sprintEntityUpdate));
     }
