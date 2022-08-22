@@ -42,16 +42,12 @@ public class SprintServiceTest {
 
     @InjectMocks
     private SprintService sprintService;
-
     @Mock
     private SprintRepository sprintRepository;
-
     @Mock
     private KudoBoxRepository kudoBoxRepository;
-
     @Mock
     private RetrospectiveRepository retrospectiveRepository;
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -243,7 +239,7 @@ public class SprintServiceTest {
         SprintWithEndDateDTO sprintWithEndDateDTO = new SprintWithEndDateDTO();
         sprintWithEndDateDTO.setIdSprint(1);
         sprintWithEndDateDTO.setTitle("test");
-        sprintWithEndDateDTO.setEndDate(LocalDateTime.of(2022, 8, 18, 10,10,10));
+        sprintWithEndDateDTO.setEndDate(LocalDateTime.of(2022, 8, 18, 10, 10, 10));
         return sprintWithEndDateDTO;
     }
 

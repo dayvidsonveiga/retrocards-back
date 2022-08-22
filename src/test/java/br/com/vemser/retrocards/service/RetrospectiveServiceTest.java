@@ -5,9 +5,6 @@ import br.com.vemser.retrocards.dto.retrospective.RetrospectiveCreateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintDTO;
-import br.com.vemser.retrocards.dto.sprint.SprintUpdateDTO;
-import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
@@ -30,7 +27,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import javax.validation.Validation;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,19 +45,14 @@ public class RetrospectiveServiceTest {
 
     @InjectMocks
     private RetrospectiveService retrospectiveService;
-
     @Mock
     private RetrospectiveRepository retrospectiveRepository;
-
     @Mock
     private SprintService sprintService;
-
     @Mock
     private ItemRetrospectiveRepository itemRetrospectiveRepository;
-
     @Mock
     private CheckDate checkDate;
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -158,7 +149,6 @@ public class RetrospectiveServiceTest {
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
         retrospectiveEntity.setStatus(RetrospectiveStatus.IN_PROGRESS);
         retrospectiveEntity.setSprint(sprintEntity);
-
 
 
         when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));

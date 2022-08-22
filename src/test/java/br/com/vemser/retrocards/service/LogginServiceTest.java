@@ -26,13 +26,10 @@ public class LogginServiceTest {
 
     @InjectMocks
     private LogginService logginService;
-
     @Mock
     private UserService userService;
-
     @Mock
     private TokenService tokenService;
-
     @Mock
     private AuthenticationManager authenticationManager;
 

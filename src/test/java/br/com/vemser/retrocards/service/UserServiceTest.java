@@ -42,19 +42,14 @@ public class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
-
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private RolesService rolesService;
-
     @Mock
     private PasswordEncoder passwordEncoder;
-
     @Mock
     private RolesRepository rolesRepository;
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before

@@ -1,7 +1,5 @@
 package br.com.vemser.retrocards.service;
 
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
@@ -46,27 +44,18 @@ public class KudoCardServiceTest {
 
     @InjectMocks
     private KudoCardService kudoCardService;
-
     @Mock
     private KudoCardRepository kudoCardRepository;
-
     @Mock
     private KudoBoxService kudoBoxService;
-
     @Mock
     private UserService userService;
-
     @Mock
     private KudoBoxRepository kudoBoxRepository;
-
     @Mock
     private UserRepository userRepository;
-
-
-
     @Mock
     private LogginService logginService;
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before

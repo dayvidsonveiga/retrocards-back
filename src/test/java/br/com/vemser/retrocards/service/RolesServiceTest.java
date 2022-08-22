@@ -4,7 +4,6 @@ import br.com.vemser.retrocards.entity.RolesEntity;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
 import br.com.vemser.retrocards.repository.RolesRepository;
-import br.com.vemser.retrocards.service.RolesService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,7 +13,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +23,6 @@ public class RolesServiceTest {
 
     @InjectMocks
     private RolesService rolesService;
-
     @Mock
     private RolesRepository rolesRepository;
 

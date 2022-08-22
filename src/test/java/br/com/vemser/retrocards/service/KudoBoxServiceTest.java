@@ -5,8 +5,6 @@ import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
-import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
@@ -42,29 +40,22 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @RunWith(MockitoJUnitRunner.class)
 public class KudoBoxServiceTest {
 
     @InjectMocks
     private KudoBoxService kudoBoxService;
-
     @Mock
     private KudoBoxRepository kudoBoxRepository;
-
     @Mock
     private KudoCardRepository kudoCardRepository;
-
     @Mock
     private SprintRepository sprintRepository;
-
     @Mock
     private SprintService sprintService;
-
     @Mock
     private CheckDate checkDate;
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before

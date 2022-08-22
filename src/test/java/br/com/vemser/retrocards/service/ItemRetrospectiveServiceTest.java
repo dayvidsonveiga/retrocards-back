@@ -38,13 +38,10 @@ public class ItemRetrospectiveServiceTest {
 
     @InjectMocks
     private ItemRetrospectiveService itemRetrospectiveService;
-
     @Mock
     private ItemRetrospectiveRepository itemRetrospectiveRepository;
-
     @Mock
     private RetrospectiveService retrospectiveService;
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -188,15 +185,6 @@ public class ItemRetrospectiveServiceTest {
         return itemRetrospectiveUpdateDTO;
     }
 
-    private static ItemRetrospectiveDTO getItemRetrospectiveDTO() {
-        ItemRetrospectiveDTO itemRetrospectiveDTO = new ItemRetrospectiveDTO();
-        itemRetrospectiveDTO.setIdItemRetrospective(1);
-        itemRetrospectiveDTO.setTitle("test");
-        itemRetrospectiveDTO.setDescription("test");
-        itemRetrospectiveDTO.setType(ItemType.WORKED);
-        return itemRetrospectiveDTO;
-    }
-
     private static RetrospectiveEntity getRetrospectiveEntity() {
         RetrospectiveEntity retrospectiveEntity = new RetrospectiveEntity();
         retrospectiveEntity.setIdRetrospective(1);
@@ -213,5 +201,4 @@ public class ItemRetrospectiveServiceTest {
         retrospectiveEntity.setItems(Set.of(itemRetrospectiveEntity));
         return retrospectiveEntity;
     }
-
 }
