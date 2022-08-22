@@ -32,33 +32,43 @@ public class SecurityConfiguration {
                                 // User
                                 .antMatchers("/user/change-role/{idUser}").hasRole("ADMIN")
                                 .antMatchers("/user/list").hasAnyRole("FACILITATOR", "ADMIN")
-                                .antMatchers("/user/list-name-email").hasAnyRole("FACILITATOR", "ADMIN", "MEMBER")
+                                .antMatchers("/user/list-name-email").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
                                 .antMatchers("/user/get-logged").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
 
+                                // Sprints
+                                .antMatchers("/sprint/delete/{idSprint}").hasRole("FACILITATOR")
+                                .antMatchers("/sprint/update/{idSprint}").hasRole("FACILITATOR")
+                                .antMatchers("/sprint/check-progress/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER")
+                                .antMatchers("/sprint/create").hasAnyRole("FACILITATOR")
+                                .antMatchers("/sprint/list").hasAnyRole("FACILITATOR", "MEMBER")
+
                                 // Retrospective
-                                .antMatchers("/retrospective/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
-                                .antMatchers("/retrospective/update-status/{idRetrospective}").hasAnyRole("FACILITATOR", "ADMIN")
-                                .antMatchers("/retrospective/update/{idRetrospective}").hasAnyRole("FACILITATOR", "ADMIN")
-                                .antMatchers("/retrospective/check-progress/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/retrospective/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER")
+                                .antMatchers("/retrospective/delete/{idRetrospective}").hasRole("FACILITATOR")
+                                .antMatchers("/retrospective/list/{idRetrospective}").hasAnyRole("FACILITATOR", "MEMBER")
+                                .antMatchers("/retrospective/update/{idRetrospective}").hasRole("FACILITATOR")
+                                .antMatchers("/retrospective/update-status/{idRetrospective}").hasRole("FACILITATOR")
                                 .antMatchers("/retrospective/create").hasRole("FACILITATOR")
 
-                                // Sprints
-                                .antMatchers("/sprint/list").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
-                                .antMatchers("/sprint/create").hasAnyRole("FACILITATOR", "ADMIN")
-
-                                // Kudo Box
-                                .antMatchers("/kudobox/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
-                                .antMatchers("/kudobox/create").hasAnyRole("FACILITATOR", "ADMIN")
-//                                .antMatchers("/kudobox/update-status/{idKudoBox}").hasAnyRole("FACILITATOR", "ADMIN")
-
                                 // Kudo Cards
-                                .antMatchers("/kudocard/list/kudocards/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
                                 .antMatchers("/kudocard/delete/{idKudocard}").hasRole("MEMBER")
+                                .antMatchers("/kudocard/update/{idKudoCard}").hasRole("MEMBER")
+                                .antMatchers("/kudocard/list/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER")
+                                .antMatchers("/kudocard/list/kudocards/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER")
                                 .antMatchers("/kudocard/create").hasRole("MEMBER")
 
+                                // Kudo Box
+                                .antMatchers("/kudobox/list/sprint/{idSprint}").hasAnyRole("FACILITATOR", "MEMBER")
+                                .antMatchers("/kudobox/delete/{idKudoBox}").hasRole("FACILITATOR")
+                                .antMatchers("/kudobox/update/{idKudoBox}").hasRole("FACILITATOR")
+                                .antMatchers("/kudobox/list/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER")
+                                .antMatchers("/kudobox/create").hasRole("FACILITATOR")
+
                                 // Item Retrospective
-                                .antMatchers("/itemretrospective/list/retrospective/{idRetrospective}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
-                                .antMatchers("/itemretrospective/delete/{idItem}").hasAnyRole("FACILITATOR", "MEMBER", "ADMIN")
+                                .antMatchers("/itemretrospective/list/retrospective/{idRetrospective}").hasAnyRole("FACILITATOR", "MEMBER")
+                                .antMatchers("/itemretrospective/delete/{idItem}").hasRole("MEMBER")
+                                .antMatchers("/itemretrospective/update/{idItem}").hasRole("MEMBER")
+                                .antMatchers("/itemretrospective/list/{idItemRetrospective}").hasAnyRole("FACILITATOR", "MEMBER")
                                 .antMatchers("/itemretrospective/create").hasRole("MEMBER")
 
                                 // Email

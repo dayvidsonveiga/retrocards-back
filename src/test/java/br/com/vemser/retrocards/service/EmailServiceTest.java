@@ -47,22 +47,16 @@ public class EmailServiceTest {
 
     @InjectMocks
     private EmailService emailService;
-
     @Mock
     private EmailRepository emailRepository;
-
     @Mock
     private freemarker.template.Configuration fmConfiguration;
-
     @Mock
     private JavaMailSender javaMailSender;
-
     @Mock
     private MimeMessage mimeMessage;
-
     @Mock
     private RetrospectiveService retrospectiveService;
-
     @Mock
     private ItemRetrospectiveRepository itemRetrospectiveRepository;
 
@@ -99,18 +93,15 @@ public class EmailServiceTest {
     }
 
     @Test
-    public void shouldTestCreateEmailWithoutSuccess() throws IOException, MessagingException, NegociationRulesException {
-
+    public void shouldTestCreateEmailWithoutSuccess() {
         EmailDTO emailDTO = getEmailDTO();
 
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
         ReflectionTestUtils.setField(emailService, "from", null);
 
-        EmailDTO emailDTO1 = emailService.sendEmailFinishedRetrospective(emailDTO);
+        emailService.sendEmailFinishedRetrospective(emailDTO);
 
         verify(javaMailSender, times(0)).send(any(MimeMessage.class));
-
-        assertNotNull(emailDTO1);
     }
 
     private static EmailEntity getEmailEntity() {
@@ -176,32 +167,5 @@ public class EmailServiceTest {
 
         retrospectiveEntity.setItems(Set.of(itemRetrospectiveEntity));
         return retrospectiveEntity;
-    }
-
-    private static RetrospectiveEmailDTO getRetrospectiveEmailDTO() {
-        RetrospectiveEmailDTO retrospectiveEmailDTO = new RetrospectiveEmailDTO();
-        retrospectiveEmailDTO.setIdRetrospective(1);
-        retrospectiveEmailDTO.setTitle("Title retrospective email");
-        retrospectiveEmailDTO.setOccurredDate(LocalDateTime.of(2022, 8, 19, 20, 30));
-
-        ItemRetrospectiveDTO itemRetrospectiveDTO = new ItemRetrospectiveDTO();
-        itemRetrospectiveDTO.setIdRetrospective(1);
-        itemRetrospectiveDTO.setIdItemRetrospective(1);
-        itemRetrospectiveDTO.setTitle("Title item retrospective");
-        itemRetrospectiveDTO.setType(ItemType.WORKED);
-        itemRetrospectiveDTO.setDescription("Description item retrospective");
-
-        retrospectiveEmailDTO.setItemList(List.of(itemRetrospectiveDTO));
-        return retrospectiveEmailDTO;
-    }
-
-    private static ItemRetrospectiveDTO getItemRetrospectiveDTO() {
-        ItemRetrospectiveDTO itemRetrospectiveDTO = new ItemRetrospectiveDTO();
-        itemRetrospectiveDTO.setIdItemRetrospective(1);
-        itemRetrospectiveDTO.setIdRetrospective(1);
-        itemRetrospectiveDTO.setTitle("Title item retrospective");
-        itemRetrospectiveDTO.setDescription("Description item retrospective");
-        itemRetrospectiveDTO.setType(ItemType.WORKED);
-        return itemRetrospectiveDTO;
     }
 }
