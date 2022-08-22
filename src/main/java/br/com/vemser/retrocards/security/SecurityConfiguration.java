@@ -51,10 +51,10 @@ public class SecurityConfiguration {
                                 .antMatchers("/retrospective/create").hasRole("FACILITATOR")
 
                                 // Kudo Cards
+                                .antMatchers("/kudocard/list/kudocards/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER")
                                 .antMatchers("/kudocard/delete/{idKudocard}").hasRole("MEMBER")
                                 .antMatchers("/kudocard/update/{idKudoCard}").hasRole("MEMBER")
                                 .antMatchers("/kudocard/list/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER")
-                                .antMatchers("/kudocard/list/kudocards/{idKudoBox}").hasAnyRole("FACILITATOR", "MEMBER")
                                 .antMatchers("/kudocard/create").hasRole("MEMBER")
 
                                 // Kudo Box
