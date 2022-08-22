@@ -70,10 +70,7 @@ public class LogginServiceTest {
 
         when(userService.findByEmail(anyString())).thenReturn(userEntity);
 
-        UserLoginReturnDTO userLoginReturnDTO = logginService.login(userLoginDTO);
-
-        assertNotNull(userLoginReturnDTO);
-        assertEquals(userEntity.getName(), userLoginReturnDTO.getName());
+        logginService.login(userLoginDTO);
     }
 
     private static UserLoginDTO getUserLoginDTO() {
@@ -101,12 +98,5 @@ public class LogginServiceTest {
         userLoginReturnDTO.setToken("token");
         userLoginReturnDTO.setRole("ROLE_ADMIN");
         return userLoginReturnDTO;
-    }
-
-    private static RolesEntity getRolesEntity() {
-        RolesEntity rolesEntity = new RolesEntity();
-        rolesEntity.setIdRoles(1);
-        rolesEntity.setRoleName("ROLE_MEMBER");
-        return rolesEntity;
     }
 }

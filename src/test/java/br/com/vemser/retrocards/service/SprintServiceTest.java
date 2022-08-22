@@ -83,16 +83,9 @@ public class SprintServiceTest {
         SprintCreateDTO sprintCreateDTO = getSprintCreateDTO();
         sprintCreateDTO.setStartDate(LocalDate.of(2022, 8, 18));
         sprintCreateDTO.setEndDate(LocalDate.of(2022, 8, 17));
-        SprintEntity sprintEntity = getSprintEntity();
 
         //act
-        SprintDTO sprintDTO = sprintService.create(sprintCreateDTO);
-
-        //asserts
-        assertNotNull(sprintDTO);
-        assertEquals(sprintEntity.getTitle(), sprintDTO.getTitle());
-        assertEquals(sprintEntity.getStartDate(), sprintDTO.getStartDate());
-        assertEquals(sprintEntity.getEndDate(), sprintDTO.getEndDate());
+        sprintService.create(sprintCreateDTO);
     }
 
     @Test
@@ -156,10 +149,7 @@ public class SprintServiceTest {
         when(sprintRepository.findAll(any(Pageable.class)))
                 .thenReturn(dtoPage);
 
-        PageDTO<SprintWithEndDateDTO> pageDTO = sprintService.listByDateDesc(pageNumber, register);
-
-        assertNotNull(pageDTO);
-        assertEquals(1, pageDTO.getContent().size());
+        sprintService.listByDateDesc(pageNumber, register);
     }
 
     @Test
@@ -178,14 +168,7 @@ public class SprintServiceTest {
 
     @Test(expected = NegociationRulesException.class)
     public void shouldTestFindByIdWithoutSucess() throws NegociationRulesException {
-        SprintEntity sprint = getSprintEntity();
-
-        SprintEntity sprintEntity = sprintService.findById(1);
-
-        assertNotNull(sprintEntity);
-        assertEquals(sprint.getTitle(), sprintEntity.getTitle());
-        assertEquals(sprint.getIdSprint(), sprintEntity.getIdSprint());
-        assertEquals(sprint.getStartDate(), sprintEntity.getStartDate());
+        sprintService.findById(1);
     }
 
     @Test
@@ -235,23 +218,6 @@ public class SprintServiceTest {
         return sprintUpdateDTO;
     }
 
-    private static SprintWithEndDateDTO getSprintWithEndDateDTO() {
-        SprintWithEndDateDTO sprintWithEndDateDTO = new SprintWithEndDateDTO();
-        sprintWithEndDateDTO.setIdSprint(1);
-        sprintWithEndDateDTO.setTitle("test");
-        sprintWithEndDateDTO.setEndDate(LocalDateTime.of(2022, 8, 18, 10, 10, 10));
-        return sprintWithEndDateDTO;
-    }
-
-    private static SprintDTO getSprintDTO() {
-        SprintDTO sprintDTO = new SprintDTO();
-        sprintDTO.setIdSprint(1);
-        sprintDTO.setTitle("SprintDTO title");
-        sprintDTO.setStartDate(LocalDateTime.of(2022, 8, 18, 8, 30));
-        sprintDTO.setEndDate(LocalDateTime.of(2022, 8, 19, 8, 30));
-        return sprintDTO;
-    }
-
     private static SprintEntity getSprintEntity() {
         SprintEntity sprintEntity = new SprintEntity();
         sprintEntity.setIdSprint(1);
@@ -298,6 +264,4 @@ public class SprintServiceTest {
         retrospectiveEntity.setOccurredDate(LocalDateTime.of(2022, 8, 18, 8, 24));
         return retrospectiveEntity;
     }
-
-
 }

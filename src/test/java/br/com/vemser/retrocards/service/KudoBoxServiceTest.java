@@ -51,8 +51,6 @@ public class KudoBoxServiceTest {
     @Mock
     private KudoCardRepository kudoCardRepository;
     @Mock
-    private SprintRepository sprintRepository;
-    @Mock
     private SprintService sprintService;
     @Mock
     private CheckDate checkDate;
@@ -95,7 +93,7 @@ public class KudoBoxServiceTest {
         when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
         when(kudoBoxRepository.existsBySprint_IdSprintAndStatusEquals(anyInt(), any(KudoStatus.class))).thenReturn(true);
 
-        KudoBoxDTO kudoBoxDTO = kudoBoxService.create(kudoBoxCreateDTO);
+        kudoBoxService.create(kudoBoxCreateDTO);
     }
 
     @Test
@@ -118,41 +116,6 @@ public class KudoBoxServiceTest {
         assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO1.getTitle());
         assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO1.getEndDate());
     }
-
-//    @Test
-//    public void shouldTesteUpdateStatusWithSucess() throws NegociationRulesException {
-//        KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
-//        SprintEntity sprintEntity = getSprintEntity();
-//
-//        when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBoxEntity));
-//        when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
-//        when(kudoBoxRepository.save(any(KudoBoxEntity.class))).thenReturn(kudoBoxEntity);
-//
-//        KudoBoxDTO kudoBoxDTO = kudoBoxService.updateStatus(1, KudoStatus.CREATE);
-//
-//        assertNotNull(kudoBoxDTO);
-//        assertEquals(kudoBoxEntity.getIdKudoBox(), kudoBoxDTO.getIdKudoBox());
-//        assertEquals(kudoBoxEntity.getStatus(), kudoBoxDTO.getStatus());
-//        assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
-//        assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
-//    }
-//
-//    @Test(expected = NegociationRulesException.class)
-//    public void shouldTesteUpdateStatusWithoutSucess() throws NegociationRulesException {
-//        KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
-//        SprintEntity sprintEntity = getSprintEntityWithErroUpdateStatus();
-//
-//        when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBoxEntity));
-//        when(sprintService.findById(anyInt())).thenReturn(sprintEntity);
-//
-//        KudoBoxDTO kudoBoxDTO = kudoBoxService.updateStatus(1, KudoStatus.IN_PROGRESS);
-//
-//        assertNotNull(kudoBoxDTO);
-//        assertEquals(kudoBoxEntity.getIdKudoBox(), kudoBoxDTO.getIdKudoBox());
-//        assertEquals(kudoBoxEntity.getStatus(), kudoBoxDTO.getStatus());
-//        assertEquals(kudoBoxEntity.getTitle(), kudoBoxDTO.getTitle());
-//        assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
-//    }
 
     @Test
     public void shouldTestDeleteWithSucess() throws NegociationRulesException {
@@ -258,20 +221,6 @@ public class KudoBoxServiceTest {
         sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
         KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
         kudoBoxEntity.setStatus(KudoStatus.CREATE);
-        sprintEntity.setKudoboxs(Set.of(kudoBoxEntity));
-        return sprintEntity;
-    }
-
-    private static SprintEntity getSprintEntityWithErroUpdateStatus() {
-        SprintEntity sprintEntity = new SprintEntity();
-        sprintEntity.setIdSprint(1);
-        sprintEntity.setTitle("Sprint title");
-        sprintEntity.setStartDate(LocalDateTime.of(2022, 8, 18, 12, 14));
-        sprintEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 12, 20));
-        sprintEntity.setUsers(Set.of(getUserEntity()));
-        sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
-        KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
-        kudoBoxEntity.setStatus(KudoStatus.IN_PROGRESS);
         sprintEntity.setKudoboxs(Set.of(kudoBoxEntity));
         return sprintEntity;
     }

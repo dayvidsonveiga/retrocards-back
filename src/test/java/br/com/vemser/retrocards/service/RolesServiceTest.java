@@ -35,7 +35,6 @@ public class RolesServiceTest {
         //act
         RolesEntity roleRecovery = rolesService.findByRoleName(rolesEntity.getRoleName());
 
-
         //asserts
         assertNotNull(roleRecovery);
         assertEquals(rolesEntity.getIdRoles(), roleRecovery.getIdRoles());

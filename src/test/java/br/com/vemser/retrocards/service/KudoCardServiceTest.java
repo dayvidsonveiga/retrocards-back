@@ -50,12 +50,6 @@ public class KudoCardServiceTest {
     private KudoBoxService kudoBoxService;
     @Mock
     private UserService userService;
-    @Mock
-    private KudoBoxRepository kudoBoxRepository;
-    @Mock
-    private UserRepository userRepository;
-    @Mock
-    private LogginService logginService;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -227,36 +221,6 @@ public class KudoCardServiceTest {
         kudoCardUpdateDTO.setDescription("Kudo card description");
 
         return kudoCardUpdateDTO;
-    }
-
-    private static KudoBoxEntity getKudoBoxEntity() {
-        KudoBoxEntity kudoBoxEntity = new KudoBoxEntity();
-        kudoBoxEntity.setIdKudoBox(1);
-        kudoBoxEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 10, 45));
-        kudoBoxEntity.setStatus(KudoStatus.CREATE);
-        kudoBoxEntity.setTitle("Kudo box title");
-        kudoBoxEntity.setSprint(getSprintEntity());
-        return kudoBoxEntity;
-    }
-
-    private static SprintEntity getSprintEntity() {
-        SprintEntity sprintEntity = new SprintEntity();
-        sprintEntity.setIdSprint(1);
-        sprintEntity.setTitle("Sprint title");
-        sprintEntity.setStartDate(LocalDateTime.of(2022, 8, 18, 12, 14));
-        sprintEntity.setEndDate(LocalDateTime.of(2022, 8, 25, 12, 20));
-        sprintEntity.setUsers(Set.of(getUserEntity()));
-        sprintEntity.setRetrospectives(Set.of(getRetrospectiveEntity()));
-        return sprintEntity;
-    }
-
-    private static RetrospectiveEntity getRetrospectiveEntity() {
-        RetrospectiveEntity retrospectiveEntity = new RetrospectiveEntity();
-        retrospectiveEntity.setIdRetrospective(1);
-        retrospectiveEntity.setStatus(RetrospectiveStatus.CREATE);
-        retrospectiveEntity.setTitle("Retrospective title");
-        retrospectiveEntity.setOccurredDate(LocalDateTime.of(2022, 8, 18, 8, 24));
-        return retrospectiveEntity;
     }
 
     private static UserEntity getUserEntity() {

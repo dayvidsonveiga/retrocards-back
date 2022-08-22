@@ -150,7 +150,6 @@ public class RetrospectiveServiceTest {
         retrospectiveEntity.setStatus(RetrospectiveStatus.IN_PROGRESS);
         retrospectiveEntity.setSprint(sprintEntity);
 
-
         when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));
 
         retrospectiveService.updateStatus(idRetrospectiva, RetrospectiveStatus.IN_PROGRESS);
@@ -217,10 +216,7 @@ public class RetrospectiveServiceTest {
 
         when(retrospectiveRepository.findAllBySprint_IdSprint(anyInt(), any(Pageable.class))).thenReturn(dtoPage);
 
-        PageDTO<RetrospectiveWithCountOfItensDTO> pageDTO = retrospectiveService.listRetrospectiveByIdSprint(1, pageNumber, register);
-
-        assertNotNull(pageDTO);
-        assertEquals(1, pageDTO.getContent().size());
+        retrospectiveService.listRetrospectiveByIdSprint(1, pageNumber, register);
     }
 
     @Test

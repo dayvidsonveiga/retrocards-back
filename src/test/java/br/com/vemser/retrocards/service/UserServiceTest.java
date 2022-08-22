@@ -48,8 +48,6 @@ public class UserServiceTest {
     private RolesService rolesService;
     @Mock
     private PasswordEncoder passwordEncoder;
-    @Mock
-    private RolesRepository rolesRepository;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -104,7 +102,6 @@ public class UserServiceTest {
     public void shouldTestChangeRoleWithoutSucess() throws NegociationRulesException {
         UserEntity userLoginEntity = getUserEntity();
         userLoginEntity.getRole().setRoleName(UserType.MEMBER.getRoleName());
-        RolesEntity roles = getRolesEntity();
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
@@ -115,9 +112,7 @@ public class UserServiceTest {
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(userLoginEntity));
-        UserDTO userDTO = userService.changeRole(1, UserType.MEMBER);
-
-        assertNotNull(userDTO);
+        userService.changeRole(1, UserType.MEMBER);
     }
 
     @Test
@@ -155,8 +150,6 @@ public class UserServiceTest {
 
     @Test(expected = NegociationRulesException.class)
     public void shouldTestGetIdLoggedUserWithoutSuccess() throws NegociationRulesException {
-        UserEntity userLoginEntity = getUserEntity();
-
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
                         "anonymousUser",
@@ -311,14 +304,5 @@ public class UserServiceTest {
         rolesEntity.setIdRoles(1);
         rolesEntity.setRoleName("ROLE_MEMBER");
         return rolesEntity;
-    }
-
-    private static UserDTO getUserDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setIdUser(1);
-        userDTO.setRole("ROLE_ADMIN");
-        userDTO.setName("Willian");
-        userDTO.setEmail("willian@gmail.com");
-        return userDTO;
     }
 }
