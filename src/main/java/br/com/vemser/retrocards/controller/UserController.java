@@ -21,45 +21,45 @@ import java.util.List;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Validated
-public class UserController {
+public class UserController implements UserDocumentation {
 
     private final UserService userService;
     private final LogginService logginService;
 
 
-    @Operation(summary = "Register new user")
+    @Operation(summary = "Criar novo usuário")
     @PostMapping("/create")
     public ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(userService.create(userCreateDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Log in")
+    @Operation(summary = "Logar no sistema")
     @PostMapping("/login")
     public ResponseEntity<UserLoginReturnDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO) throws NegociationRulesException {
         return new ResponseEntity<>(logginService.login(userLoginDTO), HttpStatus.OK);
     }
 
-    @Operation(summary = "Change role")
+    @Operation(summary = "Alterar cargo")
     @PutMapping("/change-role/{idUser}")
     public ResponseEntity<UserDTO> changeRole(@PathVariable("idUser") Integer idUser,
                                               @RequestParam UserType userType) throws NegociationRulesException {
         return new ResponseEntity<>(userService.changeRole(idUser, userType), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get data from the logged on user")
+    @Operation(summary = "Obter dados do usuário logado")
     @GetMapping("/get-logged")
     public ResponseEntity<UserDTO> getLoggedUser() throws NegociationRulesException {
         return new ResponseEntity<>(userService.getLoggedUser(), HttpStatus.OK);
     }
 
-    @Operation(summary = "List all the registered users")
+    @Operation(summary = "Listar todos os usuários cadastrados")
     @GetMapping("/list")
     public ResponseEntity<PageDTO<UserDTO>> listAll(@RequestParam Integer page,
                                                     @RequestParam Integer quantityPerPage) throws NegociationRulesException {
         return new ResponseEntity<>(userService.listAll(page, quantityPerPage), HttpStatus.OK);
     }
 
-    @Operation(summary = "List user by id with name and email")
+    @Operation(summary = "Listar usuários com os campos de nome e email")
     @GetMapping("/list-name-email")
     public ResponseEntity<List<UserNameEmailDTO>> findUserWithNameAndEmail() throws NegociationRulesException {
         return new ResponseEntity<>(userService.listUsersWithNameAndEmail(), HttpStatus.OK);

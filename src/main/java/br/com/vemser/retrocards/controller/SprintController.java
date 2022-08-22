@@ -18,38 +18,38 @@ import javax.validation.Valid;
 @RequestMapping("/sprint")
 @Validated
 @RequiredArgsConstructor
-public class SprintController {
+public class SprintController implements SprintDocumentation {
 
     private final SprintService sprintService;
 
-    @Operation(summary = "Register new sprint")
+    @Operation(summary = "Criar nova sprint")
     @PostMapping("/create")
     public ResponseEntity<SprintDTO> create(@RequestBody @Valid SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.create(sprintCreateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update sprint")
+    @Operation(summary = "Atualizar sprint")
     @PutMapping("/update/{idSprint}")
     public ResponseEntity<SprintDTO> update(@PathVariable("idSprint") Integer idSprint,
                                             @RequestBody @Valid SprintUpdateDTO sprintUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.update(idSprint, sprintUpdateDTO), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Delete sprint")
+    @Operation(summary = "Deletar sprint")
     @DeleteMapping("/delete/{idSprint}")
     public ResponseEntity<Void> delete(@PathVariable("idSprint") Integer idSprint) throws NegociationRulesException {
         sprintService.delete(idSprint);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "List sprint in order of completion")
+    @Operation(summary = "Listar sprints pela ordem de conclusão")
     @GetMapping("/list")
     public ResponseEntity<PageDTO<SprintWithEndDateDTO>> listByDateDesc(@RequestParam Integer page,
                                                                         @RequestParam Integer quantityPerPage) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.listByDateDesc(page, quantityPerPage), HttpStatus.OK);
     }
 
-    @Operation(summary = "Check progress of Retrospective and Kudo box")
+    @Operation(summary = "Checar se a sprint possui Retrospectivas e Kudo boxes em progresso")
     @GetMapping("/check-progress/{idSprint}")
     public ResponseEntity<SprintCheckDTO> checkProgressRetrospectiveAndKudobox(@PathVariable("idSprint") Integer idSprint) throws NegociationRulesException {
         return new ResponseEntity<>(sprintService.checkProgressRetrospectiveAndKudobox(idSprint), HttpStatus.OK);
