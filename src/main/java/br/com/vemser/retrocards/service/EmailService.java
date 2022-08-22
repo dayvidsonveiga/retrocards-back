@@ -34,12 +34,18 @@ import java.util.Map;
 public class EmailService {
 
     private final freemarker.template.Configuration fmConfiguration;
+
     @Value("${spring.mail.username}")
     private String from;
+
     private final JavaMailSender emailSender;
+
     private final ObjectMapper objectMapper;
+
     private final EmailRepository emailRepository;
+
     private final RetrospectiveService retrospectiveService;
+
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
 
 
