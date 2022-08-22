@@ -47,6 +47,7 @@ public class ItemRetrospectiveService {
         }
 
         itemEntityUpdate.setIdItemRetrospective(idItemRetrospective);
+        itemEntityUpdate.setRetrospective(itemEntityRecovered.getRetrospective());
 
         return entityToDTO(itemRetrospectiveRepository.save(itemEntityUpdate));
     }
