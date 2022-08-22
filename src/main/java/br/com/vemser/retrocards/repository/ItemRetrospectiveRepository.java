@@ -10,5 +10,6 @@ import java.util.List;
 public interface ItemRetrospectiveRepository extends JpaRepository<ItemRetrospectiveEntity, Integer> {
 
     List<ItemRetrospectiveEntity> findAllByRetrospective_IdRetrospective(Integer idRestrospective);
+
     Integer countAllByRetrospective_IdRetrospective(Integer idRetrospective);
 }

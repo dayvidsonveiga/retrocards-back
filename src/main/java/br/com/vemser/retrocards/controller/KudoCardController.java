@@ -1,8 +1,6 @@
 package br.com.vemser.retrocards.controller;
 
 import br.com.vemser.retrocards.documentation.KudoCardDocumentation;
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
-import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
@@ -35,7 +33,7 @@ public class KudoCardController implements KudoCardDocumentation {
     @Operation(summary = "Atualizar kudo card")
     @PutMapping("/update/{idKudoCard}")
     public ResponseEntity<KudoCardDTO> update(@PathVariable("idKudoCard") Integer idKudoCard,
-                                             @RequestBody KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException {
+                                              @RequestBody KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException {
         return new ResponseEntity<>(kudoCardService.update(idKudoCard, kudoCardUpdateDTO), HttpStatus.OK);
     }
 

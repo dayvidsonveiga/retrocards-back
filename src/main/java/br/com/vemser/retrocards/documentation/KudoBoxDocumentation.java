@@ -5,12 +5,9 @@ import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +36,7 @@ public interface KudoBoxDocumentation {
     )
     @PutMapping("/update/{idKudobox}")
     ResponseEntity<KudoBoxDTO> update(@PathVariable("idKudobox") Integer idKudobox,
-                                             @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException;
+                                      @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException;
 
     @ApiResponses(
             value = {
@@ -62,8 +59,8 @@ public interface KudoBoxDocumentation {
     )
     @GetMapping("/list/sprint/{idSprint}")
     ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint,
-                                                                                     @RequestParam Integer page,
-                                                                                     @RequestParam Integer quantityPerPage) throws NegociationRulesException;
+                                                                              @RequestParam Integer page,
+                                                                              @RequestParam Integer quantityPerPage) throws NegociationRulesException;
 
     @ApiResponses(
             value = {

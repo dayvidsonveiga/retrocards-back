@@ -5,10 +5,8 @@ import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.exceptions.NegociationRulesException;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

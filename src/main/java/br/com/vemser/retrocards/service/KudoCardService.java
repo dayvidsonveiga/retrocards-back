@@ -117,7 +117,7 @@ public class KudoCardService {
         return objectMapper.convertValue(kudoCardUpdateDTO, KudoCardEntity.class);
     }
 
-    public void checkIsCreator (Integer idCreator) throws NegociationRulesException {
+    public void checkIsCreator(Integer idCreator) throws NegociationRulesException {
         if (idCreator != userService.getIdLoggedUser()) {
             throw new NegociationRulesException("Você não é o criador desse kudo card.");
         }

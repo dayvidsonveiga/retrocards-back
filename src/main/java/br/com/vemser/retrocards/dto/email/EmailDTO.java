@@ -1,6 +1,5 @@
 package br.com.vemser.retrocards.dto.email;
 
-import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveEmailDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -8,7 +7,6 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 public class EmailDTO {

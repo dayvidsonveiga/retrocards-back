@@ -88,7 +88,7 @@ public class UserService {
 
     // Util's
 
-    public Integer getIdLoggedUser() throws NegociationRulesException{
+    public Integer getIdLoggedUser() throws NegociationRulesException {
         Object principal = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
