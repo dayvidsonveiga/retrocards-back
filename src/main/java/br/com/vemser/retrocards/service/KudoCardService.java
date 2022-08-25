@@ -36,6 +36,7 @@ public class KudoCardService {
         kudoCardEntity.setCreateDate(LocalDateTime.now());
         kudoCardEntity.setIdCreator(userService.getIdLoggedUser());
 
+        // FIXME deve ser testado somente a variável sem == true (redundancia)
         if (kudoCardCreateDTO.getAnonymous() == true) {
             kudoCardEntity.setSender("Anônimo");
         } else {
@@ -118,6 +119,7 @@ public class KudoCardService {
     }
 
     public void checkIsCreator(Integer idCreator) throws NegociationRulesException {
+        // FIXME deve ser testado com .equals
         if (idCreator != userService.getIdLoggedUser()) {
             throw new NegociationRulesException("Você não é o criador desse kudo card.");
         }

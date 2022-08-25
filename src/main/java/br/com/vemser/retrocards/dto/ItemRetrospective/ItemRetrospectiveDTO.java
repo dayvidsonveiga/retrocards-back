@@ -1,5 +1,5 @@
 package br.com.vemser.retrocards.dto.ItemRetrospective;
-
+// FIXME nome do pacote deve ser minusculo itemretrospective
 import br.com.vemser.retrocards.enums.ItemType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

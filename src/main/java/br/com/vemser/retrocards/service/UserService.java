@@ -120,6 +120,7 @@ public class UserService {
     }
 
     public Boolean checkPasswordIsCorrect(String passwordInput, String passwordDB) {
+        // FIXME retornar passwordEncoder.matches(passwordInput, passwordDB)...
         if (passwordEncoder.matches(passwordInput, passwordDB)) {
             return true;
         } else {

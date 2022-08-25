@@ -73,6 +73,8 @@ public class SecurityConfiguration {
 
                                 // Email
                                 .antMatchers("/email/send").hasRole("FACILITATOR")
+
+                        // FIXME cadê o anyrequest.authenticated?
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
         return http.build();

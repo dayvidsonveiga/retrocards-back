@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 
+// FIXME faltou documentação do swagger
 @Getter
 @Setter
 @AllArgsConstructor

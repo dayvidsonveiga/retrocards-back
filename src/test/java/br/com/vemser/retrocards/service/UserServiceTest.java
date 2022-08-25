@@ -160,6 +160,7 @@ public class UserServiceTest {
         userService.getLoggedUser();
     }
 
+    // FIXME essa Negociation (que é Negotiation em inglês) não está sendo usada
     @Test
     public void shouldTestCheckEmailExistWithSuccess() throws NegociationRulesException {
         UserEntity userEntity = getUserEntity();

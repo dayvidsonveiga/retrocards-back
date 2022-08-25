@@ -1,3 +1,4 @@
+// FIXME nome do pacote deve ser minusculo itemretrospective
 package br.com.vemser.retrocards.dto.ItemRetrospective;
 
 import br.com.vemser.retrocards.enums.ItemType;

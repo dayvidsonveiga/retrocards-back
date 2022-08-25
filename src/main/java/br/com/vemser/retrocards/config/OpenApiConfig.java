@@ -55,5 +55,6 @@ public class OpenApiConfig {
                         .url("https://i.imgur.com/jbi75M9.png"));
     }
 
+    // FIXME remover TODO :)
     //TODO: Alterar .url para Diagrama ER da RetroCards
 }
