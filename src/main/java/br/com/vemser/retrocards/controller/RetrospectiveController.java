@@ -7,7 +7,7 @@ import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.service.RetrospectiveService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -28,34 +28,34 @@ public class RetrospectiveController implements RetrospectiveDocumentation {
 
     @Operation(summary = "Criar nova retrospectiva")
     @PostMapping("/create")
-    public ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
+    public ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegotiationRulesException {
         return new ResponseEntity<>(retrospectiveService.create(retrospectiveCreateDTO), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Atualizar retrospectiva")
     @PutMapping("/update/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> update(@PathVariable("idRetrospective") Integer idRetrospective,
-                                                   @RequestBody RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegociationRulesException {
+                                                   @RequestBody RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegotiationRulesException {
         return new ResponseEntity<>(retrospectiveService.update(idRetrospective, retrospectiveUpdateDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "Atualizar status da retrospectiva")
     @PutMapping("/update-status/{idRetrospective}")
     public ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
-                                                         @RequestParam RetrospectiveStatus status) throws NegociationRulesException {
+                                                         @RequestParam RetrospectiveStatus status) throws NegotiationRulesException {
         return new ResponseEntity<>(retrospectiveService.updateStatus(idRetrospective, status), HttpStatus.OK);
     }
 
     @Operation(summary = "Deletar retrospectiva")
     @DeleteMapping("/delete/{idRetrospective}")
-    public ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
+    public ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegotiationRulesException {
         retrospectiveService.delete(idRetrospective);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "Listar retrospectiva associada ao ID")
     @GetMapping("/list/{idRetrospective}")
-    public ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException {
+    public ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegotiationRulesException {
         return new ResponseEntity<>(retrospectiveService.listById(idRetrospective), HttpStatus.OK);
     }
 
@@ -63,7 +63,7 @@ public class RetrospectiveController implements RetrospectiveDocumentation {
     @GetMapping("/list/sprint/{idSprint}")
     public ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint,
                                                                                     @RequestParam Integer page,
-                                                                                    @RequestParam Integer quantityPerPage) throws NegociationRulesException {
+                                                                                    @RequestParam Integer quantityPerPage) throws NegotiationRulesException {
         return new ResponseEntity<>(retrospectiveService.listRetrospectiveByIdSprint(idSprint, page, quantityPerPage), HttpStatus.OK);
     }
 }

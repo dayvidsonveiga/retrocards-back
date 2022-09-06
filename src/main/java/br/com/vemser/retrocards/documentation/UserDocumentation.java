@@ -3,7 +3,7 @@ package br.com.vemser.retrocards.documentation;
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.*;
 import br.com.vemser.retrocards.enums.UserType;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public interface UserDocumentation {
             }
     )
     @PostMapping("/create")
-    ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegociationRulesException;
+    ResponseEntity<UserDTO> create(@RequestBody @Valid UserCreateDTO userCreateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -34,7 +34,7 @@ public interface UserDocumentation {
             }
     )
     @PostMapping("/login")
-    ResponseEntity<UserLoginReturnDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO) throws NegociationRulesException;
+    ResponseEntity<UserLoginReturnDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO) throws NegotiationRulesException;
 
 
     @ApiResponses(
@@ -47,7 +47,7 @@ public interface UserDocumentation {
     )
     @PutMapping("/change-role/{idUser}")
     ResponseEntity<UserDTO> changeRole(@PathVariable("idUser") Integer idUser,
-                                       @RequestParam UserType userType) throws NegociationRulesException;
+                                       @RequestParam UserType userType) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -58,7 +58,7 @@ public interface UserDocumentation {
             }
     )
     @GetMapping("/get-logged")
-    ResponseEntity<UserDTO> getLoggedUser() throws NegociationRulesException;
+    ResponseEntity<UserDTO> getLoggedUser() throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -70,7 +70,7 @@ public interface UserDocumentation {
     )
     @GetMapping("/list")
     ResponseEntity<PageDTO<UserDTO>> listAll(@RequestParam Integer page,
-                                             @RequestParam Integer quantityPerPage) throws NegociationRulesException;
+                                             @RequestParam Integer quantityPerPage) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -81,5 +81,5 @@ public interface UserDocumentation {
             }
     )
     @GetMapping("/list-name-email")
-    ResponseEntity<List<UserNameEmailDTO>> findUserWithNameAndEmail() throws NegociationRulesException;
+    ResponseEntity<List<UserNameEmailDTO>> findUserWithNameAndEmail() throws NegotiationRulesException;
 }

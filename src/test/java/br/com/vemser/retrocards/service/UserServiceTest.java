@@ -5,8 +5,7 @@ import br.com.vemser.retrocards.dto.user.*;
 import br.com.vemser.retrocards.entity.RolesEntity;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.enums.UserType;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
-import br.com.vemser.retrocards.repository.RolesRepository;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.UserRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,7 +59,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldTestCreateWithSuccess() throws NegociationRulesException {
+    public void shouldTestCreateWithSuccess() throws NegotiationRulesException {
         UserCreateDTO userCreateDTO = getUserCreateDTO();
         UserEntity userEntity = getUserEntity();
 
@@ -76,7 +75,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldTestChangeRoleWithSucess() throws NegociationRulesException {
+    public void shouldTestChangeRoleWithSucess() throws NegotiationRulesException {
         UserEntity userLoginEntity = getUserEntity();
         userLoginEntity.getRole().setRoleName(UserType.ADMIN.getRoleName());
         RolesEntity roles = getRolesEntity();
@@ -98,8 +97,8 @@ public class UserServiceTest {
         assertNotNull(userDTO);
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestChangeRoleWithoutSucess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestChangeRoleWithoutSucess() throws NegotiationRulesException {
         UserEntity userLoginEntity = getUserEntity();
         userLoginEntity.getRole().setRoleName(UserType.MEMBER.getRoleName());
 
@@ -116,7 +115,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldTestLoginWithSuccess() throws NegociationRulesException {
+    public void shouldTestLoginWithSuccess() throws NegotiationRulesException {
         UserEntity userEntity = getUserEntity();
         UserLoginDTO userLoginDTO = getUserLoginDTO();
 
@@ -128,7 +127,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldTestGetIdLoggedUserWithSuccess() throws NegociationRulesException {
+    public void shouldTestGetIdLoggedUserWithSuccess() throws NegotiationRulesException {
         UserEntity userLoginEntity = getUserEntity();
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
@@ -148,8 +147,8 @@ public class UserServiceTest {
         assertEquals("Willian", userLogin.getName());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestGetIdLoggedUserWithoutSuccess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestGetIdLoggedUserWithoutSuccess() throws NegotiationRulesException {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
                         "anonymousUser",
@@ -160,15 +159,14 @@ public class UserServiceTest {
         userService.getLoggedUser();
     }
 
-    // FIXME essa Negociation (que é Negotiation em inglês) não está sendo usada
     @Test
-    public void shouldTestCheckEmailExistWithSuccess() throws NegociationRulesException {
+    public void shouldTestCheckEmailExistWithSuccess() {
         UserEntity userEntity = getUserEntity();
         userEntity.setEmail("dayvidson@gmail.com");
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestCheckEmailExistWithoutSuccess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestCheckEmailExistWithoutSuccess() throws NegotiationRulesException {
         UserEntity userEntity = getUserEntity();
         userEntity.setEmail("dayvidson@gmail.com");
 
@@ -208,7 +206,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldTestListAllWithSuccess() throws NegociationRulesException {
+    public void shouldTestListAllWithSuccess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer registerNumber = 10;
         List<UserEntity> listUsers = List.of(getUserEntity());
@@ -223,8 +221,8 @@ public class UserServiceTest {
         assertEquals(1, userDTO.getTotalPages().intValue());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestListAllWithoutSuccess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestListAllWithoutSuccess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer registerNumber = 10;
         List<UserEntity> listUsers = new ArrayList<>();
@@ -236,7 +234,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldTestListUsersWithNameAndEmailWithSuccess() throws NegociationRulesException {
+    public void shouldTestListUsersWithNameAndEmailWithSuccess() throws NegotiationRulesException {
         List<UserEntity> listUsers = List.of(getUserEntity());
 
         when(userRepository.findAll()).thenReturn(listUsers);
@@ -247,8 +245,8 @@ public class UserServiceTest {
         assertEquals(listUsers.size(), listUserNameEmail.size());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestListUsersWithNameAndEmailWithoutSuccess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestListUsersWithNameAndEmailWithoutSuccess() throws NegotiationRulesException {
         List<UserEntity> listUsers = new ArrayList<>();
 
         when(userRepository.findAll()).thenReturn(listUsers);
@@ -257,7 +255,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldTestGetLoggedUser() throws NegociationRulesException {
+    public void shouldTestGetLoggedUser() throws NegotiationRulesException {
         //setup
         UserEntity userEntity = getUserEntity();
         shouldTestGetIdLoggedUserWithSuccess();

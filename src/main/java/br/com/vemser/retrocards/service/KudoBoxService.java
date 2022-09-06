@@ -8,7 +8,7 @@ import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.KudoCardRepository;
 import br.com.vemser.retrocards.util.CheckDate;
@@ -32,13 +32,13 @@ public class KudoBoxService {
     private final KudoCardRepository kudoCardRepository;
     private final CheckDate checkDate;
 
-    public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
+    public KudoBoxDTO create(KudoBoxCreateDTO kudoBoxCreateDTO) throws NegotiationRulesException {
         SprintEntity sprintEntity = sprintService.findById(kudoBoxCreateDTO.getIdSprint());
 
         checkDate.checkDateIsValid(sprintEntity.getEndDate(), kudoBoxCreateDTO.getEndDate());
 
         if (kudoBoxRepository.existsBySprint_IdSprintAndStatusEquals(sprintEntity.getIdSprint(), KudoStatus.IN_PROGRESS)) {
-            throw new NegociationRulesException("Não é possível criar kudo box! Outra kudo box em progresso");
+            throw new NegotiationRulesException("Não é possível criar kudo box! Outra kudo box em progresso");
         } else {
             KudoBoxDTO kudoBoxDTO = createToDTO(kudoBoxCreateDTO);
 
@@ -52,7 +52,7 @@ public class KudoBoxService {
         }
     }
 
-    public KudoBoxDTO update(Integer idKudoBox, KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException {
+    public KudoBoxDTO update(Integer idKudoBox, KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegotiationRulesException {
         KudoBoxEntity kudoBoxEntityRecovered = findById(idKudoBox);
         KudoBoxEntity kudoBoxEntityUpdate = updateToEntity(kudoBoxUpdateDTO);
 
@@ -73,12 +73,12 @@ public class KudoBoxService {
         return entityToDTO(kudoBoxRepository.save(kudoBoxEntityUpdate));
     }
 
-    public void delete(Integer idKudoBox) throws NegociationRulesException {
+    public void delete(Integer idKudoBox) throws NegotiationRulesException {
         KudoBoxEntity kudoBoxEntity = findById(idKudoBox);
         kudoBoxRepository.delete(kudoBoxEntity);
     }
 
-    public PageDTO<KudoBoxWithCountOfItensDTO> listKudoBoxByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<KudoBoxWithCountOfItensDTO> listKudoBoxByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegotiationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<KudoBoxEntity> page = kudoBoxRepository.findAllBySprint_IdSprint(idSprint, pageRequest);
         if (!page.isEmpty()) {
@@ -87,19 +87,19 @@ public class KudoBoxService {
                     .toList();
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, retrospectiveDTO);
         } else {
-            throw new NegociationRulesException("Não foi encontrado nenhuma kudo box associada a sprint.");
+            throw new NegotiationRulesException("Não foi encontrado nenhuma kudo box associada a sprint.");
         }
     }
 
-    public KudoBoxDTO listById(Integer id) throws NegociationRulesException {
+    public KudoBoxDTO listById(Integer id) throws NegotiationRulesException {
         return entityToDTO(findById(id));
     }
 
     // Util
 
-    public KudoBoxEntity findById(Integer idKudoBox) throws NegociationRulesException {
+    public KudoBoxEntity findById(Integer idKudoBox) throws NegotiationRulesException {
         return kudoBoxRepository.findById(idKudoBox)
-                .orElseThrow(() -> new NegociationRulesException("Kudobox não encontrada."));
+                .orElseThrow(() -> new NegotiationRulesException("Kudobox não encontrada."));
     }
 
     public KudoBoxEntity dtoToEntity(KudoBoxDTO kudoBoxDTO) {

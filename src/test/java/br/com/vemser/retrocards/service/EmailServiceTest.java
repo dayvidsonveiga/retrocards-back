@@ -1,6 +1,6 @@
 package br.com.vemser.retrocards.service;
 
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.itemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.email.EmailCreateDTO;
 import br.com.vemser.retrocards.dto.email.EmailDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveEmailDTO;
@@ -10,7 +10,7 @@ import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.EmailRepository;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -72,7 +72,7 @@ public class EmailServiceTest {
     }
 
     @Test
-    public void shouldTestCreateEmail() throws NegociationRulesException, MessagingException, IOException {
+    public void shouldTestCreateEmail() throws NegotiationRulesException, MessagingException, IOException {
         EmailEntity emailEntity = getEmailEntity();
         EmailCreateDTO emailCreateDTO = getEmailCreateDTO();
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();

@@ -1,14 +1,14 @@
 package br.com.vemser.retrocards.service;
 
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveCreateDTO;
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveUpdateDTO;
+import br.com.vemser.retrocards.dto.itemRetrospective.ItemRetrospectiveCreateDTO;
+import br.com.vemser.retrocards.dto.itemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.itemRetrospective.ItemRetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,7 +54,7 @@ public class ItemRetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestCreateWithSucess() throws NegociationRulesException {
+    public void shouldTestCreateWithSucess() throws NegotiationRulesException {
         ItemRetrospectiveCreateDTO itemRetrospectiveCreateDTO = getItemRetrospectiveCreateDTO();
         ItemType itemType = ItemType.WORKED;
         ItemRetrospectiveEntity itemRetrospectiveEntity = getItemRetrospectiveEntity();
@@ -72,7 +72,7 @@ public class ItemRetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+    public void shouldTestUpdateWithSucess() throws NegotiationRulesException {
         ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO = getItemRetrospectiveUpdateDTO();
         ItemType itemType = ItemType.WORKED;
         ItemRetrospectiveEntity itemRetrospectiveEntity = getItemRetrospectiveEntity();
@@ -89,7 +89,7 @@ public class ItemRetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestDeleteWithSucess() throws NegociationRulesException {
+    public void shouldTestDeleteWithSucess() throws NegotiationRulesException {
         Integer idParaDeletar = 1;
         ItemRetrospectiveEntity itemRetrospectiveEntity = getItemRetrospectiveEntity();
 
@@ -103,8 +103,8 @@ public class ItemRetrospectiveServiceTest {
         verify(itemRetrospectiveRepository, times(1)).delete(any(ItemRetrospectiveEntity.class));
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestDeleteWithoutSucess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestDeleteWithoutSucess() throws NegotiationRulesException {
         Integer idParaDeletar = 1;
         ItemRetrospectiveEntity itemRetrospectiveEntity = getItemRetrospectiveEntity();
         itemRetrospectiveEntity.getRetrospective().setStatus(RetrospectiveStatus.CREATE);
@@ -130,7 +130,7 @@ public class ItemRetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestListByIdRetrospective() throws NegociationRulesException {
+    public void shouldTestListByIdRetrospective() throws NegotiationRulesException {
         List<ItemRetrospectiveEntity> itemRetrospectiveEntityList = List.of(getItemRetrospectiveEntity());
 
         when(itemRetrospectiveRepository.findAllByRetrospective_IdRetrospective(anyInt())).thenReturn(itemRetrospectiveEntityList);
@@ -142,7 +142,7 @@ public class ItemRetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestListById() throws NegociationRulesException {
+    public void shouldTestListById() throws NegotiationRulesException {
         ItemRetrospectiveEntity itemRetrospectiveEntity = getItemRetrospectiveEntity();
 
         when(itemRetrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(itemRetrospectiveEntity));

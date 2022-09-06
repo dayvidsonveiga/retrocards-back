@@ -6,7 +6,7 @@ import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.service.KudoBoxService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -27,20 +27,20 @@ public class KudoBoxController implements KudoBoxDocumentation {
 
     @Operation(summary = "Criar novo kudo box")
     @PostMapping("/create")
-    public ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException {
+    public ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegotiationRulesException {
         return new ResponseEntity<>(kudoBoxService.create(kudoBoxCreateDTO), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Atualizar kudo box")
     @PutMapping("/update/{idKudobox}")
     public ResponseEntity<KudoBoxDTO> update(@PathVariable("idKudobox") Integer idKudobox,
-                                             @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException {
+                                             @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegotiationRulesException {
         return new ResponseEntity<>(kudoBoxService.update(idKudobox, kudoBoxUpdateDTO), HttpStatus.OK);
     }
 
     @Operation(summary = "deletar kudo box")
     @DeleteMapping("/delete/{idKudoBox}")
-    public ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException {
+    public ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegotiationRulesException {
         kudoBoxService.delete(idKudoBox);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -49,13 +49,13 @@ public class KudoBoxController implements KudoBoxDocumentation {
     @GetMapping("/list/sprint/{idSprint}")
     public ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint,
                                                                                      @RequestParam Integer page,
-                                                                                     @RequestParam Integer quantityPerPage) throws NegociationRulesException {
+                                                                                     @RequestParam Integer quantityPerPage) throws NegotiationRulesException {
         return new ResponseEntity<>(kudoBoxService.listKudoBoxByIdSprint(idSprint, page, quantityPerPage), HttpStatus.OK);
     }
 
     @Operation(summary = "Listar o kudo box associado ao ID")
     @GetMapping("/list/{idKudobox}")
-    public ResponseEntity<KudoBoxDTO> listById(@PathVariable("idKudobox") Integer idRetrospective) throws NegociationRulesException {
+    public ResponseEntity<KudoBoxDTO> listById(@PathVariable("idKudobox") Integer idRetrospective) throws NegotiationRulesException {
         return new ResponseEntity<>(kudoBoxService.listById(idRetrospective), HttpStatus.OK);
     }
 }

@@ -8,7 +8,7 @@ import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensD
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.util.CheckDate;
@@ -65,7 +65,7 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestCreateWithSucess() throws NegociationRulesException {
+    public void shouldTestCreateWithSucess() throws NegotiationRulesException {
         RetrospectiveCreateDTO retrospectiveCreateDTO = getRetrospectiveCreateDTO();
         SprintEntity sprintEntity = getSprintEntity();
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
@@ -83,7 +83,7 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestUpdateStatusWithSucess() throws NegociationRulesException {
+    public void shouldTestUpdateStatusWithSucess() throws NegotiationRulesException {
         Integer idRetrospectiva = 1;
         RetrospectiveStatus retrospectiveStatus = RetrospectiveStatus.FINISHED;
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
@@ -99,8 +99,8 @@ public class RetrospectiveServiceTest {
         assertEquals(retrospectiveEntity.getOccurredDate(), retrospectiveDTO.getOccurredDate());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestUpdateStatusWithoutSucess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestUpdateStatusWithoutSucess() throws NegotiationRulesException {
         RetrospectiveStatus retrospectiveStatus = RetrospectiveStatus.IN_PROGRESS;
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
 
@@ -110,8 +110,8 @@ public class RetrospectiveServiceTest {
         retrospectiveService.updateStatus(retrospectiveEntity.getIdRetrospective(), retrospectiveStatus);
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestUpdateStatusWithoutSucessInProgressToCreate() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestUpdateStatusWithoutSucessInProgressToCreate() throws NegotiationRulesException {
         Integer idRetrospectiva = 1;
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
 
@@ -120,8 +120,8 @@ public class RetrospectiveServiceTest {
         retrospectiveService.updateStatus(idRetrospectiva, RetrospectiveStatus.CREATE);
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestUpdateStatusWithoutSucessInFinishedToCreate() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestUpdateStatusWithoutSucessInFinishedToCreate() throws NegotiationRulesException {
         Integer idRetrospectiva = 1;
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
         retrospectiveEntity.setStatus(RetrospectiveStatus.FINISHED);
@@ -131,8 +131,8 @@ public class RetrospectiveServiceTest {
         retrospectiveService.updateStatus(idRetrospectiva, RetrospectiveStatus.CREATE);
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestUpdateStatusWithoutSucessInCreateToFinished() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestUpdateStatusWithoutSucessInCreateToFinished() throws NegotiationRulesException {
         Integer idRetrospectiva = 1;
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
         retrospectiveEntity.setStatus(RetrospectiveStatus.CREATE);
@@ -143,7 +143,7 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestUpdateStatusWithoutSucessInExistsInProgress() throws NegociationRulesException {
+    public void shouldTestUpdateStatusWithoutSucessInExistsInProgress() throws NegotiationRulesException {
         Integer idRetrospectiva = 1;
         SprintEntity sprintEntity = getSprintEntity();
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
@@ -156,7 +156,7 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+    public void shouldTestUpdateWithSucess() throws NegotiationRulesException {
         RetrospectiveUpdateDTO retrospectiveUpdateDTO = getRetrospectiveUpdateDTO();
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
         RetrospectiveUpdateDTO retrospectiveUpdateDTO1 = new RetrospectiveUpdateDTO();
@@ -178,7 +178,7 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestDeleteWithSucess() throws NegociationRulesException {
+    public void shouldTestDeleteWithSucess() throws NegotiationRulesException {
         Integer idParaDeletar = 1;
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
 
@@ -193,7 +193,7 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTestListRetrospectiveByIdSprintWithSucess() throws NegociationRulesException {
+    public void shouldTestListRetrospectiveByIdSprintWithSucess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer register = 10;
         List<RetrospectiveEntity> list = List.of(getRetrospectiveEntity());
@@ -207,8 +207,8 @@ public class RetrospectiveServiceTest {
         assertEquals(1, pageDTO.getContent().size());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestListRetrospectiveByIdSprintWithoutSucess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestListRetrospectiveByIdSprintWithoutSucess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer register = 10;
         List<RetrospectiveEntity> list = new ArrayList<>();
@@ -220,7 +220,7 @@ public class RetrospectiveServiceTest {
     }
 
     @Test
-    public void shouldTesteListByIdWithSucess() throws NegociationRulesException {
+    public void shouldTesteListByIdWithSucess() throws NegotiationRulesException {
         RetrospectiveEntity retrospectiveEntity = getRetrospectiveEntity();
 
         when(retrospectiveRepository.findById(anyInt())).thenReturn(Optional.of(retrospectiveEntity));

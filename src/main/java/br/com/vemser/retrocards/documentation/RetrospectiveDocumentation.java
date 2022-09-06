@@ -6,7 +6,7 @@ import br.com.vemser.retrocards.dto.retrospective.RetrospectiveDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensDTO;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public interface RetrospectiveDocumentation {
             }
     )
     @PostMapping("/create")
-    ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException;
+    ResponseEntity<RetrospectiveDTO> create(@RequestBody @Valid RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -37,7 +37,7 @@ public interface RetrospectiveDocumentation {
     )
     @PutMapping("/update/{idRetrospective}")
     ResponseEntity<RetrospectiveDTO> update(@PathVariable("idRetrospective") Integer idRetrospective,
-                                            @RequestBody RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegociationRulesException;
+                                            @RequestBody RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -49,7 +49,7 @@ public interface RetrospectiveDocumentation {
     )
     @PutMapping("/update-status/{idRetrospective}")
     ResponseEntity<RetrospectiveDTO> updateStatus(@PathVariable("idRetrospective") Integer idRetrospective,
-                                                  @RequestParam RetrospectiveStatus status) throws NegociationRulesException;
+                                                  @RequestParam RetrospectiveStatus status) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -60,7 +60,7 @@ public interface RetrospectiveDocumentation {
             }
     )
     @DeleteMapping("/delete/{idRetrospective}")
-    ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException;
+    ResponseEntity<Void> delete(@PathVariable("idRetrospective") Integer idRetrospective) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -71,7 +71,7 @@ public interface RetrospectiveDocumentation {
             }
     )
     @GetMapping("/list/{idRetrospective}")
-    ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegociationRulesException;
+    ResponseEntity<RetrospectiveDTO> listById(@PathVariable("idRetrospective") Integer idRetrospective) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -84,5 +84,5 @@ public interface RetrospectiveDocumentation {
     @GetMapping("/list/sprint/{idSprint}")
     ResponseEntity<PageDTO<RetrospectiveWithCountOfItensDTO>> listByIdSprint(@PathVariable("idSprint") Integer idSprint,
                                                                              @RequestParam Integer page,
-                                                                             @RequestParam Integer quantityPerPage) throws NegociationRulesException;
+                                                                             @RequestParam Integer quantityPerPage) throws NegotiationRulesException;
 }

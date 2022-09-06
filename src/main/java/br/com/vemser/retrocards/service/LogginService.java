@@ -3,7 +3,7 @@ package br.com.vemser.retrocards.service;
 import br.com.vemser.retrocards.dto.user.UserLoginDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
 import br.com.vemser.retrocards.entity.UserEntity;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +19,7 @@ public class LogginService {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
 
-    public UserLoginReturnDTO login(UserLoginDTO userLoginDTO) throws NegociationRulesException {
+    public UserLoginReturnDTO login(UserLoginDTO userLoginDTO) throws NegotiationRulesException {
         UserEntity userEntity = userService.findByEmail(userLoginDTO.getEmail());
         if (userService.checkPasswordIsCorrect(userLoginDTO.getPassword(), userEntity.getPassword())) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
@@ -31,7 +31,7 @@ public class LogginService {
             String token = tokenService.getToken((UserEntity) authentication.getPrincipal());
             return userService.login(userLoginDTO, token);
         } else {
-            throw new NegociationRulesException("Email ou senha incorreta!");
+            throw new NegotiationRulesException("Email ou senha incorreta!");
         }
     }
 }

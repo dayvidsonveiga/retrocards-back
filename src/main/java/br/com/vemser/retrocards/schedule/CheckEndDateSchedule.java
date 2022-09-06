@@ -15,10 +15,9 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-// FIXME classe iniciando com minúsculo????
 @Component
 @RequiredArgsConstructor
-public class checkEndDateSchedule {
+public class CheckEndDateSchedule {
 
     private final SprintRepository sprintRepository;
     private final KudoBoxRepository kudoBoxRepository;

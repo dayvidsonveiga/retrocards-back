@@ -2,7 +2,7 @@ package br.com.vemser.retrocards.documentation;
 
 import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.sprint.*;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public interface SprintDocumentation {
             }
     )
     @PostMapping("/create")
-    ResponseEntity<SprintDTO> create(@RequestBody @Valid SprintCreateDTO sprintCreateDTO) throws NegociationRulesException;
+    ResponseEntity<SprintDTO> create(@RequestBody @Valid SprintCreateDTO sprintCreateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -33,7 +33,7 @@ public interface SprintDocumentation {
     )
     @PutMapping("/update/{idSprint}")
     ResponseEntity<SprintDTO> update(@PathVariable("idSprint") Integer idSprint,
-                                     @RequestBody @Valid SprintUpdateDTO sprintUpdateDTO) throws NegociationRulesException;
+                                     @RequestBody @Valid SprintUpdateDTO sprintUpdateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -44,7 +44,7 @@ public interface SprintDocumentation {
             }
     )
     @DeleteMapping("/delete/{idSprint}")
-    ResponseEntity<Void> delete(@PathVariable("idSprint") Integer idSprint) throws NegociationRulesException;
+    ResponseEntity<Void> delete(@PathVariable("idSprint") Integer idSprint) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -56,7 +56,7 @@ public interface SprintDocumentation {
     )
     @GetMapping("/list")
     ResponseEntity<PageDTO<SprintWithEndDateDTO>> listByDateDesc(@RequestParam Integer page,
-                                                                 @RequestParam Integer quantityPerPage) throws NegociationRulesException;
+                                                                 @RequestParam Integer quantityPerPage) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -67,5 +67,5 @@ public interface SprintDocumentation {
             }
     )
     @GetMapping("/check-progress/{idSprint}")
-    ResponseEntity<SprintCheckDTO> checkProgressRetrospectiveAndKudobox(@PathVariable("idSprint") Integer idSprint) throws NegociationRulesException;
+    ResponseEntity<SprintCheckDTO> checkProgressRetrospectiveAndKudobox(@PathVariable("idSprint") Integer idSprint) throws NegotiationRulesException;
 }

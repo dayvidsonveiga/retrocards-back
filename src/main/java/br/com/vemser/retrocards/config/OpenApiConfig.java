@@ -52,9 +52,6 @@ public class OpenApiConfig {
                                                 .bearerFormat("JWT")))
                 .externalDocs(new ExternalDocumentation()
                         .description("Clique aqui para ver nosso Diagrama de Entidade Relacionamento")
-                        .url("https://i.imgur.com/jbi75M9.png"));
+                        .url("https://github.com/dayvidsonveiga/retrocards-back/blob/main/diagram/Diagrama%20ER%20-%20RetroCards%20DBeaver.png"));
     }
-
-    // FIXME remover TODO :)
-    //TODO: Alterar .url para Diagrama ER da RetroCards
 }

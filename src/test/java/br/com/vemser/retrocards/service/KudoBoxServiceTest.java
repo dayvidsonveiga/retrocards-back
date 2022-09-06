@@ -8,10 +8,9 @@ import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.KudoCardRepository;
-import br.com.vemser.retrocards.repository.SprintRepository;
 import br.com.vemser.retrocards.util.CheckDate;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,7 +65,7 @@ public class KudoBoxServiceTest {
     }
 
     @Test
-    public void shouldTestCreateKudoBoxWithSuccess() throws NegociationRulesException {
+    public void shouldTestCreateKudoBoxWithSuccess() throws NegotiationRulesException {
         KudoBoxCreateDTO kudoBoxCreateDTO = getKudoBoxCreateDTO();
         KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
         SprintEntity sprintEntity = getSprintEntity();
@@ -85,8 +84,8 @@ public class KudoBoxServiceTest {
         assertEquals(kudoBoxEntity.getEndDate(), kudoBoxDTO.getEndDate());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestCreateKudoBoxWithoutSuccess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestCreateKudoBoxWithoutSuccess() throws NegotiationRulesException {
         KudoBoxCreateDTO kudoBoxCreateDTO = getKudoBoxCreateDTO();
         SprintEntity sprintEntity = getSprintEntityWithInProgressKudoBox();
 
@@ -97,7 +96,7 @@ public class KudoBoxServiceTest {
     }
 
     @Test
-    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+    public void shouldTestUpdateWithSucess() throws NegotiationRulesException {
         KudoBoxUpdateDTO kudoBoxUpdateDTO = getKudoBoxUpdateDTO();
         KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
         KudoBoxUpdateDTO kudoBoxUpdateDTO1 = new KudoBoxUpdateDTO();
@@ -118,7 +117,7 @@ public class KudoBoxServiceTest {
     }
 
     @Test
-    public void shouldTestDeleteWithSucess() throws NegociationRulesException {
+    public void shouldTestDeleteWithSucess() throws NegotiationRulesException {
         Integer idParaDeletar = 1;
         KudoBoxEntity kudoBoxEntity = getKudoBoxEntity();
 
@@ -133,7 +132,7 @@ public class KudoBoxServiceTest {
     }
 
     @Test
-    public void shouldTestListKudoBoxByIdSprintWithSuccess() throws NegociationRulesException {
+    public void shouldTestListKudoBoxByIdSprintWithSuccess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer registerNumber = 10;
         List<KudoBoxEntity> listKudoBox = List.of(getKudoBoxEntity());
@@ -150,8 +149,8 @@ public class KudoBoxServiceTest {
         assertEquals(1, kudoBoxDTO.getTotalPages().intValue());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestListKudoBoxByIdSprintWithoutSuccess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestListKudoBoxByIdSprintWithoutSuccess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer registerNumber = 10;
         List<KudoBoxEntity> listKudoBox = new ArrayList<>();
@@ -163,7 +162,7 @@ public class KudoBoxServiceTest {
     }
 
     @Test
-    public void shouldTestFindByIdWithSuccess() throws NegociationRulesException {
+    public void shouldTestFindByIdWithSuccess() throws NegotiationRulesException {
         KudoBoxEntity kudoBox = getKudoBoxEntity();
 
         when(kudoBoxRepository.findById(anyInt())).thenReturn(Optional.of(kudoBox));

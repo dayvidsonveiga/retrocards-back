@@ -41,8 +41,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(body, headers, status);
     }
 
-    @ExceptionHandler(NegociationRulesException.class)
-    public ResponseEntity<Object> handleException(NegociationRulesException exception,
+    @ExceptionHandler(NegotiationRulesException.class)
+    public ResponseEntity<Object> handleException(NegotiationRulesException exception,
                                                   HttpServletRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());

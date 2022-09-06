@@ -4,7 +4,7 @@ import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardCreateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardDTO;
 import br.com.vemser.retrocards.dto.kudo.kudocard.KudoCardUpdateDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public interface KudoCardDocumentation {
             }
     )
     @PostMapping("/create")
-    ResponseEntity<KudoCardDTO> create(@RequestBody @Valid KudoCardCreateDTO kudoCardCreateDTO) throws NegociationRulesException;
+    ResponseEntity<KudoCardDTO> create(@RequestBody @Valid KudoCardCreateDTO kudoCardCreateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -35,7 +35,7 @@ public interface KudoCardDocumentation {
     )
     @PutMapping("/update/{idKudoCard}")
     ResponseEntity<KudoCardDTO> update(@PathVariable("idKudoCard") Integer idKudoCard,
-                                       @RequestBody KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException;
+                                       @RequestBody KudoCardUpdateDTO kudoCardUpdateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -46,7 +46,7 @@ public interface KudoCardDocumentation {
             }
     )
     @DeleteMapping("/delete/{idKudoCard}")
-    ResponseEntity<Void> delete(@PathVariable("idKudoCard") Integer idKudoCard) throws NegociationRulesException;
+    ResponseEntity<Void> delete(@PathVariable("idKudoCard") Integer idKudoCard) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -59,7 +59,7 @@ public interface KudoCardDocumentation {
     @GetMapping("/list/kudocards/{idKudoBox}")
     ResponseEntity<PageDTO<KudoCardDTO>> listKudoCardByIdKudoBox(@PathVariable("idKudoBox") Integer idKudoBox,
                                                                  @RequestParam Integer page,
-                                                                 @RequestParam Integer quantityPerPage) throws NegociationRulesException;
+                                                                 @RequestParam Integer quantityPerPage) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -70,5 +70,5 @@ public interface KudoCardDocumentation {
             }
     )
     @GetMapping("/list/{idKudoCard}")
-    ResponseEntity<KudoCardDTO> listById(@PathVariable("idKudoCard") Integer idKudoCard) throws NegociationRulesException;
+    ResponseEntity<KudoCardDTO> listById(@PathVariable("idKudoCard") Integer idKudoCard) throws NegotiationRulesException;
 }

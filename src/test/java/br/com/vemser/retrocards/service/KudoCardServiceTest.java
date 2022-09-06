@@ -7,11 +7,8 @@ import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.UserDTO;
 import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
-import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
-import br.com.vemser.retrocards.repository.KudoBoxRepository;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.KudoCardRepository;
-import br.com.vemser.retrocards.repository.UserRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -31,7 +28,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -62,7 +58,7 @@ public class KudoCardServiceTest {
     }
 
     @Test
-    public void shouldTestCreateKudoCardWithSuccess() throws NegociationRulesException {
+    public void shouldTestCreateKudoCardWithSuccess() throws NegotiationRulesException {
         KudoCardCreateDTO kudoCardCreateDTOAnonymous = getKudoCardCreateDTO();
         kudoCardCreateDTOAnonymous.setAnonymous(true);
         KudoCardCreateDTO kudoCardCreateDTO = getKudoCardCreateDTO();
@@ -82,7 +78,7 @@ public class KudoCardServiceTest {
     }
 
     @Test
-    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+    public void shouldTestUpdateWithSucess() throws NegotiationRulesException {
         KudoCardUpdateDTO kudoCardUpdateDTO = getKudoCardUpdateDTO();
         KudoCardEntity kudoCardEntity = getKudoCardEntity();
         KudoCardUpdateDTO kudoCardUpdateDTO1 = new KudoCardUpdateDTO();
@@ -104,7 +100,7 @@ public class KudoCardServiceTest {
     }
 
     @Test
-    public void shouldTestDeleteKudoCardWithSuccess() throws NegociationRulesException {
+    public void shouldTestDeleteKudoCardWithSuccess() throws NegotiationRulesException {
         KudoCardEntity kudoCardEntity = getKudoCardEntity();
         UserEntity userEntity = getUserEntity();
 
@@ -116,8 +112,8 @@ public class KudoCardServiceTest {
         verify(kudoCardRepository, times(1)).delete(any(KudoCardEntity.class));
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestDeleteKudoCardWithoutSuccessFirstThrow() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestDeleteKudoCardWithoutSuccessFirstThrow() throws NegotiationRulesException {
         KudoCardEntity kudoCardEntity = getKudoCardEntity();
         kudoCardEntity.getKudobox().setStatus(KudoStatus.CREATE);
         UserEntity userEntity = getUserEntity();
@@ -128,8 +124,8 @@ public class KudoCardServiceTest {
         kudoCardService.delete(kudoCardEntity.getIdKudoCard());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestDeleteKudoCardWithoutSuccessSecondThrow() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestDeleteKudoCardWithoutSuccessSecondThrow() throws NegotiationRulesException {
         KudoCardEntity kudoCardEntity = getKudoCardEntity();
         kudoCardEntity.getKudobox().setStatus(KudoStatus.CREATE);
         UserEntity userEntity = getUserEntity();
@@ -142,7 +138,7 @@ public class KudoCardServiceTest {
     }
 
     @Test
-    public void shouldTestListKudoCardByIdKudoBox() throws NegociationRulesException {
+    public void shouldTestListKudoCardByIdKudoBox() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer registerNumber = 10;
         List<KudoCardEntity> listKudoCard = List.of(getKudoCardEntity());
@@ -157,8 +153,8 @@ public class KudoCardServiceTest {
         assertEquals(1, kudoCardDTO.getTotalPages().intValue());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestListKudoCardByIdKudoBoxWithoutSuccess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestListKudoCardByIdKudoBoxWithoutSuccess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer registerNumber = 10;
         List<KudoCardEntity> listKudoCard = new ArrayList<>();
@@ -170,7 +166,7 @@ public class KudoCardServiceTest {
     }
 
     @Test
-    public void shouldTestListById() throws NegociationRulesException {
+    public void shouldTestListById() throws NegotiationRulesException {
         KudoCardEntity kudoCardEntity = getKudoCardEntity();
 
         when(kudoCardRepository.findById(anyInt())).thenReturn(Optional.of(kudoCardEntity));

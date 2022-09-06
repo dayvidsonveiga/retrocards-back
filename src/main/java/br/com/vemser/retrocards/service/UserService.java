@@ -4,7 +4,7 @@ import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.dto.user.*;
 import br.com.vemser.retrocards.entity.UserEntity;
 import br.com.vemser.retrocards.enums.UserType;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,25 +27,25 @@ public class UserService {
     private final UserRepository userRepository;
     private final RolesService rolesService;
 
-    public UserDTO create(UserCreateDTO userCreateDTO) throws NegociationRulesException {
+    public UserDTO create(UserCreateDTO userCreateDTO) throws NegotiationRulesException {
         checkEmailExist(userCreateDTO.getEmail());
         UserEntity userEntity = createToEntity(userCreateDTO);
         userEntity.setRole(rolesService.findByRoleName("ROLE_MEMBER"));
         return entityToDTO(userRepository.save(userEntity));
     }
 
-    public UserDTO changeRole(Integer idUser, UserType userType) throws NegociationRulesException {
+    public UserDTO changeRole(Integer idUser, UserType userType) throws NegotiationRulesException {
         UserEntity userEntity = findById(idUser);
         UserDTO userLogged = getLoggedUser();
         if (userLogged.getRole().equals(UserType.ADMIN.getRoleName())) {
             userEntity.setRole(rolesService.findByRoleName(userType.getRoleName()));
             return entityToDTO(userRepository.save(userEntity));
         } else {
-            throw new NegociationRulesException("Somente adminstrador pode alterar cargo.");
+            throw new NegotiationRulesException("Somente adminstrador pode alterar cargo.");
         }
     }
 
-    public UserLoginReturnDTO login(UserLoginDTO userLoginDTO, String token) throws NegociationRulesException {
+    public UserLoginReturnDTO login(UserLoginDTO userLoginDTO, String token) throws NegotiationRulesException {
         UserEntity userEntity = findByEmail(userLoginDTO.getEmail());
         UserLoginReturnDTO userLoginReturnDTO = new UserLoginReturnDTO();
         userLoginReturnDTO.setIdUser(userEntity.getIdUser());
@@ -56,7 +56,7 @@ public class UserService {
         return userLoginReturnDTO;
     }
 
-    public UserDTO getLoggedUser() throws NegociationRulesException {
+    public UserDTO getLoggedUser() throws NegotiationRulesException {
         Integer idLoggedUser = getIdLoggedUser();
         UserEntity byId = findById(idLoggedUser);
         UserDTO userDTO = entityToDTO(byId);
@@ -64,16 +64,16 @@ public class UserService {
         return userDTO;
     }
 
-    public List<UserNameEmailDTO> listUsersWithNameAndEmail() throws NegociationRulesException {
+    public List<UserNameEmailDTO> listUsersWithNameAndEmail() throws NegotiationRulesException {
         if (!userRepository.findAll().isEmpty()) {
             return userRepository.findAll().stream()
                     .map(this::entityToNomeEmailDTO).toList();
         } else {
-            throw new NegociationRulesException("Não há usuários a serem listados!");
+            throw new NegotiationRulesException("Não há usuários a serem listados!");
         }
     }
 
-    public PageDTO<UserDTO> listAll(Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<UserDTO> listAll(Integer pagina, Integer registro) throws NegotiationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<UserEntity> page = userRepository.findAll(pageRequest);
         if (!page.isEmpty()) {
@@ -82,19 +82,19 @@ public class UserService {
                     .toList();
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, userDTOS);
         } else {
-            throw new NegociationRulesException("Não foi encontrado nenhum kudo card associado ao kudo box.");
+            throw new NegotiationRulesException("Não foi encontrado nenhum kudo card associado ao kudo box.");
         }
     }
 
     // Util's
 
-    public Integer getIdLoggedUser() throws NegociationRulesException {
+    public Integer getIdLoggedUser() throws NegotiationRulesException {
         Object principal = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
         if (principal.toString().equals("anonymousUser")) {
-            throw new NegociationRulesException("Nenhum usuário logado!");
+            throw new NegotiationRulesException("Nenhum usuário logado!");
         } else {
             return (Integer) principal;
         }
@@ -104,23 +104,22 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public UserEntity findByEmail(String email) throws NegociationRulesException {
+    public UserEntity findByEmail(String email) throws NegotiationRulesException {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NegociationRulesException("Email não registrado!"));
+                .orElseThrow(() -> new NegotiationRulesException("Email não registrado!"));
     }
 
-    public UserEntity findById(Integer idUser) throws NegociationRulesException {
-        return userRepository.findById(idUser).orElseThrow(() -> new NegociationRulesException("Usuário não encontrado!"));
+    public UserEntity findById(Integer idUser) throws NegotiationRulesException {
+        return userRepository.findById(idUser).orElseThrow(() -> new NegotiationRulesException("Usuário não encontrado!"));
     }
 
-    public void checkEmailExist(String email) throws NegociationRulesException {
+    public void checkEmailExist(String email) throws NegotiationRulesException {
         if (findByEmailOptional(email).isPresent()) {
-            throw new NegociationRulesException("Email já está sendo utilizado!");
+            throw new NegotiationRulesException("Email já está sendo utilizado!");
         }
     }
 
     public Boolean checkPasswordIsCorrect(String passwordInput, String passwordDB) {
-        // FIXME retornar passwordEncoder.matches(passwordInput, passwordDB)...
         if (passwordEncoder.matches(passwordInput, passwordDB)) {
             return true;
         } else {

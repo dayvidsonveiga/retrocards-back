@@ -4,7 +4,7 @@ import br.com.vemser.retrocards.dto.user.UserLoginDTO;
 import br.com.vemser.retrocards.dto.user.UserLoginReturnDTO;
 import br.com.vemser.retrocards.entity.RolesEntity;
 import br.com.vemser.retrocards.entity.UserEntity;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.security.TokenService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public class LogginServiceTest {
 
 
     @Test
-    public void shouldTestLoginWithSuccess() throws NegociationRulesException {
+    public void shouldTestLoginWithSuccess() throws NegotiationRulesException {
         UserLoginDTO userLoginDTO = getUserLoginDTO();
         UserEntity userEntity = getUserEntity();
         UserLoginReturnDTO userLoginReturnDTO = getUserLoginReturnDTO();
@@ -57,8 +57,8 @@ public class LogginServiceTest {
         assertNotNull(userLoginReturnDTO1);
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestLoginWithoutSuccess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestLoginWithoutSuccess() throws NegotiationRulesException {
         UserEntity userEntity = getUserEntity();
         UserLoginDTO userLoginDTO = getUserLoginDTO();
 

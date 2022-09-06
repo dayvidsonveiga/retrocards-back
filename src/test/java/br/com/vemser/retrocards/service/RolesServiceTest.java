@@ -2,7 +2,7 @@ package br.com.vemser.retrocards.service;
 
 import br.com.vemser.retrocards.entity.RolesEntity;
 import br.com.vemser.retrocards.entity.UserEntity;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.RolesRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ public class RolesServiceTest {
     private RolesRepository rolesRepository;
 
     @Test
-    public void shouldTestFindByRoleName() throws NegociationRulesException {
+    public void shouldTestFindByRoleName() throws NegotiationRulesException {
         //setup
         RolesEntity rolesEntity = getRolesEntity();
         when(rolesRepository.findByRoleName(anyString())).thenReturn(Optional.of(rolesEntity));

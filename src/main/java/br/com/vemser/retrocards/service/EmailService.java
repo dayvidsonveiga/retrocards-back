@@ -1,6 +1,6 @@
 package br.com.vemser.retrocards.service;
 
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.itemRetrospective.ItemRetrospectiveDTO;
 import br.com.vemser.retrocards.dto.email.EmailCreateDTO;
 import br.com.vemser.retrocards.dto.email.EmailDTO;
 import br.com.vemser.retrocards.dto.retrospective.RetrospectiveEmailDTO;
@@ -8,7 +8,7 @@ import br.com.vemser.retrocards.entity.EmailEntity;
 import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.enums.ItemType;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.EmailRepository;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +43,7 @@ public class EmailService {
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
 
 
-    public String createEmail(EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegociationRulesException {
+    public String createEmail(EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegotiationRulesException {
         EmailEntity emailEntity = createToEntity(emailCreateDTO);
 
         RetrospectiveEmailDTO retrospectiveEmailDTO = retrospectiveEntityToDTO(retrospectiveService.findById(idRetrospective));

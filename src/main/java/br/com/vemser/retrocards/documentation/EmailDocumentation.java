@@ -1,7 +1,7 @@
 package br.com.vemser.retrocards.documentation;
 
 import br.com.vemser.retrocards.dto.email.EmailCreateDTO;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +20,5 @@ public interface EmailDocumentation {
             }
     )
     @PostMapping("/send")
-    ResponseEntity<String> sendEmailForAllUsers(@RequestBody @Valid EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegociationRulesException;
+    ResponseEntity<String> sendEmailForAllUsers(@RequestBody @Valid EmailCreateDTO emailCreateDTO, Integer idRetrospective) throws NegotiationRulesException;
 }

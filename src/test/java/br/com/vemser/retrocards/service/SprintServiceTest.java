@@ -5,7 +5,7 @@ import br.com.vemser.retrocards.dto.sprint.*;
 import br.com.vemser.retrocards.entity.*;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
@@ -60,7 +60,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void shouldTestCreateSprintWithSuccess() throws NegociationRulesException {
+    public void shouldTestCreateSprintWithSuccess() throws NegotiationRulesException {
         //setup
         SprintCreateDTO sprintCreateDTO = getSprintCreateDTO();
         SprintEntity sprintEntity = getSprintEntity();
@@ -77,8 +77,8 @@ public class SprintServiceTest {
         assertEquals(sprintEntity.getEndDate(), sprintDTO.getEndDate());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestCreateSprintWithoutSucess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestCreateSprintWithoutSucess() throws NegotiationRulesException {
         //setup
         SprintCreateDTO sprintCreateDTO = getSprintCreateDTO();
         sprintCreateDTO.setStartDate(LocalDate.of(2022, 8, 18));
@@ -89,7 +89,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void shouldTestUpdateWithSucess() throws NegociationRulesException {
+    public void shouldTestUpdateWithSucess() throws NegotiationRulesException {
         SprintUpdateDTO sprintUpdateDTO = getSprintUpdateDTO();
         SprintEntity sprintEntity = getSprintEntity();
         SprintUpdateDTO sprintUpdateDTO1 = new SprintUpdateDTO();
@@ -112,7 +112,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void shouldTestDeleteWithSucess() throws NegociationRulesException {
+    public void shouldTestDeleteWithSucess() throws NegotiationRulesException {
         SprintEntity sprintEntity = getSprintEntity();
 
         when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprintEntity));
@@ -124,7 +124,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void shouldTestLisByDateDescWithSucess() throws NegociationRulesException {
+    public void shouldTestLisByDateDescWithSucess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer register = 10;
         List<SprintEntity> list = List.of(getSprintEntity());
@@ -139,8 +139,8 @@ public class SprintServiceTest {
         assertEquals(1, pageDTO.getContent().size());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestLisByDateDescWithoutSucess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestLisByDateDescWithoutSucess() throws NegotiationRulesException {
         Integer pageNumber = 0;
         Integer register = 10;
         List<SprintEntity> list = new ArrayList<>();
@@ -153,7 +153,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void shouldTestFindByIdWithSucess() throws NegociationRulesException {
+    public void shouldTestFindByIdWithSucess() throws NegotiationRulesException {
         SprintEntity sprint = getSprintEntity();
 
         when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprint));
@@ -166,13 +166,13 @@ public class SprintServiceTest {
         assertEquals(sprint.getStartDate(), sprintEntity.getStartDate());
     }
 
-    @Test(expected = NegociationRulesException.class)
-    public void shouldTestFindByIdWithoutSucess() throws NegociationRulesException {
+    @Test(expected = NegotiationRulesException.class)
+    public void shouldTestFindByIdWithoutSucess() throws NegotiationRulesException {
         sprintService.findById(1);
     }
 
     @Test
-    public void shouldTestCheckProgressRetrospectiveAndKudoboxTrue() throws NegociationRulesException {
+    public void shouldTestCheckProgressRetrospectiveAndKudoboxTrue() throws NegotiationRulesException {
         SprintEntity sprintEntity = getSprintEntity();
 
         when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprintEntity));
@@ -187,7 +187,7 @@ public class SprintServiceTest {
     }
 
     @Test
-    public void shouldTestCheckProgressRetrospectiveAndKudoboxFalse() throws NegociationRulesException {
+    public void shouldTestCheckProgressRetrospectiveAndKudoboxFalse() throws NegotiationRulesException {
         SprintEntity sprintEntity = getSprintEntity();
 
         when(sprintRepository.findById(anyInt())).thenReturn(Optional.of(sprintEntity));

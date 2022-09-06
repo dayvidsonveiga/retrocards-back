@@ -1,13 +1,13 @@
 package br.com.vemser.retrocards.service;
 
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveCreateDTO;
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveDTO;
-import br.com.vemser.retrocards.dto.ItemRetrospective.ItemRetrospectiveUpdateDTO;
+import br.com.vemser.retrocards.dto.itemRetrospective.ItemRetrospectiveCreateDTO;
+import br.com.vemser.retrocards.dto.itemRetrospective.ItemRetrospectiveDTO;
+import br.com.vemser.retrocards.dto.itemRetrospective.ItemRetrospectiveUpdateDTO;
 import br.com.vemser.retrocards.entity.ItemRetrospectiveEntity;
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.enums.ItemType;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class ItemRetrospectiveService {
     private final RetrospectiveService retrospectiveService;
     private final ObjectMapper objectMapper;
 
-    public ItemRetrospectiveDTO create(ItemRetrospectiveCreateDTO itemRetrospectiveCreateDTO, ItemType itemType) throws NegociationRulesException {
+    public ItemRetrospectiveDTO create(ItemRetrospectiveCreateDTO itemRetrospectiveCreateDTO, ItemType itemType) throws NegotiationRulesException {
         RetrospectiveEntity retrospectiveEntity = retrospectiveService.findById(itemRetrospectiveCreateDTO.getIdRetrospective());
 
         itemRetrospectiveCreateDTO.setType(itemType);
@@ -33,7 +33,7 @@ public class ItemRetrospectiveService {
         return entityToDTO(itemRetrospectiveRepository.save(itemEntity));
     }
 
-    public ItemRetrospectiveDTO update(Integer idItemRetrospective, ItemType itemType, ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws NegociationRulesException {
+    public ItemRetrospectiveDTO update(Integer idItemRetrospective, ItemType itemType, ItemRetrospectiveUpdateDTO itemRetrospectiveUpdateDTO) throws NegotiationRulesException {
         itemRetrospectiveUpdateDTO.setType(itemType);
 
         ItemRetrospectiveEntity itemEntityRecovered = findById(idItemRetrospective);
@@ -52,12 +52,12 @@ public class ItemRetrospectiveService {
         return entityToDTO(itemRetrospectiveRepository.save(itemEntityUpdate));
     }
 
-    public void delete(Integer idItemRetrospective) throws NegociationRulesException {
+    public void delete(Integer idItemRetrospective) throws NegotiationRulesException {
         ItemRetrospectiveEntity itemEntity = findById(idItemRetrospective);
         if (itemEntity.getRetrospective().getStatus() == (RetrospectiveStatus.IN_PROGRESS)) {
             itemRetrospectiveRepository.delete(itemEntity);
         } else {
-            throw new NegociationRulesException("Você só pode remover um item de retrospectiva se a mesma estiver em progresso.");
+            throw new NegotiationRulesException("Você só pode remover um item de retrospectiva se a mesma estiver em progresso.");
         }
     }
 
@@ -67,24 +67,24 @@ public class ItemRetrospectiveService {
                 .toList();
     }
 
-    public List<ItemRetrospectiveDTO> listByIdRetrospective(Integer idRetrospective) throws NegociationRulesException {
+    public List<ItemRetrospectiveDTO> listByIdRetrospective(Integer idRetrospective) throws NegotiationRulesException {
         return findByIdRetrospective(idRetrospective).stream()
                 .map(this::entityToDTO)
                 .toList();
     }
 
-    public ItemRetrospectiveDTO listById(Integer idItemRetrospective) throws NegociationRulesException {
+    public ItemRetrospectiveDTO listById(Integer idItemRetrospective) throws NegotiationRulesException {
         return entityToDTO(findById(idItemRetrospective));
     }
 
     // Util
 
-    public ItemRetrospectiveEntity findById(Integer idItemRetrospective) throws NegociationRulesException {
+    public ItemRetrospectiveEntity findById(Integer idItemRetrospective) throws NegotiationRulesException {
         return itemRetrospectiveRepository.findById(idItemRetrospective)
-                .orElseThrow(() -> new NegociationRulesException("Item de retrospectiva não encontrado."));
+                .orElseThrow(() -> new NegotiationRulesException("Item de retrospectiva não encontrado."));
     }
 
-    public List<ItemRetrospectiveEntity> findByIdRetrospective(Integer idRetrospective) throws NegociationRulesException {
+    public List<ItemRetrospectiveEntity> findByIdRetrospective(Integer idRetrospective) throws NegotiationRulesException {
         retrospectiveService.findById(idRetrospective);
         return itemRetrospectiveRepository.findAllByRetrospective_IdRetrospective(idRetrospective);
     }

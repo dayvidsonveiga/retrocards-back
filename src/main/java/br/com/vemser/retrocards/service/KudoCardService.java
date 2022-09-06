@@ -7,7 +7,7 @@ import br.com.vemser.retrocards.dto.page.PageDTO;
 import br.com.vemser.retrocards.entity.KudoBoxEntity;
 import br.com.vemser.retrocards.entity.KudoCardEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.KudoCardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class KudoCardService {
     private final ObjectMapper objectMapper;
     private final UserService userService;
 
-    public KudoCardDTO create(KudoCardCreateDTO kudoCardCreateDTO) throws NegociationRulesException {
+    public KudoCardDTO create(KudoCardCreateDTO kudoCardCreateDTO) throws NegotiationRulesException {
         KudoBoxEntity kudoBox = kudoBoxService.findById(kudoCardCreateDTO.getIdKudoBox());
 
         KudoCardEntity kudoCardEntity = createToEntity(kudoCardCreateDTO);
@@ -36,8 +36,7 @@ public class KudoCardService {
         kudoCardEntity.setCreateDate(LocalDateTime.now());
         kudoCardEntity.setIdCreator(userService.getIdLoggedUser());
 
-        // FIXME deve ser testado somente a variável sem == true (redundancia)
-        if (kudoCardCreateDTO.getAnonymous() == true) {
+        if (kudoCardCreateDTO.getAnonymous()) {
             kudoCardEntity.setSender("Anônimo");
         } else {
             kudoCardEntity.setSender(userService.getLoggedUser().getName());
@@ -46,7 +45,7 @@ public class KudoCardService {
         return entityToDTO(kudoCardRepository.save(kudoCardEntity));
     }
 
-    public KudoCardDTO update(Integer idKudoCard, KudoCardUpdateDTO kudoCardUpdateDTO) throws NegociationRulesException {
+    public KudoCardDTO update(Integer idKudoCard, KudoCardUpdateDTO kudoCardUpdateDTO) throws NegotiationRulesException {
         KudoCardEntity kudoCardEntityRecovered = findById(idKudoCard);
         KudoCardEntity kudoCardEntityUpdate = updateToEntity(kudoCardUpdateDTO);
 
@@ -69,7 +68,7 @@ public class KudoCardService {
         return entityToDTO(kudoCardRepository.save(kudoCardEntityUpdate));
     }
 
-    public void delete(Integer idKudoCard) throws NegociationRulesException {
+    public void delete(Integer idKudoCard) throws NegotiationRulesException {
         KudoCardEntity kudoCardEntity = findById(idKudoCard);
 
         checkIsCreator(kudoCardEntity.getIdCreator());
@@ -77,11 +76,11 @@ public class KudoCardService {
         if (kudoCardEntity.getKudobox().getStatus().equals(KudoStatus.IN_PROGRESS)) {
             kudoCardRepository.delete(kudoCardEntity);
         } else {
-            throw new NegociationRulesException("Só é possivel deletar quando a kudo box estiver em progresso.");
+            throw new NegotiationRulesException("Só é possivel deletar quando a kudo box estiver em progresso.");
         }
     }
 
-    public PageDTO<KudoCardDTO> listKudoCardByIdKudoBox(Integer idKudoBox, Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<KudoCardDTO> listKudoCardByIdKudoBox(Integer idKudoBox, Integer pagina, Integer registro) throws NegotiationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("createDate").ascending());
         Page<KudoCardEntity> page = kudoCardRepository.findAllByKudobox_IdKudoBox(idKudoBox, pageRequest);
         if (!page.isEmpty()) {
@@ -90,19 +89,19 @@ public class KudoCardService {
                     .toList();
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, kudoCardDTO);
         } else {
-            throw new NegociationRulesException("Não foi encontrado nenhum kudo card associado ao kudo box.");
+            throw new NegotiationRulesException("Não foi encontrado nenhum kudo card associado ao kudo box.");
         }
     }
 
-    public KudoCardDTO listById(Integer idKudoCard) throws NegociationRulesException {
+    public KudoCardDTO listById(Integer idKudoCard) throws NegotiationRulesException {
         return entityToDTO(findById(idKudoCard));
     }
 
     // Util
 
-    public KudoCardEntity findById(Integer idKudoCar) throws NegociationRulesException {
+    public KudoCardEntity findById(Integer idKudoCar) throws NegotiationRulesException {
         return kudoCardRepository.findById(idKudoCar)
-                .orElseThrow(() -> new NegociationRulesException("Kudocard não encontrado"));
+                .orElseThrow(() -> new NegotiationRulesException("Kudocard não encontrado"));
     }
 
     public KudoCardEntity createToEntity(KudoCardCreateDTO kudoCardCreateDTO) {
@@ -118,10 +117,9 @@ public class KudoCardService {
         return objectMapper.convertValue(kudoCardUpdateDTO, KudoCardEntity.class);
     }
 
-    public void checkIsCreator(Integer idCreator) throws NegociationRulesException {
-        // FIXME deve ser testado com .equals
+    public void checkIsCreator(Integer idCreator) throws NegotiationRulesException {
         if (idCreator != userService.getIdLoggedUser()) {
-            throw new NegociationRulesException("Você não é o criador desse kudo card.");
+            throw new NegotiationRulesException("Você não é o criador desse kudo card.");
         }
     }
 }

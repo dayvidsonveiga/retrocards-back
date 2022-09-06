@@ -8,7 +8,7 @@ import br.com.vemser.retrocards.dto.retrospective.RetrospectiveWithCountOfItensD
 import br.com.vemser.retrocards.entity.RetrospectiveEntity;
 import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.ItemRetrospectiveRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.util.CheckDate;
@@ -32,7 +32,7 @@ public class RetrospectiveService {
     private final ItemRetrospectiveRepository itemRetrospectiveRepository;
     private final CheckDate checkDate;
 
-    public RetrospectiveDTO create(RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegociationRulesException {
+    public RetrospectiveDTO create(RetrospectiveCreateDTO retrospectiveCreateDTO) throws NegotiationRulesException {
         SprintEntity sprintEntity = sprintService.findById(retrospectiveCreateDTO.getIdSprint());
 
         checkDate.checkDateIsValid(sprintEntity.getEndDate(), retrospectiveCreateDTO.getOccurredDate());
@@ -48,7 +48,7 @@ public class RetrospectiveService {
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
 
-    public RetrospectiveDTO update(Integer idRetrospective, RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegociationRulesException {
+    public RetrospectiveDTO update(Integer idRetrospective, RetrospectiveUpdateDTO retrospectiveUpdateDTO) throws NegotiationRulesException {
         RetrospectiveEntity retrospectiveEntityRecovered = findById(idRetrospective);
         RetrospectiveEntity retrospectiveEntityUpdate = updateToEntity(retrospectiveUpdateDTO);
 
@@ -69,42 +69,42 @@ public class RetrospectiveService {
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntityUpdate));
     }
 
-    public RetrospectiveDTO updateStatus(Integer idRetrospectiva, RetrospectiveStatus retrospectiveStatus) throws NegociationRulesException {
+    public RetrospectiveDTO updateStatus(Integer idRetrospectiva, RetrospectiveStatus retrospectiveStatus) throws NegotiationRulesException {
         RetrospectiveEntity retrospectiveEntity = findById(idRetrospectiva);
         SprintEntity sprintEntity = retrospectiveEntity.getSprint();
 
         if (retrospectiveStatus.equals(RetrospectiveStatus.IN_PROGRESS)) {
             if (retrospectiveRepository.existsBySprint_IdSprintAndStatusEquals(sprintEntity.getIdSprint(), RetrospectiveStatus.IN_PROGRESS)) {
-                throw new NegociationRulesException("Não é possivel atualizar status, pois existe uma retrospectiva em progresso!");
+                throw new NegotiationRulesException("Não é possivel atualizar status, pois existe uma retrospectiva em progresso!");
             }
         }
 
         if (retrospectiveEntity.getStatus().equals(RetrospectiveStatus.IN_PROGRESS) && retrospectiveStatus.equals(RetrospectiveStatus.CREATE)) {
-            throw new NegociationRulesException("Não é possível atualizar status de em progresso para criado!");
+            throw new NegotiationRulesException("Não é possível atualizar status de em progresso para criado!");
         }
 
         if (retrospectiveEntity.getStatus().equals(RetrospectiveStatus.FINISHED) && (retrospectiveStatus.equals(RetrospectiveStatus.CREATE) || retrospectiveStatus.equals(RetrospectiveStatus.IN_PROGRESS))) {
-            throw new NegociationRulesException("Não é possível atualizar status! Retrospectiva finalizada!");
+            throw new NegotiationRulesException("Não é possível atualizar status! Retrospectiva finalizada!");
         }
 
         if (retrospectiveEntity.getStatus().equals(RetrospectiveStatus.CREATE) && retrospectiveStatus.equals(RetrospectiveStatus.FINISHED)) {
-            throw new NegociationRulesException("Não é possível atualizar status de criado para finalizado!");
+            throw new NegotiationRulesException("Não é possível atualizar status de criado para finalizado!");
         }
 
         retrospectiveEntity.setStatus(retrospectiveStatus);
         return entityToDTO(retrospectiveRepository.save(retrospectiveEntity));
     }
 
-    public void delete(Integer idRetrospective) throws NegociationRulesException {
+    public void delete(Integer idRetrospective) throws NegotiationRulesException {
         RetrospectiveEntity retrospectiveEntity = findById(idRetrospective);
         retrospectiveRepository.delete(retrospectiveEntity);
     }
 
-    public RetrospectiveDTO listById(Integer id) throws NegociationRulesException {
+    public RetrospectiveDTO listById(Integer id) throws NegotiationRulesException {
         return entityToDTO(findById(id));
     }
 
-    public PageDTO<RetrospectiveWithCountOfItensDTO> listRetrospectiveByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<RetrospectiveWithCountOfItensDTO> listRetrospectiveByIdSprint(Integer idSprint, Integer pagina, Integer registro) throws NegotiationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro);
         Page<RetrospectiveEntity> page = retrospectiveRepository.findAllBySprint_IdSprint(idSprint, pageRequest);
         if (!page.isEmpty()) {
@@ -113,15 +113,15 @@ public class RetrospectiveService {
                     .toList();
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, retrospectiveDTO);
         } else {
-            throw new NegociationRulesException("Não foi encontrada nenhuma retrospectiva associada a sprint.");
+            throw new NegotiationRulesException("Não foi encontrada nenhuma retrospectiva associada a sprint.");
         }
     }
 
     // Util
 
-    public RetrospectiveEntity findById(Integer idRespective) throws NegociationRulesException {
+    public RetrospectiveEntity findById(Integer idRespective) throws NegotiationRulesException {
         return retrospectiveRepository.findById(idRespective)
-                .orElseThrow(() -> new NegociationRulesException("Retrospectiva não encontrada"));
+                .orElseThrow(() -> new NegotiationRulesException("Retrospectiva não encontrada"));
     }
 
     public RetrospectiveDTO entityToDTO(RetrospectiveEntity retrospectiveEntity) {

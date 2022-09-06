@@ -5,7 +5,7 @@ import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxUpdateDTO;
 import br.com.vemser.retrocards.dto.kudo.kudobox.KudoBoxWithCountOfItensDTO;
 import br.com.vemser.retrocards.dto.page.PageDTO;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public interface KudoBoxDocumentation {
             }
     )
     @PostMapping("/create")
-    ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegociationRulesException;
+    ResponseEntity<KudoBoxDTO> create(@RequestBody @Valid KudoBoxCreateDTO kudoBoxCreateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -36,7 +36,7 @@ public interface KudoBoxDocumentation {
     )
     @PutMapping("/update/{idKudobox}")
     ResponseEntity<KudoBoxDTO> update(@PathVariable("idKudobox") Integer idKudobox,
-                                      @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegociationRulesException;
+                                      @RequestBody KudoBoxUpdateDTO kudoBoxUpdateDTO) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -47,7 +47,7 @@ public interface KudoBoxDocumentation {
             }
     )
     @DeleteMapping("/delete/{idKudoBox}")
-    ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegociationRulesException;
+    ResponseEntity<Void> delete(@PathVariable("idKudoBox") Integer idKudoBox) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -60,7 +60,7 @@ public interface KudoBoxDocumentation {
     @GetMapping("/list/sprint/{idSprint}")
     ResponseEntity<PageDTO<KudoBoxWithCountOfItensDTO>> listKudoBoxByIdSprint(@PathVariable("idSprint") Integer idSprint,
                                                                               @RequestParam Integer page,
-                                                                              @RequestParam Integer quantityPerPage) throws NegociationRulesException;
+                                                                              @RequestParam Integer quantityPerPage) throws NegotiationRulesException;
 
     @ApiResponses(
             value = {
@@ -71,5 +71,5 @@ public interface KudoBoxDocumentation {
             }
     )
     @GetMapping("/list/{idKudobox}")
-    ResponseEntity<KudoBoxDTO> listById(@PathVariable("idKudobox") Integer idRetrospective) throws NegociationRulesException;
+    ResponseEntity<KudoBoxDTO> listById(@PathVariable("idKudobox") Integer idRetrospective) throws NegotiationRulesException;
 }

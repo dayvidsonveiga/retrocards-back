@@ -6,7 +6,7 @@ import br.com.vemser.retrocards.entity.SprintEntity;
 import br.com.vemser.retrocards.enums.KudoStatus;
 import br.com.vemser.retrocards.enums.RetrospectiveStatus;
 import br.com.vemser.retrocards.enums.SprintStatus;
-import br.com.vemser.retrocards.exceptions.NegociationRulesException;
+import br.com.vemser.retrocards.exceptions.NegotiationRulesException;
 import br.com.vemser.retrocards.repository.KudoBoxRepository;
 import br.com.vemser.retrocards.repository.RetrospectiveRepository;
 import br.com.vemser.retrocards.repository.SprintRepository;
@@ -31,11 +31,11 @@ public class SprintService {
     private final KudoBoxRepository kudoBoxRepository;
     private final RetrospectiveRepository retrospectiveRepository;
 
-    public SprintDTO create(SprintCreateDTO sprintCreateDTO) throws NegociationRulesException {
+    public SprintDTO create(SprintCreateDTO sprintCreateDTO) throws NegotiationRulesException {
         log.info("Creating a new sprint ...");
 
         if (sprintCreateDTO.getStartDate().isAfter(sprintCreateDTO.getEndDate())) {
-            throw new NegociationRulesException("A data final deve ser posterior a data de início.");
+            throw new NegotiationRulesException("A data final deve ser posterior a data de início.");
         }
 
         SprintDTO sprintDTO = createToDTO(sprintCreateDTO);
@@ -46,7 +46,7 @@ public class SprintService {
         return entityToDTO(sprintRepository.save(sprintEntity));
     }
 
-    public SprintDTO update(Integer idSprint, SprintUpdateDTO sprintUpdateDTO) throws NegociationRulesException {
+    public SprintDTO update(Integer idSprint, SprintUpdateDTO sprintUpdateDTO) throws NegotiationRulesException {
         SprintEntity sprintEntityRecovered = findById(idSprint);
         SprintEntity sprintEntityUpdate = updateToEntity(sprintUpdateDTO);
 
@@ -69,12 +69,12 @@ public class SprintService {
         return entityToDTO(sprintRepository.save(sprintEntityUpdate));
     }
 
-    public void delete(Integer idSprint) throws NegociationRulesException {
+    public void delete(Integer idSprint) throws NegotiationRulesException {
         SprintEntity sprintEntity = findById(idSprint);
         sprintRepository.delete(sprintEntity);
     }
 
-    public PageDTO<SprintWithEndDateDTO> listByDateDesc(Integer pagina, Integer registro) throws NegociationRulesException {
+    public PageDTO<SprintWithEndDateDTO> listByDateDesc(Integer pagina, Integer registro) throws NegotiationRulesException {
         PageRequest pageRequest = PageRequest.of(pagina, registro, Sort.by("endDate").descending());
         Page<SprintEntity> page = sprintRepository.findAll(pageRequest);
         if (!page.isEmpty()) {
@@ -83,11 +83,11 @@ public class SprintService {
                     .toList();
             return new PageDTO<>(page.getTotalElements(), page.getTotalPages(), pagina, registro, sprintDTO);
         } else {
-            throw new NegociationRulesException("Não foi possível realizar a listagem das sprints.");
+            throw new NegotiationRulesException("Não foi possível realizar a listagem das sprints.");
         }
     }
 
-    public SprintCheckDTO checkProgressRetrospectiveAndKudobox(Integer idSprint) throws NegociationRulesException {
+    public SprintCheckDTO checkProgressRetrospectiveAndKudobox(Integer idSprint) throws NegotiationRulesException {
         SprintEntity sprintEntity = findById(idSprint);
         SprintCheckDTO sprintCheck = checkDTOToEntity(sprintEntity);
 
@@ -106,9 +106,9 @@ public class SprintService {
 
     // util
 
-    public SprintEntity findById(Integer idSprint) throws NegociationRulesException {
+    public SprintEntity findById(Integer idSprint) throws NegotiationRulesException {
         return sprintRepository.findById(idSprint)
-                .orElseThrow(() -> new NegociationRulesException("Sprint não encontrada!"));
+                .orElseThrow(() -> new NegotiationRulesException("Sprint não encontrada!"));
     }
 
     public SprintCheckDTO checkDTOToEntity(SprintEntity sprintEntity) {
